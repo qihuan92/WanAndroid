@@ -1,6 +1,8 @@
 package com.qihuan.wanandroid
 
 import android.app.Application
+import android.content.Context
+import kotlin.properties.Delegates
 
 /**
  * App
@@ -9,7 +11,12 @@ import android.app.Application
  */
 class App : Application() {
 
+    companion object {
+        var context: Context by Delegates.notNull()
+    }
+
     override fun onCreate() {
         super.onCreate()
+        context = applicationContext
     }
 }

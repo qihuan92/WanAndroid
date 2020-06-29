@@ -1,5 +1,9 @@
 package com.qihuan.wanandroid.common.net
 
+import com.franmontiel.persistentcookiejar.PersistentCookieJar
+import com.franmontiel.persistentcookiejar.cache.SetCookieCache
+import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor
+import com.qihuan.wanandroid.App
 import com.qihuan.wanandroid.BuildConfig
 import com.qihuan.wanandroid.common.net.interceptor.HttpLoggingInterceptor
 import okhttp3.OkHttpClient
@@ -14,6 +18,12 @@ import java.util.concurrent.TimeUnit
  */
 class RetrofitClient private constructor() {
     private val retrofit: Retrofit
+    private val cookieJar by lazy {
+        PersistentCookieJar(
+            SetCookieCache(),
+            SharedPrefsCookiePersistor(App.context)
+        )
+    }
 
     init {
         retrofit = Retrofit.Builder()
@@ -34,6 +44,7 @@ class RetrofitClient private constructor() {
             }
             readTimeout(30, TimeUnit.SECONDS)
             connectTimeout(30, TimeUnit.SECONDS)
+            cookieJar(cookieJar)
             return this
         }
     }
