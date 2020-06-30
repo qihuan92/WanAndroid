@@ -6,11 +6,11 @@ package com.qihuan.wanandroid.common.bean
  * @since 2020/6/29
  */
 data class WanPage<T>(
-    val offset: Int,
-    val size: Int,
-    val total: Int,
-    val pageCount: Int,
+    val offset: Int = 0,
+    val size: Int = 0,
+    val total: Int = 0,
+    val pageCount: Int = 0,
     val curPage: Int,
-    val over: Boolean,
+    val over: Boolean = true,
     val datas: List<T>
 )

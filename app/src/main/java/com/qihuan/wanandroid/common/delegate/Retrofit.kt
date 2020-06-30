@@ -8,14 +8,8 @@ import kotlin.reflect.KProperty
  * @author qi
  * @since 2020/6/28
  */
-class Retrofit<T : Any> {
-    private lateinit var value: T
-
-    operator fun getValue(thisRef: Any?, property: KProperty<*>): T {
-        return RetrofitClient.instance.getApi(value::class.java)
-    }
-
-    operator fun setValue(thisRef: Any?, property: KProperty<*>, value: T) {
-        this.value = value
+class Retrofit {
+    inline operator fun <reified T : Any> getValue(thisRef: Any?, property: KProperty<*>): T {
+        return RetrofitClient.instance.getApi(T::class.java)
     }
 }
