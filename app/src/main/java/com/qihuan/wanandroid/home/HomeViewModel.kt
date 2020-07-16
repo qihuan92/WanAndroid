@@ -15,8 +15,8 @@ import kotlinx.coroutines.launch
  * @since 2020/6/29
  */
 class HomeViewModel @ViewModelInject constructor(private val service: WanService) : ViewModel() {
-    val listLiveData: MutableLiveData<MutableList<Any>> = MutableLiveData(mutableListOf())
-    private var list: MutableList<Any> = mutableListOf()
+    val listLiveData = MutableLiveData<MutableList<Any>>(mutableListOf())
+    private var list = mutableListOf<Any>()
     private var page: Int = 0
 
     fun refresh() {
