@@ -11,7 +11,9 @@ import com.qihuan.wanandroid.home.HomeFragment
 import com.qihuan.wanandroid.knowledge.KnowledgeHierarchyFragment
 import com.qihuan.wanandroid.project.ProjectFragment
 import com.qihuan.wanandroid.user.UserFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
