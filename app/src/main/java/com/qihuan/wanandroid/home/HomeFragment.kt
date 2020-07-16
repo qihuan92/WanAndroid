@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.drakeet.multitype.MultiTypeAdapter
 import com.qihuan.wanandroid.R
 import com.qihuan.wanandroid.databinding.FragmentHomeBinding
@@ -39,10 +40,18 @@ class HomeFragment : Fragment() {
 
     private fun initView() {
         adapter = MultiTypeAdapter()
+        adapter.register(HomeBannerViewDelegate())
+
+        binding.rvList.layoutManager = LinearLayoutManager(context)
+        binding.rvList.adapter = adapter
+
+        binding.refreshLayout.setOnRefreshListener {
+            viewModel.refresh()
+        }
     }
 
     private fun initData() {
-        viewModel.refresh()
+        binding.refreshLayout.isRefreshing = true
     }
 
     private fun initListener() {
