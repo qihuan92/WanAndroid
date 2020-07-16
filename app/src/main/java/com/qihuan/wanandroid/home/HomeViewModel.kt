@@ -1,11 +1,11 @@
 package com.qihuan.wanandroid.home
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.qihuan.wanandroid.common.bean.Article
 import com.qihuan.wanandroid.common.bean.WanPage
-import com.qihuan.wanandroid.common.delegate.Retrofit
 import com.qihuan.wanandroid.common.net.WanService
 import kotlinx.coroutines.launch
 
@@ -14,9 +14,7 @@ import kotlinx.coroutines.launch
  * @author qi
  * @since 2020/6/29
  */
-class HomeViewModel : ViewModel() {
-
-    private val service: WanService by Retrofit()
+class HomeViewModel @ViewModelInject constructor(private val service: WanService) : ViewModel() {
     val listLiveData: MutableLiveData<MutableList<Any>> = MutableLiveData(mutableListOf())
     private var list: MutableList<Any> = mutableListOf()
     private var page: Int = 0

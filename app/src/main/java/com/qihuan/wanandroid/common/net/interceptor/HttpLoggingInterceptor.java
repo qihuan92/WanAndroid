@@ -3,6 +3,7 @@ package com.qihuan.wanandroid.common.net.interceptor;
 import java.io.EOFException;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Connection;
@@ -28,8 +29,9 @@ import static android.util.Log.INFO;
  * this class should not be considered stable and may change slightly between releases. If you need
  * a stable logging format, use your own interceptor.
  */
+@SuppressWarnings("unused")
 public final class HttpLoggingInterceptor implements Interceptor {
-    private static final Charset UTF8 = Charset.forName("UTF-8");
+    private static final Charset UTF8 = StandardCharsets.UTF_8;
 
     public enum Level {
         /**
@@ -95,12 +97,7 @@ public final class HttpLoggingInterceptor implements Interceptor {
         /**
          * A {@link Logger} defaults output appropriate for the current platform.
          */
-        Logger DEFAULT = new Logger() {
-            @Override
-            public void log(String message) {
-                Platform.get().log(INFO, message, null);
-            }
-        };
+        Logger DEFAULT = message -> Platform.get().log(INFO, message, null);
     }
 
     public HttpLoggingInterceptor() {
@@ -192,7 +189,9 @@ public final class HttpLoggingInterceptor implements Interceptor {
 
                 logger.log("");
                 if (isPlaintext(buffer)) {
-                    logger.log(buffer.readString(charset));
+                    if (charset != null) {
+                        logger.log(buffer.readString(charset));
+                    }
                     logger.log("--> END " + request.method()
                             + " (" + requestBody.contentLength() + "-byte body)");
                 } else {
@@ -213,66 +212,64 @@ public final class HttpLoggingInterceptor implements Interceptor {
         long tookMs = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startNs);
 
         ResponseBody responseBody = response.body();
-        long contentLength = responseBody.contentLength();
-        String bodySize = contentLength != -1 ? contentLength + "-byte" : "unknown-length";
-        logger.log("<-- "
-                + response.code()
-                + (response.message().isEmpty() ? "" : ' ' + response.message())
-                + ' ' + response.request().url()
-                + " (" + tookMs + "ms" + (!logHeaders ? ", " + bodySize + " body" : "") + ')');
+        if (responseBody != null) {
+            long contentLength = responseBody.contentLength();
+            String bodySize = contentLength != -1 ? contentLength + "-byte" : "unknown-length";
+            logger.log("<-- "
+                    + response.code()
+                    + (response.message().isEmpty() ? "" : ' ' + response.message())
+                    + ' ' + response.request().url()
+                    + " (" + tookMs + "ms" + (!logHeaders ? ", " + bodySize + " body" : "") + ')');
 
-        if (logHeaders) {
-            Headers headers = response.headers();
-            for (int i = 0, count = headers.size(); i < count; i++) {
-                logger.log(headers.name(i) + ": " + headers.value(i));
-            }
+            if (logHeaders) {
+                Headers headers = response.headers();
+                for (int i = 0, count = headers.size(); i < count; i++) {
+                    logger.log(headers.name(i) + ": " + headers.value(i));
+                }
 
-            if (!logBody || !HttpHeaders.hasBody(response)) {
-                logger.log("<-- END HTTP");
-            } else if (bodyHasUnknownEncoding(response.headers())) {
-                logger.log("<-- END HTTP (encoded body omitted)");
-            } else {
-                BufferedSource source = responseBody.source();
-                source.request(Long.MAX_VALUE); // Buffer the entire body.
-                Buffer buffer = source.buffer();
+                if (!logBody || !HttpHeaders.hasBody(response)) {
+                    logger.log("<-- END HTTP");
+                } else if (bodyHasUnknownEncoding(response.headers())) {
+                    logger.log("<-- END HTTP (encoded body omitted)");
+                } else {
+                    BufferedSource source = responseBody.source();
+                    source.request(Long.MAX_VALUE); // Buffer the entire body.
+                    Buffer buffer = source.getBuffer();
 
-                Long gzippedLength = null;
-                if ("gzip".equalsIgnoreCase(headers.get("Content-Encoding"))) {
-                    gzippedLength = buffer.size();
-                    GzipSource gzippedResponseBody = null;
-                    try {
-                        gzippedResponseBody = new GzipSource(buffer.clone());
-                        buffer = new Buffer();
-                        buffer.writeAll(gzippedResponseBody);
-                    } finally {
-                        if (gzippedResponseBody != null) {
-                            gzippedResponseBody.close();
+                    Long gzippedLength = null;
+                    if ("gzip".equalsIgnoreCase(headers.get("Content-Encoding"))) {
+                        gzippedLength = buffer.size();
+                        try (GzipSource gzippedResponseBody = new GzipSource(buffer.clone())) {
+                            buffer = new Buffer();
+                            buffer.writeAll(gzippedResponseBody);
                         }
                     }
-                }
 
-                Charset charset = UTF8;
-                MediaType contentType = responseBody.contentType();
-                if (contentType != null) {
-                    charset = contentType.charset(UTF8);
-                }
+                    Charset charset = UTF8;
+                    MediaType contentType = responseBody.contentType();
+                    if (contentType != null) {
+                        charset = contentType.charset(UTF8);
+                    }
 
-                if (!isPlaintext(buffer)) {
-                    logger.log("");
-                    logger.log("<-- END HTTP (binary " + buffer.size() + "-byte body omitted)");
-                    return response;
-                }
+                    if (!isPlaintext(buffer)) {
+                        logger.log("");
+                        logger.log("<-- END HTTP (binary " + buffer.size() + "-byte body omitted)");
+                        return response;
+                    }
 
-                if (contentLength != 0) {
-                    logger.log("");
-                    logger.log(buffer.clone().readString(charset));
-                }
+                    if (contentLength != 0) {
+                        if (charset != null) {
+                            logger.log("");
+                            logger.log(buffer.clone().readString(charset));
+                        }
+                    }
 
-                if (gzippedLength != null) {
-                    logger.log("<-- END HTTP (" + buffer.size() + "-byte, "
-                            + gzippedLength + "-gzipped-byte body)");
-                } else {
-                    logger.log("<-- END HTTP (" + buffer.size() + "-byte body)");
+                    if (gzippedLength != null) {
+                        logger.log("<-- END HTTP (" + buffer.size() + "-byte, "
+                                + gzippedLength + "-gzipped-byte body)");
+                    } else {
+                        logger.log("<-- END HTTP (" + buffer.size() + "-byte body)");
+                    }
                 }
             }
         }

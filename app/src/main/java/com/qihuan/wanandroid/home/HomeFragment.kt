@@ -11,12 +11,14 @@ import com.drakeet.multitype.MultiTypeAdapter
 import com.qihuan.wanandroid.R
 import com.qihuan.wanandroid.databinding.FragmentHomeBinding
 import com.qihuan.wanandroid.main.TabContainer
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * HomeFragment
  * @author qi
  * @since 2020/6/28
  */
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
