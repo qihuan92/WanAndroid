@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.qihuan.wanandroid.common.bean.Article
+import com.qihuan.wanandroid.common.bean.BannerList
 import com.qihuan.wanandroid.common.bean.WanPage
 import com.qihuan.wanandroid.common.net.WanService
 import kotlinx.coroutines.launch
@@ -25,13 +26,13 @@ class HomeViewModel @ViewModelInject constructor(private val service: WanService
 
             val bannerResp = service.getBanner()
             if (bannerResp.isSuccess()) {
-                list.add(bannerResp.data)
+                list.add(BannerList(bannerResp.data))
             }
 
-            val articlePage = refreshArticle()
-            if (articlePage.datas.isNotEmpty()) {
-                list.addAll(articlePage.datas)
-            }
+//            val articlePage = refreshArticle()
+//            if (articlePage.datas.isNotEmpty()) {
+//                list.addAll(articlePage.datas)
+//            }
 
             listLiveData.value = list
         }

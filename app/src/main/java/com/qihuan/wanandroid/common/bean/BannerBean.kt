@@ -1,6 +1,6 @@
 package com.qihuan.wanandroid.common.bean
 
-data class Banner(
+data class BannerBean(
     val desc: String,
     val id: Int,
     val imagePath: String,

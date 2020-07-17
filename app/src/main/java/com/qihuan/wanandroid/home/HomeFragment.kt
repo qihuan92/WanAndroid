@@ -51,12 +51,13 @@ class HomeFragment : Fragment() {
     }
 
     private fun initData() {
-        binding.refreshLayout.isRefreshing = true
+        viewModel.refresh()
     }
 
     private fun initListener() {
         viewModel.listLiveData.observe(viewLifecycleOwner, Observer {
-            print(it)
+            adapter.items = it
+            adapter.notifyDataSetChanged()
         })
     }
 

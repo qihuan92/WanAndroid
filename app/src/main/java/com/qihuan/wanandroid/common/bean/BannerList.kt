@@ -6,5 +6,5 @@ package com.qihuan.wanandroid.common.bean
  * @since 2020/7/16
  */
 data class BannerList(
-    val list: List<Banner>
+    val list: List<BannerBean>
 )
