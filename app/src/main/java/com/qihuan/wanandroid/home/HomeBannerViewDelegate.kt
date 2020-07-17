@@ -3,19 +3,19 @@ package com.qihuan.wanandroid.home
 import android.content.Context
 import com.drakeet.multitype.ViewDelegate
 import com.qihuan.wanandroid.common.bean.BannerList
-import com.qihuan.wanandroid.common.view.BannerLayout
+import com.qihuan.wanandroid.common.view.HomeBannerLayout
 
 /**
  * HomeBannerViewDelegate
  * @author qi
  * @since 2020/7/16
  */
-class HomeBannerViewDelegate : ViewDelegate<BannerList, BannerLayout>() {
-    override fun onCreateView(context: Context): BannerLayout {
-        return BannerLayout(context)
+class HomeBannerViewDelegate : ViewDelegate<BannerList, HomeBannerLayout>() {
+    override fun onCreateView(context: Context): HomeBannerLayout {
+        return HomeBannerLayout(context)
     }
 
-    override fun onBindView(view: BannerLayout, item: BannerList) {
-        TODO("Not yet implemented")
+    override fun onBindView(view: HomeBannerLayout, item: BannerList) {
+        view.setData(item.list)
     }
 }
