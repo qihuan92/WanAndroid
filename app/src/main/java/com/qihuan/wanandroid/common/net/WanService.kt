@@ -1,6 +1,6 @@
 package com.qihuan.wanandroid.common.net
 
-import com.qihuan.wanandroid.common.bean.*
+import com.qihuan.wanandroid.bean.*
 import retrofit2.http.*
 
 interface WanService {

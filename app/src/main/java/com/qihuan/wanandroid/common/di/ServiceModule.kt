@@ -1,5 +1,6 @@
-package com.qihuan.wanandroid.common.net
+package com.qihuan.wanandroid.common.di
 
+import com.qihuan.wanandroid.common.net.WanService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

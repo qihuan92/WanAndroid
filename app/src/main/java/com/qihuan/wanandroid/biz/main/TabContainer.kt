@@ -1,4 +1,4 @@
-package com.qihuan.wanandroid.main
+package com.qihuan.wanandroid.biz.main
 
 import androidx.annotation.DrawableRes
 import androidx.fragment.app.Fragment

@@ -1,27 +1,26 @@
-package com.qihuan.wanandroid.knowledge
+package com.qihuan.wanandroid.biz.project
 
 import androidx.fragment.app.Fragment
 import com.qihuan.wanandroid.R
-import com.qihuan.wanandroid.main.TabContainer
+import com.qihuan.wanandroid.biz.main.TabContainer
 
 /**
- * KnowledgeHierarchyFragment
+ * ProjectFragment
  * @author qi
  * @since 2020/6/28
  */
-class KnowledgeHierarchyFragment : Fragment() {
-
+class ProjectFragment : Fragment() {
     class Tab : TabContainer {
         override fun title(): String {
-            return "体系"
+            return "项目"
         }
 
         override fun icon(): Int {
-            return R.drawable.ic_tab_knowledge_hierarchy
+            return R.drawable.ic_tab_project
         }
 
         override fun createFragment(): Fragment {
-            return KnowledgeHierarchyFragment()
+            return ProjectFragment()
         }
     }
 }

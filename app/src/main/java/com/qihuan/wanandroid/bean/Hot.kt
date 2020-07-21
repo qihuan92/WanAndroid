@@ -1,4 +1,4 @@
-package com.qihuan.wanandroid.common.bean
+package com.qihuan.wanandroid.bean
 
 data class Hot(
     val id: Int,

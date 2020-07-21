@@ -1,12 +1,12 @@
-package com.qihuan.wanandroid.home
+package com.qihuan.wanandroid.biz.home
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.qihuan.wanandroid.common.bean.Article
-import com.qihuan.wanandroid.common.bean.BannerList
-import com.qihuan.wanandroid.common.bean.WanPage
+import com.qihuan.wanandroid.bean.Article
+import com.qihuan.wanandroid.bean.BannerList
+import com.qihuan.wanandroid.bean.WanPage
 import com.qihuan.wanandroid.common.net.WanService
 import kotlinx.coroutines.launch
 
@@ -64,7 +64,10 @@ class HomeViewModel @ViewModelInject constructor(private val service: WanService
         return if (resp.isSuccess()) {
             resp.data
         } else {
-            WanPage(curPage = page, datas = emptyList())
+            WanPage(
+                curPage = page,
+                datas = emptyList()
+            )
         }
     }
 }
