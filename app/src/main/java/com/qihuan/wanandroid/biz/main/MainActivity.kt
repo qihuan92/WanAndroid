@@ -6,17 +6,18 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
-import com.qihuan.wanandroid.databinding.ActivityMainBinding
 import com.qihuan.wanandroid.biz.home.HomeFragment
 import com.qihuan.wanandroid.biz.knowledge.KnowledgeHierarchyFragment
 import com.qihuan.wanandroid.biz.project.ProjectFragment
 import com.qihuan.wanandroid.biz.user.UserFragment
+import com.qihuan.wanandroid.common.ktx.viewBinding
+import com.qihuan.wanandroid.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMainBinding
+    private val binding by viewBinding(ActivityMainBinding::inflate)
     private val tabList: List<TabContainer> by lazy {
         listOf(
             HomeFragment.Tab(),
@@ -28,7 +29,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         initView()
     }

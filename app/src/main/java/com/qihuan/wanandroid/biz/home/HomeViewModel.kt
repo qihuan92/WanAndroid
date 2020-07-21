@@ -29,10 +29,10 @@ class HomeViewModel @ViewModelInject constructor(private val service: WanService
                 list.add(BannerList(bannerResp.data))
             }
 
-//            val articlePage = refreshArticle()
-//            if (articlePage.datas.isNotEmpty()) {
-//                list.addAll(articlePage.datas)
-//            }
+            val articlePage = refreshArticle()
+            if (articlePage.datas.isNotEmpty()) {
+                list.addAll(articlePage.datas)
+            }
 
             listLiveData.value = list
         }
