@@ -1,10 +1,10 @@
-package com.qihuan.wanandroid.common.net
+package com.qihuan.wanandroid.common.di
 
 import android.content.Context
-import com.franmontiel.persistentcookiejar.BuildConfig
 import com.franmontiel.persistentcookiejar.PersistentCookieJar
 import com.franmontiel.persistentcookiejar.cache.SetCookieCache
 import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor
+import com.qihuan.wanandroid.BuildConfig
 import com.qihuan.wanandroid.common.net.interceptor.HttpLoggingInterceptor
 import dagger.Module
 import dagger.Provides

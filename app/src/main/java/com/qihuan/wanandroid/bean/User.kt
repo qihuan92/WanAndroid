@@ -1,4 +1,4 @@
-package com.qihuan.wanandroid.common.bean
+package com.qihuan.wanandroid.bean
 
 data class User(
     val admin: Boolean,

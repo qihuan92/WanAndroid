@@ -1,4 +1,4 @@
-package com.qihuan.wanandroid.common.view
+package com.qihuan.wanandroid.biz.home
 
 import android.content.Context
 import android.util.AttributeSet
@@ -11,20 +11,24 @@ import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.recyclerview.widget.RecyclerView
-import com.qihuan.wanandroid.common.bean.BannerBean
+import com.qihuan.wanandroid.bean.BannerBean
 import com.qihuan.wanandroid.common.ktx.dp
 import com.qihuan.wanandroid.common.ktx.load
 import com.youth.banner.Banner
 import com.youth.banner.adapter.BannerAdapter
+import com.youth.banner.indicator.CircleIndicator
 
 /**
  * BannerLayout
- * todo wip
+ *
  * @author qi
  * @since 2020/7/16
  */
-class HomeBannerLayout(context: Context?, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
-    ConstraintLayout(context, attrs, defStyleAttr) {
+class HomeBannerLayout(
+    context: Context?,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
+) : ConstraintLayout(context, attrs, defStyleAttr) {
 
     private lateinit var homeBannerAdapter: HomeBannerAdapter
     private lateinit var homeBanner: Banner<BannerBean, HomeBannerAdapter>
@@ -58,24 +62,35 @@ class HomeBannerLayout(context: Context?, attrs: AttributeSet? = null, defStyleA
 
     private fun setUpView() {
         homeBannerAdapter = HomeBannerAdapter()
-        homeBanner.adapter = homeBannerAdapter
 
-
+        homeBanner.apply {
+            adapter = homeBannerAdapter
+            setIndicator(CircleIndicator(context))
+        }
     }
 
     fun setData(bannerList: List<BannerBean>) {
         homeBannerAdapter.setData(bannerList)
     }
 
-    class HomeBannerAdapter(private var itemList: MutableList<BannerBean> = mutableListOf()) :
-        BannerAdapter<BannerBean, HomeBannerAdapter.ViewHolder>(itemList) {
+    class HomeBannerAdapter :
+        BannerAdapter<BannerBean, HomeBannerAdapter.ViewHolder>(mutableListOf()) {
 
         override fun onCreateHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-            return ViewHolder(BannerView(parent.context))
+            return ViewHolder(
+                BannerView(
+                    parent.context
+                )
+            )
         }
 
         override fun onBindView(holder: ViewHolder?, data: BannerBean, position: Int, size: Int) {
             holder?.bindTo(data)
+        }
+
+        fun setData(bannerList: List<BannerBean>) {
+            this.mDatas = bannerList.toMutableList()
+            notifyDataSetChanged()
         }
 
         class ViewHolder(private val bannerView: BannerView) : RecyclerView.ViewHolder(bannerView) {
@@ -84,13 +99,11 @@ class HomeBannerLayout(context: Context?, attrs: AttributeSet? = null, defStyleA
             }
         }
 
-        fun setData(bannerList: List<BannerBean>) {
-            this.itemList = bannerList.toMutableList()
-            notifyDataSetChanged()
-        }
-
-        class BannerView(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
-            CardView(context, attrs, defStyleAttr) {
+        class BannerView(
+            context: Context,
+            attrs: AttributeSet? = null,
+            defStyleAttr: Int = 0
+        ) : CardView(context, attrs, defStyleAttr) {
             val ivBanner: ImageView
 
             init {

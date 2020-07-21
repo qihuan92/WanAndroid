@@ -1,4 +1,4 @@
-package com.qihuan.wanandroid.home
+package com.qihuan.wanandroid.biz.home
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,8 +10,8 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.drakeet.multitype.MultiTypeAdapter
 import com.qihuan.wanandroid.R
+import com.qihuan.wanandroid.biz.main.TabContainer
 import com.qihuan.wanandroid.databinding.FragmentHomeBinding
-import com.qihuan.wanandroid.main.TabContainer
 import dagger.hilt.android.AndroidEntryPoint
 
 /**

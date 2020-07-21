@@ -1,9 +1,8 @@
-package com.qihuan.wanandroid.home
+package com.qihuan.wanandroid.biz.home
 
 import android.content.Context
 import com.drakeet.multitype.ViewDelegate
-import com.qihuan.wanandroid.common.bean.BannerList
-import com.qihuan.wanandroid.common.view.HomeBannerLayout
+import com.qihuan.wanandroid.bean.BannerList
 
 /**
  * HomeBannerViewDelegate

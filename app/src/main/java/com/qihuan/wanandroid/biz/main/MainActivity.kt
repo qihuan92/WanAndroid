@@ -1,4 +1,4 @@
-package com.qihuan.wanandroid.main
+package com.qihuan.wanandroid.biz.main
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -7,10 +7,10 @@ import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import com.qihuan.wanandroid.databinding.ActivityMainBinding
-import com.qihuan.wanandroid.home.HomeFragment
-import com.qihuan.wanandroid.knowledge.KnowledgeHierarchyFragment
-import com.qihuan.wanandroid.project.ProjectFragment
-import com.qihuan.wanandroid.user.UserFragment
+import com.qihuan.wanandroid.biz.home.HomeFragment
+import com.qihuan.wanandroid.biz.knowledge.KnowledgeHierarchyFragment
+import com.qihuan.wanandroid.biz.project.ProjectFragment
+import com.qihuan.wanandroid.biz.user.UserFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -34,7 +34,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initView() {
-        binding.vpContent.adapter = MainPagerAdapter(this, tabList)
+        binding.vpContent.adapter =
+            MainPagerAdapter(
+                this,
+                tabList
+            )
         TabLayoutMediator(
             binding.tabLayout,
             binding.vpContent,

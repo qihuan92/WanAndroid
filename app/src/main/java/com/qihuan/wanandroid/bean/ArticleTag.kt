@@ -1,4 +1,4 @@
-package com.qihuan.wanandroid.common.bean
+package com.qihuan.wanandroid.bean
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
