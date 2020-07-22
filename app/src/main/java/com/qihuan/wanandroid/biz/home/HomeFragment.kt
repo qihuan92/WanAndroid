@@ -12,6 +12,7 @@ import com.qihuan.wanandroid.biz.main.TabContainer
 import com.qihuan.wanandroid.common.UIResult
 import com.qihuan.wanandroid.common.ktx.viewBinding
 import com.qihuan.wanandroid.databinding.FragmentHomeBinding
+import com.qihuan.wanandroid.utils.LoadMoreDelegate
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -43,6 +44,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             refreshLayout.setOnRefreshListener {
                 viewModel.refresh()
             }
+            LoadMoreDelegate(
+                isLoading = { return@LoadMoreDelegate viewModel.isLoading.get() },
+                onLoadMore = { viewModel.loadMore() }
+            ).attach(rvList)
         }
     }
 
