@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.qihuan.wanandroid.common.UIResult
 import kotlinx.coroutines.launch
+import java.util.concurrent.atomic.AtomicBoolean
 
 /**
  * HomeViewModel
@@ -15,6 +16,7 @@ import kotlinx.coroutines.launch
 class HomeViewModel @ViewModelInject constructor(
     private val repository: HomeRepository
 ) : ViewModel() {
+    var isLoading: AtomicBoolean = AtomicBoolean(false)
     val listLiveData = MutableLiveData<UIResult<MutableList<Any>>>(UIResult.Loading)
     private var list = mutableListOf<Any>()
     private var page: Int = 0
@@ -45,11 +47,13 @@ class HomeViewModel @ViewModelInject constructor(
     fun loadMore() {
         page += 1
         listLiveData.value = UIResult.Loading
+        isLoading.set(true)
         viewModelScope.launch {
             val articleList = repository.getArticleList(page)
             list.addAll(articleList)
 
             listLiveData.value = UIResult.Success(list, isLoadingMore = true)
+            isLoading.set(false)
         }
     }
 }
