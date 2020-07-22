@@ -9,6 +9,9 @@ interface WanService {
         const val BASE_URL = "https://www.wanandroid.com"
     }
 
+    @GET("/article/top/json")
+    suspend fun getTopArticles(): WanResponse<List<Article>>
+
     @GET("/article/list/{page}/json")
     suspend fun getHomeArticles(
         @Path("page") page: Int
@@ -36,7 +39,7 @@ interface WanService {
     suspend fun getBlogType(): WanResponse<List<SystemNode>>
 
     @GET("/wxarticle/list/{id}/{page}/json")
-    fun getBlogArticle(
+    suspend fun getBlogArticle(
         @Path("id") id: Int,
         @Path("page") page: Int
     ): WanResponse<WanPage<Article>>

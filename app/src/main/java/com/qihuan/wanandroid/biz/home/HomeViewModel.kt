@@ -4,10 +4,6 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.qihuan.wanandroid.bean.Article
-import com.qihuan.wanandroid.bean.BannerList
-import com.qihuan.wanandroid.bean.WanPage
-import com.qihuan.wanandroid.common.net.WanService
 import kotlinx.coroutines.launch
 
 /**
@@ -15,59 +11,42 @@ import kotlinx.coroutines.launch
  * @author qi
  * @since 2020/6/29
  */
-class HomeViewModel @ViewModelInject constructor(private val service: WanService) : ViewModel() {
+class HomeViewModel @ViewModelInject constructor(
+    private val repository: HomeRepository
+) : ViewModel() {
     val listLiveData = MutableLiveData<MutableList<Any>>(mutableListOf())
     private var list = mutableListOf<Any>()
     private var page: Int = 0
 
+    init {
+        refresh()
+    }
+
     fun refresh() {
+        page = 0
         viewModelScope.launch {
             list.clear()
 
-            val bannerResp = service.getBanner()
-            if (bannerResp.isSuccess()) {
-                list.add(BannerList(bannerResp.data))
-            }
+            val bannerList = repository.getBanner()
+            list.add(bannerList)
 
-            val articlePage = refreshArticle()
-            if (articlePage.datas.isNotEmpty()) {
-                list.addAll(articlePage.datas)
-            }
+            val topArticleList = repository.getTopArticleList()
+            list.addAll(topArticleList)
+
+            val articleList = repository.getArticleList(page)
+            list.addAll(articleList)
 
             listLiveData.value = list
         }
     }
 
     fun loadMore() {
+        page += 1
         viewModelScope.launch {
-            val articlePage = loadArticle()
-            if (articlePage.datas.isNotEmpty()) {
-                list.addAll(articlePage.datas)
-            }
+            val articleList = repository.getArticleList(page)
+            list.addAll(articleList)
 
             listLiveData.value = list
-        }
-    }
-
-    private suspend fun refreshArticle(): WanPage<Article> {
-        page = 0
-        return getArticle()
-    }
-
-    private suspend fun loadArticle(): WanPage<Article> {
-        page += 1
-        return getArticle()
-    }
-
-    private suspend fun getArticle(): WanPage<Article> {
-        val resp = service.getHomeArticles(page)
-        return if (resp.isSuccess()) {
-            resp.data
-        } else {
-            WanPage(
-                curPage = page,
-                datas = emptyList()
-            )
         }
     }
 }

@@ -5,6 +5,8 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityRetainedComponent
+import okhttp3.OkHttpClient
+import retrofit2.Converter
 import retrofit2.Retrofit
 
 /**
@@ -17,7 +19,12 @@ import retrofit2.Retrofit
 class ServiceModule {
 
     @Provides
-    fun wanService(retrofit: Retrofit): WanService {
-        return retrofit.create(WanService::class.java)
+    fun wanService(client: OkHttpClient, converterFactory: Converter.Factory): WanService {
+        return Retrofit.Builder()
+            .baseUrl(WanService.BASE_URL)
+            .addConverterFactory(converterFactory)
+            .client(client)
+            .build()
+            .create(WanService::class.java)
     }
 }

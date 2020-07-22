@@ -12,5 +12,5 @@ data class WanPage<T>(
     val pageCount: Int = 0,
     val curPage: Int,
     val over: Boolean = true,
-    val datas: List<T>
+    val datas: List<T>?
 )
