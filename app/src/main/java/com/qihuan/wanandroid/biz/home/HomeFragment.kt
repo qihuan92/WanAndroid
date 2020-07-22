@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.drakeet.multitype.MultiTypeAdapter
 import com.qihuan.wanandroid.R
 import com.qihuan.wanandroid.biz.main.TabContainer
+import com.qihuan.wanandroid.common.UIResult
 import com.qihuan.wanandroid.common.ktx.viewBinding
 import com.qihuan.wanandroid.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -36,18 +37,29 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         adapter.register(HomeBannerViewDelegate())
         adapter.register(ArticleItemViewBinder())
 
-        binding.rvList.layoutManager = LinearLayoutManager(context)
-        binding.rvList.adapter = adapter
-
-        binding.refreshLayout.setOnRefreshListener {
-            viewModel.refresh()
+        binding.apply {
+            rvList.layoutManager = LinearLayoutManager(context)
+            rvList.adapter = adapter
+            refreshLayout.setOnRefreshListener {
+                viewModel.refresh()
+            }
         }
     }
 
     private fun initListener() {
         viewModel.listLiveData.observe(viewLifecycleOwner, Observer {
-            adapter.items = it
-            adapter.notifyDataSetChanged()
+            when (it) {
+                is UIResult.Success -> {
+                    if (binding.refreshLayout.isRefreshing) {
+                        binding.refreshLayout.isRefreshing = false
+                    }
+                    adapter.items = it.data
+                    adapter.notifyDataSetChanged()
+                }
+                else -> {
+
+                }
+            }
         })
     }
 

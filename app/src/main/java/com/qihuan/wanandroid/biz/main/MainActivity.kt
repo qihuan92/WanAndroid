@@ -44,7 +44,6 @@ class MainActivity : AppCompatActivity() {
             binding.vpContent,
             TabLayoutMediator.TabConfigurationStrategy { tab, position ->
                 tab.setIcon(tabList[position].icon())
-                tab.text = tabList[position].title()
             }).attach()
     }
 
