@@ -13,7 +13,7 @@ import dagger.hilt.android.components.ApplicationComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
 import okhttp3.CookieJar
 import okhttp3.OkHttpClient
-import retrofit2.Retrofit
+import retrofit2.Converter
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
@@ -27,21 +27,12 @@ import javax.inject.Singleton
 @InstallIn(ApplicationComponent::class)
 class NetworkModule {
 
-    @Singleton
-    @Provides
-    fun retrofit(client: OkHttpClient): Retrofit {
-        return Retrofit.Builder()
-            .baseUrl(APP_DEFAULT_DOMAIN)
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(client)
-            .build()
-    }
-
     @Provides
     fun cookieJar(@ApplicationContext context: Context): CookieJar {
         return PersistentCookieJar(SetCookieCache(), SharedPrefsCookiePersistor(context))
     }
 
+    @Singleton
     @Provides
     fun client(cookieJar: CookieJar): OkHttpClient {
         with(OkHttpClient.Builder()) {
@@ -55,13 +46,15 @@ class NetworkModule {
         }
     }
 
-    private fun loggingInterceptor(): HttpLoggingInterceptor {
-        val loggingInterceptor = HttpLoggingInterceptor()
-        loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
-        return loggingInterceptor
+    @Singleton
+    @Provides
+    fun provideConverterFactory(): Converter.Factory {
+        return GsonConverterFactory.create()
     }
 
-    companion object {
-        private const val APP_DEFAULT_DOMAIN = "https://www.wanandroid.com"
+    private fun loggingInterceptor(): HttpLoggingInterceptor {
+        return HttpLoggingInterceptor().apply {
+            level = HttpLoggingInterceptor.Level.BASIC
+        }
     }
 }

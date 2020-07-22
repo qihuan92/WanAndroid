@@ -23,10 +23,14 @@ class ArticleItemViewBinder : ItemViewBinder<Article, ArticleItemViewBinder.View
         holder.bind(item)
     }
 
-    class ViewHolder(private val binding: ItemArticleBinding) : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(
+        private val binding: ItemArticleBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Article) {
-            binding.tvTitle.text = item.title
-            // todo 条目信息
+            binding.apply {
+                // todo 条目信息
+                tvTitle.text = item.title
+            }
         }
     }
 }

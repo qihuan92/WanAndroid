@@ -28,7 +28,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
-        initData()
         initListener()
     }
 
@@ -43,10 +42,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         binding.refreshLayout.setOnRefreshListener {
             viewModel.refresh()
         }
-    }
-
-    private fun initData() {
-        viewModel.refresh()
     }
 
     private fun initListener() {
