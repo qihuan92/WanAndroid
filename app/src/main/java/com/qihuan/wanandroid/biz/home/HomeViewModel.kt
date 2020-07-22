@@ -4,6 +4,7 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.qihuan.wanandroid.common.UIResult
 import kotlinx.coroutines.launch
 
 /**
@@ -14,7 +15,7 @@ import kotlinx.coroutines.launch
 class HomeViewModel @ViewModelInject constructor(
     private val repository: HomeRepository
 ) : ViewModel() {
-    val listLiveData = MutableLiveData<MutableList<Any>>(mutableListOf())
+    val listLiveData = MutableLiveData<UIResult<MutableList<Any>>>(UIResult.Loading)
     private var list = mutableListOf<Any>()
     private var page: Int = 0
 
@@ -24,6 +25,7 @@ class HomeViewModel @ViewModelInject constructor(
 
     fun refresh() {
         page = 0
+        listLiveData.value = UIResult.Loading
         viewModelScope.launch {
             list.clear()
 
@@ -36,17 +38,18 @@ class HomeViewModel @ViewModelInject constructor(
             val articleList = repository.getArticleList(page)
             list.addAll(articleList)
 
-            listLiveData.value = list
+            listLiveData.value = UIResult.Success(list)
         }
     }
 
     fun loadMore() {
         page += 1
+        listLiveData.value = UIResult.Loading
         viewModelScope.launch {
             val articleList = repository.getArticleList(page)
             list.addAll(articleList)
 
-            listLiveData.value = list
+            listLiveData.value = UIResult.Success(list, isLoadingMore = true)
         }
     }
 }
