@@ -4,9 +4,9 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.qihuan.wanandroid.common.UIResult
 import kotlinx.coroutines.launch
 import java.util.concurrent.atomic.AtomicBoolean
+import kotlin.properties.Delegates
 
 /**
  * HomeViewModel
@@ -17,8 +17,10 @@ class HomeViewModel @ViewModelInject constructor(
     private val repository: HomeRepository
 ) : ViewModel() {
     var isLoading: AtomicBoolean = AtomicBoolean(false)
-    val listLiveData = MutableLiveData<UIResult<MutableList<Any>>>(UIResult.Loading)
-    private var list = mutableListOf<Any>()
+    val listLiveData = MutableLiveData<ChangeList<Any>>(ChangeList())
+    private var list by Delegates.observable(mutableListOf<Any>()) { _, oldList, newList ->
+        listLiveData.value = ChangeList(oldList, newList)
+    }
     private var page: Int = 0
 
     init {
@@ -27,9 +29,8 @@ class HomeViewModel @ViewModelInject constructor(
 
     fun refresh() {
         page = 0
-        listLiveData.value = UIResult.Loading
         viewModelScope.launch {
-            list.clear()
+            val list = mutableListOf<Any>()
 
             val bannerList = repository.getBanner()
             list.add(bannerList)
@@ -40,20 +41,27 @@ class HomeViewModel @ViewModelInject constructor(
             val articleList = repository.getArticleList(page)
             list.addAll(articleList)
 
-            listLiveData.value = UIResult.Success(list)
+            this@HomeViewModel.list = list
         }
     }
 
     fun loadMore() {
         page += 1
-        listLiveData.value = UIResult.Loading
         isLoading.set(true)
         viewModelScope.launch {
+            val list = mutableListOf<Any>()
+            list.addAll(this@HomeViewModel.list)
+
             val articleList = repository.getArticleList(page)
             list.addAll(articleList)
 
-            listLiveData.value = UIResult.Success(list, isLoadingMore = true)
+            this@HomeViewModel.list = list
             isLoading.set(false)
         }
     }
+
+    data class ChangeList<T>(
+        val oldList: List<T> = emptyList(),
+        val newList: List<T> = emptyList()
+    )
 }
