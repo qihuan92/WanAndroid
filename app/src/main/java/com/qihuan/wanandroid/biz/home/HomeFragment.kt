@@ -5,11 +5,12 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.drakeet.multitype.MultiTypeAdapter
 import com.qihuan.wanandroid.R
+import com.qihuan.wanandroid.bean.Article
 import com.qihuan.wanandroid.biz.main.TabContainer
-import com.qihuan.wanandroid.common.UIResult
 import com.qihuan.wanandroid.common.ktx.viewBinding
 import com.qihuan.wanandroid.databinding.FragmentHomeBinding
 import com.qihuan.wanandroid.utils.LoadMoreDelegate
@@ -53,19 +54,46 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun initListener() {
         viewModel.listLiveData.observe(viewLifecycleOwner, Observer {
-            when (it) {
-                is UIResult.Success -> {
-                    if (binding.refreshLayout.isRefreshing) {
-                        binding.refreshLayout.isRefreshing = false
-                    }
-                    adapter.items = it.data
-                    adapter.notifyDataSetChanged()
-                }
-                else -> {
-
-                }
+            val (oldList, newList) = it
+            if (binding.refreshLayout.isRefreshing) {
+                binding.refreshLayout.isRefreshing = false
             }
+            DiffUtil.calculateDiff(ItemDiffCallback(oldList, newList)).dispatchUpdatesTo(adapter)
+            adapter.items = newList
         })
+    }
+
+    private class ItemDiffCallback(
+        private val oldList: List<Any>,
+        private val newList: List<Any>
+    ) : DiffUtil.Callback() {
+        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            val oldItem = oldList[oldItemPosition]
+            val newItem = newList[newItemPosition]
+            return if (oldItem is Article && newItem is Article) {
+                oldItem.id == newItem.id
+            } else {
+                false
+            }
+        }
+
+        override fun getOldListSize(): Int {
+            return oldList.size
+        }
+
+        override fun getNewListSize(): Int {
+            return newList.size
+        }
+
+        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            val oldItem = oldList[oldItemPosition]
+            val newItem = newList[newItemPosition]
+            return if (oldItem is Article && newItem is Article) {
+                oldItem.title == newItem.title
+            } else {
+                false
+            }
+        }
     }
 
     class Tab : TabContainer {
