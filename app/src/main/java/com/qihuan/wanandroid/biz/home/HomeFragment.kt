@@ -5,6 +5,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.drakeet.multitype.MultiTypeAdapter
@@ -41,7 +42,13 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         binding.apply {
             rvList.layoutManager = LinearLayoutManager(context)
+            rvList.itemAnimator = DefaultItemAnimator()
             rvList.adapter = adapter
+            refreshLayout.setColorSchemeResources(
+                R.color.colorPrimary,
+                R.color.colorPrimaryDark,
+                R.color.colorAccent
+            )
             refreshLayout.setOnRefreshListener {
                 viewModel.refresh()
             }
