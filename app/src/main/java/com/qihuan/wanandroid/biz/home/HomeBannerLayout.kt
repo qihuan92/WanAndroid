@@ -10,6 +10,8 @@ import android.widget.ImageView
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.qihuan.wanandroid.bean.BannerBean
@@ -26,7 +28,7 @@ class HomeBannerLayout(
     context: Context?,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
-) : ConstraintLayout(context, attrs, defStyleAttr) {
+) : ConstraintLayout(context, attrs, defStyleAttr), DefaultLifecycleObserver {
 
     private lateinit var homeBannerAdapter: HomeBannerAdapter
     private lateinit var viewPager: ViewPager2
@@ -70,6 +72,7 @@ class HomeBannerLayout(
     }
 
     fun setData(bannerList: List<BannerBean>) {
+        viewPager.setCurrentItem(0, false)
         homeBannerAdapter.setData(bannerList)
     }
 
@@ -201,5 +204,21 @@ class HomeBannerLayout(
                 }
             )
         }
+    }
+
+    override fun onCreate(owner: LifecycleOwner) {
+        super.onCreate(owner)
+    }
+
+    override fun onDestroy(owner: LifecycleOwner) {
+        super.onDestroy(owner)
+    }
+
+    override fun onStart(owner: LifecycleOwner) {
+        super.onStart(owner)
+    }
+
+    override fun onStop(owner: LifecycleOwner) {
+        super.onStop(owner)
     }
 }
