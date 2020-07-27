@@ -37,7 +37,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun initView() {
         adapter = MultiTypeAdapter()
-        adapter.register(HomeBannerViewDelegate())
+        adapter.register(HomeBannerViewDelegate(this))
         adapter.register(ArticleItemViewBinder())
 
         binding.apply {

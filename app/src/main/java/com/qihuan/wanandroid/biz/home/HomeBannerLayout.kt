@@ -30,6 +30,11 @@ class HomeBannerLayout(
     defStyleAttr: Int = 0
 ) : ConstraintLayout(context, attrs, defStyleAttr), DefaultLifecycleObserver {
 
+    companion object {
+        const val INCREASE_COUNT = 2
+        const val SIDE_COUNT = 1
+    }
+
     private lateinit var homeBannerAdapter: HomeBannerAdapter
     private lateinit var viewPager: ViewPager2
     private var infinite: Boolean = true
@@ -72,18 +77,14 @@ class HomeBannerLayout(
     }
 
     fun setData(bannerList: List<BannerBean>) {
-        viewPager.setCurrentItem(0, false)
         homeBannerAdapter.setData(bannerList)
+        viewPager.setCurrentItem(SIDE_COUNT, false)
     }
 
     class HomeBannerAdapter(
         private val itemList: MutableList<BannerBean> = mutableListOf(),
         private val infinite: Boolean
     ) : RecyclerView.Adapter<HomeBannerAdapter.ViewHolder>() {
-
-        companion object {
-            const val INCREASE_COUNT = 2
-        }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             return ViewHolder(
@@ -127,7 +128,7 @@ class HomeBannerLayout(
         private fun getRealPosition(position: Int): Int {
             var realPosition = 0
             if (getRealItemCount() > 1) {
-                realPosition = position % getRealItemCount()
+                realPosition = (position - SIDE_COUNT) % getRealItemCount()
             }
             if (realPosition < 0) {
                 realPosition += getRealItemCount()
@@ -142,13 +143,12 @@ class HomeBannerLayout(
         }
     }
 
-    class OnPageChangeCallback(
+    inner class OnPageChangeCallback(
         private val infinite: Boolean,
         private val viewPager: ViewPager2,
         private val adapter: HomeBannerAdapter
     ) : ViewPager2.OnPageChangeCallback() {
         private var tempPosition: Int = 0
-
         override fun onPageSelected(position: Int) {
             if (adapter.getRealItemCount() > 1) {
                 tempPosition = position
@@ -160,8 +160,13 @@ class HomeBannerLayout(
             when (state) {
                 ViewPager2.SCROLL_STATE_DRAGGING -> {
                     if (infinite) {
-                        if (tempPosition == adapter.getRealItemCount()) {
-                            viewPager.setCurrentItem(0, false)
+                        if (tempPosition == SIDE_COUNT - 1) {
+                            viewPager.setCurrentItem(
+                                adapter.getRealItemCount() + tempPosition,
+                                false
+                            )
+                        } else if (tempPosition == adapter.getRealItemCount() + SIDE_COUNT) {
+                            viewPager.setCurrentItem(SIDE_COUNT, false)
                         }
                     }
                 }
@@ -208,17 +213,29 @@ class HomeBannerLayout(
 
     override fun onCreate(owner: LifecycleOwner) {
         super.onCreate(owner)
+        startPlay()
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
         super.onDestroy(owner)
+        stopPlay()
     }
 
     override fun onStart(owner: LifecycleOwner) {
         super.onStart(owner)
+        startPlay()
     }
 
     override fun onStop(owner: LifecycleOwner) {
         super.onStop(owner)
+        stopPlay()
+    }
+
+    private fun startPlay() {
+        //postDelayed(bannerRunnable, period)
+    }
+
+    private fun stopPlay() {
+        //removeCallbacks(bannerRunnable)
     }
 }
