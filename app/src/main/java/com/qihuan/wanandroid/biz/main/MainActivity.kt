@@ -34,6 +34,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initView() {
+        binding.vpContent.isUserInputEnabled = false
         binding.vpContent.adapter =
             MainPagerAdapter(
                 this,
