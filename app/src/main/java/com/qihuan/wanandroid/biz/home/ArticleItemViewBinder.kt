@@ -1,10 +1,12 @@
 package com.qihuan.wanandroid.biz.home
 
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.drakeet.multitype.ItemViewBinder
 import com.qihuan.wanandroid.bean.Article
+import com.qihuan.wanandroid.common.ktx.showText
 import com.qihuan.wanandroid.databinding.ItemArticleBinding
 
 /**
@@ -29,7 +31,10 @@ class ArticleItemViewBinder : ItemViewBinder<Article, ArticleItemViewBinder.View
         fun bind(item: Article) {
             binding.apply {
                 // todo 条目信息
-                tvTitle.text = item.title
+                tvTitle.text = Html.fromHtml(item.title, Html.FROM_HTML_MODE_LEGACY)
+                tvDescription.showText(Html.fromHtml(item.desc, Html.FROM_HTML_MODE_LEGACY))
+                tvAuthor.showText(item.author)
+                tvTime.showText(item.niceDate)
             }
         }
     }

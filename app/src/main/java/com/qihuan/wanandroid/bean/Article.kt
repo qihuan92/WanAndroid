@@ -34,5 +34,6 @@ data class Article(
     val shareDate: Long,
     val shareUser: String,
     val tags: List<ArticleTag>,
-    val userId: Int
+    val userId: Int,
+    var isTop: Boolean = false
 ) : Parcelable
