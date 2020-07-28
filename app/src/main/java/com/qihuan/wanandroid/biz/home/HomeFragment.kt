@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.drakeet.multitype.MultiTypeAdapter
 import com.qihuan.wanandroid.R
 import com.qihuan.wanandroid.bean.Article
+import com.qihuan.wanandroid.bean.BannerBean
+import com.qihuan.wanandroid.bean.BannerList
 import com.qihuan.wanandroid.biz.main.TabContainer
 import com.qihuan.wanandroid.common.ktx.viewBinding
 import com.qihuan.wanandroid.databinding.FragmentHomeBinding
@@ -79,8 +81,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             val newItem = newList[newItemPosition]
             return if (oldItem is Article && newItem is Article) {
                 oldItem.id == newItem.id
+            } else if (oldItem is BannerList && newItem is BannerList) {
+                bannerListEqual(oldItem.list, newItem.list)
             } else {
-                false
+                oldItem == newItem
             }
         }
 
@@ -97,8 +101,20 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             val newItem = newList[newItemPosition]
             return if (oldItem is Article && newItem is Article) {
                 oldItem.title == newItem.title
+            } else if (oldItem is BannerList && newItem is BannerList) {
+                bannerListEqual(oldItem.list, newItem.list)
             } else {
-                false
+                oldItem == newItem
+            }
+        }
+
+        private fun bannerListEqual(oldList: List<BannerBean>, newList: List<BannerBean>): Boolean {
+            if (oldList.size != newList.size) {
+                return false
+            }
+            val zip = oldList.zip(newList)
+            return zip.all { (oldItem, newItem) ->
+                oldItem.id == newItem.id
             }
         }
     }
