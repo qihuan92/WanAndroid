@@ -85,6 +85,48 @@ class HomeBannerLayout(
         viewPager.setCurrentItem(SIDE_COUNT, false)
     }
 
+    override fun onStart(owner: LifecycleOwner) {
+        super.onStart(owner)
+        startPlay()
+    }
+
+    override fun onStop(owner: LifecycleOwner) {
+        super.onStop(owner)
+        stopPlay()
+    }
+
+    private fun startPlay() {
+        if (!autoPlay) {
+            return
+        }
+        if (bannerRunnable == null) {
+            bannerRunnable = BannerRunnable()
+        }
+        postDelayed(bannerRunnable, period)
+    }
+
+    private fun stopPlay() {
+        removeCallbacks(bannerRunnable)
+    }
+
+    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+        when (ev?.actionMasked) {
+            MotionEvent.ACTION_DOWN -> {
+                if (autoPlay) {
+                    stopPlay()
+                }
+            }
+            MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL, MotionEvent.ACTION_OUTSIDE -> {
+                if (autoPlay) {
+                    startPlay()
+                }
+            }
+            else -> {
+            }
+        }
+        return super.dispatchTouchEvent(ev)
+    }
+
     class HomeBannerAdapter(
         private val itemList: MutableList<BannerBean> = mutableListOf(),
         private val infinite: Boolean
@@ -213,48 +255,6 @@ class HomeBannerLayout(
                 }
             )
         }
-    }
-
-    override fun onStart(owner: LifecycleOwner) {
-        super.onStart(owner)
-        startPlay()
-    }
-
-    override fun onStop(owner: LifecycleOwner) {
-        super.onStop(owner)
-        stopPlay()
-    }
-
-    private fun startPlay() {
-        if (!autoPlay) {
-            return
-        }
-        if (bannerRunnable == null) {
-            bannerRunnable = BannerRunnable()
-        }
-        postDelayed(bannerRunnable, period)
-    }
-
-    private fun stopPlay() {
-        removeCallbacks(bannerRunnable)
-    }
-
-    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
-        when (ev?.actionMasked) {
-            MotionEvent.ACTION_DOWN -> {
-                if (autoPlay) {
-                    stopPlay()
-                }
-            }
-            MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL, MotionEvent.ACTION_OUTSIDE -> {
-                if (autoPlay) {
-                    startPlay()
-                }
-            }
-            else -> {
-            }
-        }
-        return super.dispatchTouchEvent(ev)
     }
 
     private inner class BannerRunnable : Runnable {
