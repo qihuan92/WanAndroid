@@ -2,6 +2,7 @@ package com.qihuan.wanandroid.biz.home
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
@@ -37,7 +38,10 @@ class HomeBannerLayout(
 
     private lateinit var homeBannerAdapter: HomeBannerAdapter
     private lateinit var viewPager: ViewPager2
-    private var infinite: Boolean = true
+    private var infinite = true
+    private var autoPlay = true
+    private var period = 3000L
+    private var bannerRunnable: BannerRunnable? = null
 
     init {
         initView()
@@ -143,7 +147,7 @@ class HomeBannerLayout(
         }
     }
 
-    inner class OnPageChangeCallback(
+    class OnPageChangeCallback(
         private val infinite: Boolean,
         private val viewPager: ViewPager2,
         private val adapter: HomeBannerAdapter
@@ -211,16 +215,6 @@ class HomeBannerLayout(
         }
     }
 
-    override fun onCreate(owner: LifecycleOwner) {
-        super.onCreate(owner)
-        startPlay()
-    }
-
-    override fun onDestroy(owner: LifecycleOwner) {
-        super.onDestroy(owner)
-        stopPlay()
-    }
-
     override fun onStart(owner: LifecycleOwner) {
         super.onStart(owner)
         startPlay()
@@ -232,10 +226,50 @@ class HomeBannerLayout(
     }
 
     private fun startPlay() {
-        //postDelayed(bannerRunnable, period)
+        if (!autoPlay) {
+            return
+        }
+        if (bannerRunnable == null) {
+            bannerRunnable = BannerRunnable()
+        }
+        postDelayed(bannerRunnable, period)
     }
 
     private fun stopPlay() {
-        //removeCallbacks(bannerRunnable)
+        removeCallbacks(bannerRunnable)
+    }
+
+    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+        when (ev?.actionMasked) {
+            MotionEvent.ACTION_DOWN -> {
+                if (autoPlay) {
+                    stopPlay()
+                }
+            }
+            MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL, MotionEvent.ACTION_OUTSIDE -> {
+                if (autoPlay) {
+                    startPlay()
+                }
+            }
+            else -> {
+            }
+        }
+        return super.dispatchTouchEvent(ev)
+    }
+
+    private inner class BannerRunnable : Runnable {
+        override fun run() {
+            var currentItem = viewPager.currentItem
+            if (currentItem == homeBannerAdapter.getRealItemCount()) {
+                currentItem = 0
+                currentItem += 1
+                viewPager.setCurrentItem(currentItem, false)
+            } else {
+                currentItem += 1
+                viewPager.setCurrentItem(currentItem, true)
+            }
+
+            postDelayed(bannerRunnable, period)
+        }
     }
 }
