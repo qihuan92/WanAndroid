@@ -41,6 +41,13 @@
             app:layout_constraintTop_toBottomOf="@id/tv_title"
             tools:text="描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述" />
 
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="tv_title,tv_description" />
+
         <TextView
             android:id="@+id/tv_author"
             android:layout_width="wrap_content"
@@ -56,14 +63,14 @@
             android:textColor="?android:attr/textColorHint"
             android:textSize="12sp"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_description"
+            app:layout_constraintTop_toBottomOf="@id/barrier_content"
             tools:text="作者作者作者作者作者作者作者作者" />
 
         <TextView
             android:id="@+id/tv_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
             android:drawableStart="@drawable/ic_round_access_time_15"
             android:drawablePadding="2dp"
             android:drawableTint="?android:attr/textColorHint"
@@ -73,9 +80,8 @@
             android:maxLines="1"
             android:textColor="?android:attr/textColorHint"
             android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="@id/tv_author"
             app:layout_constraintLeft_toRightOf="@id/tv_author"
-            app:layout_constraintTop_toTopOf="@id/tv_author"
+            app:layout_constraintTop_toBottomOf="@id/barrier_content"
             tools:text="刚刚" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>
