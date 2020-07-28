@@ -235,6 +235,8 @@ class HomeBannerLayout(
             }
             preventCornerOverlap = false
 
+            radius = 8f.dp.toFloat()
+
             addView(
                 ConstraintLayout(context).apply {
                     id = View.generateViewId()

@@ -23,7 +23,9 @@ class HomeRepository @Inject constructor(private val wanService: WanService) {
     suspend fun getTopArticleList(): List<Article> {
         val resp = wanService.getTopArticles()
         if (resp.isSuccess()) {
-            return resp.data.orEmpty()
+            return resp.data.orEmpty().onEach {
+                it.isTop = true
+            }
         }
         return mutableListOf()
     }
