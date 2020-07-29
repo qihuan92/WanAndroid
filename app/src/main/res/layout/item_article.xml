@@ -15,16 +15,51 @@
         android:layout_height="wrap_content"
         android:padding="10dp">
 
+        <ImageView
+            android:id="@+id/iv_top"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:contentDescription="@string/iv_desc_top_flag"
+            android:src="@drawable/ic_sharp_vertical_align_top_24"
+            android:tint="?attr/colorAccent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Space
+            android:id="@+id/space_top"
+            android:layout_width="5dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/iv_top"
+            app:layout_constraintLeft_toRightOf="@id/iv_top"
+            app:layout_constraintTop_toTopOf="@id/iv_top" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/group_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="iv_top,space_top" />
+
+        <TextView
+            android:id="@+id/tv_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?attr/textAppearanceCaption"
+            android:textColor="?android:attr/textColorPrimary"
+            app:layout_constraintLeft_toRightOf="@id/space_top"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="PS4·神秘海域" />
+
         <TextView
             android:id="@+id/tv_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             android:singleLine="true"
             android:textAppearance="?attr/textAppearanceSubtitle1"
             android:textColor="?android:attr/textColorPrimary"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/barrier_info"
             tools:text="标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题" />
 
         <TextView
@@ -48,6 +83,13 @@
             app:barrierDirection="bottom"
             app:constraint_referenced_ids="tv_title,tv_description" />
 
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="tv_time" />
+
         <TextView
             android:id="@+id/tv_author"
             android:layout_width="wrap_content"
@@ -70,7 +112,6 @@
             android:id="@+id/tv_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
             android:drawableStart="@drawable/ic_round_access_time_15"
             android:drawablePadding="2dp"
             android:drawableTint="?android:attr/textColorHint"
@@ -80,8 +121,17 @@
             android:maxLines="1"
             android:textColor="?android:attr/textColorHint"
             android:textSize="12sp"
-            app:layout_constraintLeft_toRightOf="@id/tv_author"
-            app:layout_constraintTop_toBottomOf="@id/barrier_content"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="刚刚" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/cg_tags"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_author" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>
