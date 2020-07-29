@@ -36,7 +36,6 @@ class ArticleItemViewBinder : ItemViewBinder<Article, ArticleItemViewBinder.View
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Article) {
             binding.apply {
-                // todo 条目信息
                 tvTitle.text = Html.fromHtml(item.title, Html.FROM_HTML_MODE_LEGACY)
                 tvDescription.showText(Html.fromHtml(item.desc, Html.FROM_HTML_MODE_LEGACY))
                 tvAuthor.showText(item.author)
@@ -44,6 +43,23 @@ class ArticleItemViewBinder : ItemViewBinder<Article, ArticleItemViewBinder.View
                 groupTop.isVisible = item.isTop
                 tvCategory.showText("${item.superChapterName}·${item.chapterName}")
                 bindTags(item.tags)
+                if (item.collect) {
+                    btnCollect.setImageResource(R.drawable.ic_round_turned_in_24)
+                } else {
+                    btnCollect.setImageResource(R.drawable.ic_round_turned_in_not_24)
+                }
+
+                btnCollect.setOnClickListener {
+                    // todo 收藏
+                }
+
+                btnShare.setOnClickListener {
+                    // todo 分享
+                }
+
+                itemView.setOnClickListener {
+                    // todo 跳转详情
+                }
             }
         }
 

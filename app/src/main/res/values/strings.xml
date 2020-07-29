@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">玩安卓</string>
     <string name="iv_desc_top_flag">置顶标志</string>
+    <string name="iv_desc_collect_button">收藏按钮</string>
 </resources>
