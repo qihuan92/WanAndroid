@@ -1,11 +1,17 @@
 package com.qihuan.wanandroid.biz.home
 
+import android.graphics.Color
 import android.text.Html
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.drakeet.multitype.ItemViewBinder
+import com.google.android.material.chip.Chip
+import com.qihuan.wanandroid.R
 import com.qihuan.wanandroid.bean.Article
+import com.qihuan.wanandroid.bean.ArticleTag
+import com.qihuan.wanandroid.common.ktx.dp
 import com.qihuan.wanandroid.common.ktx.showText
 import com.qihuan.wanandroid.databinding.ItemArticleBinding
 
@@ -35,6 +41,36 @@ class ArticleItemViewBinder : ItemViewBinder<Article, ArticleItemViewBinder.View
                 tvDescription.showText(Html.fromHtml(item.desc, Html.FROM_HTML_MODE_LEGACY))
                 tvAuthor.showText(item.author)
                 tvTime.showText(item.niceDate)
+                groupTop.isVisible = item.isTop
+                tvCategory.showText("${item.superChapterName}·${item.chapterName}")
+                bindTags(item.tags)
+            }
+        }
+
+        private fun bindTags(tags: List<ArticleTag>) {
+            binding.apply {
+                cgTags.removeAllViews()
+                for (tag in tags) {
+                    val chip = Chip(cgTags.context).apply {
+                        layoutParams = ViewGroup.LayoutParams(
+                            ViewGroup.LayoutParams.WRAP_CONTENT, 20f.dp
+                        )
+                        setChipBackgroundColorResource(R.color.colorAccent)
+                        setEnsureMinTouchTargetSize(false)
+                        ensureAccessibleTouchTarget(0)
+                        setPadding(paddingLeft, 0, paddingRight, 0)
+                        chipStartPadding = 0f
+                        chipEndPadding = 0f
+                        isCheckable = false
+                        text = tag.name
+                        textSize = 12f
+                        setTextColor(Color.WHITE)
+                    }
+                    chip.setOnClickListener {
+                        // todo 跳转分类列表
+                    }
+                    cgTags.addView(chip)
+                }
             }
         }
     }
