@@ -11,6 +11,7 @@ import android.widget.ImageView
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.view.setMargins
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
@@ -18,6 +19,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.qihuan.wanandroid.bean.BannerBean
 import com.qihuan.wanandroid.common.ktx.dp
 import com.qihuan.wanandroid.common.ktx.load
+import com.qihuan.wanandroid.widget.IndicatorLayout
 
 /**
  * BannerLayout
@@ -38,6 +40,7 @@ class HomeBannerLayout(
 
     private lateinit var homeBannerAdapter: HomeBannerAdapter
     private lateinit var viewPager: ViewPager2
+    private lateinit var indicatorLayout: IndicatorLayout
     private var infinite = true
     private var autoPlay = true
     private var period = 3000L
@@ -51,6 +54,7 @@ class HomeBannerLayout(
         id = View.generateViewId()
         layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
         initViewPager()
+        initIndicator()
         setUpView()
     }
 
@@ -71,18 +75,45 @@ class HomeBannerLayout(
         set.applyTo(this)
     }
 
+    private fun initIndicator() {
+        indicatorLayout = IndicatorLayout(context).apply {
+            id = View.generateViewId()
+            layoutParams = LayoutParams(WRAP_CONTENT, WRAP_CONTENT).apply {
+                setMargins(15f.dp)
+            }
+        }
+        addView(indicatorLayout)
+
+        val set = ConstraintSet()
+        set.clone(this)
+        //set.connect(dotsIndicator.id, ConstraintSet.TOP, viewPager.id, ConstraintSet.BOTTOM)
+        set.connect(indicatorLayout.id, ConstraintSet.BOTTOM, viewPager.id, ConstraintSet.BOTTOM)
+        set.connect(indicatorLayout.id, ConstraintSet.LEFT, id, ConstraintSet.LEFT)
+        set.connect(indicatorLayout.id, ConstraintSet.RIGHT, id, ConstraintSet.RIGHT)
+        set.applyTo(this)
+    }
+
     private fun setUpView() {
         homeBannerAdapter = HomeBannerAdapter(infinite = infinite)
 
         viewPager.apply {
             adapter = homeBannerAdapter
-            registerOnPageChangeCallback(OnPageChangeCallback(infinite, this, homeBannerAdapter))
+            registerOnPageChangeCallback(
+                OnPageChangeCallback(
+                    infinite,
+                    this,
+                    homeBannerAdapter,
+                    indicatorLayout
+                )
+            )
         }
     }
 
     fun setData(bannerList: List<BannerBean>) {
         homeBannerAdapter.setData(bannerList)
         viewPager.setCurrentItem(SIDE_COUNT, false)
+
+        indicatorLayout.refresh(totalSize = bannerList.size)
     }
 
     override fun onStart(owner: LifecycleOwner) {
@@ -171,7 +202,7 @@ class HomeBannerLayout(
             }
         }
 
-        private fun getRealPosition(position: Int): Int {
+        fun getRealPosition(position: Int): Int {
             var realPosition = 0
             if (getRealItemCount() > 1) {
                 realPosition = (position - SIDE_COUNT) % getRealItemCount()
@@ -192,13 +223,15 @@ class HomeBannerLayout(
     class OnPageChangeCallback(
         private val infinite: Boolean,
         private val viewPager: ViewPager2,
-        private val adapter: HomeBannerAdapter
+        private val adapter: HomeBannerAdapter,
+        private val indicatorLayout: IndicatorLayout? = null
     ) : ViewPager2.OnPageChangeCallback() {
         private var tempPosition: Int = 0
         override fun onPageSelected(position: Int) {
             if (adapter.getRealItemCount() > 1) {
                 tempPosition = position
             }
+            indicatorLayout?.setSelectedPosition(adapter.getRealPosition(position))
         }
 
         override fun onPageScrollStateChanged(state: Int) {
