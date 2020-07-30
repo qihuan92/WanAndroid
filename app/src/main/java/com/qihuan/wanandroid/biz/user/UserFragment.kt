@@ -2,7 +2,7 @@ package com.qihuan.wanandroid.biz.user
 
 import androidx.fragment.app.Fragment
 import com.qihuan.wanandroid.R
-import com.qihuan.wanandroid.biz.main.TabContainer
+import com.qihuan.wanandroid.widget.TabContainer
 
 /**
  * UserFragment
