@@ -13,10 +13,10 @@ import com.qihuan.wanandroid.R
 import com.qihuan.wanandroid.bean.Article
 import com.qihuan.wanandroid.bean.BannerBean
 import com.qihuan.wanandroid.bean.BannerList
-import com.qihuan.wanandroid.biz.main.TabContainer
 import com.qihuan.wanandroid.common.ktx.viewBinding
 import com.qihuan.wanandroid.databinding.FragmentHomeBinding
 import com.qihuan.wanandroid.utils.LoadMoreDelegate
+import com.qihuan.wanandroid.widget.TabContainer
 import dagger.hilt.android.AndroidEntryPoint
 
 /**

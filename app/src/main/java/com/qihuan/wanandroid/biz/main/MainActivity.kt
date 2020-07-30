@@ -1,64 +1,43 @@
 package com.qihuan.wanandroid.biz.main
 
+import android.graphics.Color
 import android.os.Bundle
+import android.view.View
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
-import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.google.android.material.tabs.TabLayoutMediator
+import androidx.fragment.app.commit
+import com.qihuan.wanandroid.R
 import com.qihuan.wanandroid.biz.home.HomeFragment
-import com.qihuan.wanandroid.biz.knowledge.KnowledgeHierarchyFragment
-import com.qihuan.wanandroid.biz.project.ProjectFragment
-import com.qihuan.wanandroid.biz.user.UserFragment
 import com.qihuan.wanandroid.common.ktx.viewBinding
 import com.qihuan.wanandroid.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
+
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private val binding by viewBinding(ActivityMainBinding::inflate)
-    private val tabList: List<TabContainer> by lazy {
-        listOf(
-            HomeFragment.Tab(),
-            KnowledgeHierarchyFragment.Tab(),
-            ProjectFragment.Tab(),
-            UserFragment.Tab()
-        )
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        initStatusBar()
         setContentView(binding.root)
         initView()
     }
 
-    private fun initView() {
-        binding.vpContent.isUserInputEnabled = false
-        binding.vpContent.adapter =
-            MainPagerAdapter(
-                this,
-                tabList
-            )
-        TabLayoutMediator(
-            binding.tabLayout,
-            binding.vpContent,
-            TabLayoutMediator.TabConfigurationStrategy { tab, position ->
-                tab.setIcon(tabList[position].icon())
-            }).attach()
+    private fun initStatusBar() {
+        window.apply {
+            clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+            decorView.systemUiVisibility =
+                (View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE)
+            addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            statusBarColor = Color.TRANSPARENT
+        }
     }
 
-    class MainPagerAdapter(
-        fa: FragmentActivity,
-        private val tabList: List<TabContainer>
-    ) : FragmentStateAdapter(fa) {
-
-        override fun getItemCount(): Int {
-            return tabList.size
-        }
-
-        override fun createFragment(position: Int): Fragment {
-            return tabList[position].createFragment()
+    private fun initView() {
+        supportFragmentManager.commit {
+            add(R.id.layout_content, HomeFragment())
         }
     }
 }
