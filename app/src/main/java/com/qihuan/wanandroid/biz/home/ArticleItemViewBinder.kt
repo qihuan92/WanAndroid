@@ -12,6 +12,7 @@ import com.qihuan.wanandroid.R
 import com.qihuan.wanandroid.bean.Article
 import com.qihuan.wanandroid.bean.ArticleTag
 import com.qihuan.wanandroid.common.ktx.dp
+import com.qihuan.wanandroid.common.ktx.openBrowser
 import com.qihuan.wanandroid.common.ktx.showText
 import com.qihuan.wanandroid.databinding.ItemArticleBinding
 
@@ -58,7 +59,7 @@ class ArticleItemViewBinder : ItemViewBinder<Article, ArticleItemViewBinder.View
                 }
 
                 itemView.setOnClickListener {
-                    // todo 跳转详情
+                    it.openBrowser(item.link)
                 }
             }
         }

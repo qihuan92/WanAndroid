@@ -19,7 +19,9 @@ import androidx.viewpager2.widget.ViewPager2
 import com.qihuan.wanandroid.bean.BannerBean
 import com.qihuan.wanandroid.common.ktx.dp
 import com.qihuan.wanandroid.common.ktx.load
+import com.qihuan.wanandroid.common.ktx.openBrowser
 import com.qihuan.wanandroid.widget.IndicatorLayout
+
 
 /**
  * BannerLayout
@@ -41,6 +43,7 @@ class HomeBannerLayout(
     private lateinit var homeBannerAdapter: HomeBannerAdapter
     private lateinit var viewPager: ViewPager2
     private lateinit var indicatorLayout: IndicatorLayout
+    private var onItemOnClickListener: ((View) -> Unit)? = null
     private var infinite = true
     private var autoPlay = true
     private var period = 3000L
@@ -94,7 +97,10 @@ class HomeBannerLayout(
     }
 
     private fun setUpView() {
-        homeBannerAdapter = HomeBannerAdapter(infinite = infinite)
+        homeBannerAdapter = HomeBannerAdapter(
+            infinite = infinite,
+            onItemOnClickListener = onItemOnClickListener
+        )
 
         viewPager.apply {
             adapter = homeBannerAdapter
@@ -114,6 +120,10 @@ class HomeBannerLayout(
         viewPager.setCurrentItem(SIDE_COUNT, false)
 
         indicatorLayout.refresh(totalSize = bannerList.size)
+    }
+
+    fun setOnItemClickListener(onItemOnClickListener: (View) -> Unit) {
+        this.onItemOnClickListener = onItemOnClickListener
     }
 
     override fun onStart(owner: LifecycleOwner) {
@@ -160,7 +170,8 @@ class HomeBannerLayout(
 
     class HomeBannerAdapter(
         private val itemList: MutableList<BannerBean> = mutableListOf(),
-        private val infinite: Boolean
+        private val infinite: Boolean,
+        private val onItemOnClickListener: ((View) -> Unit)? = null
     ) : RecyclerView.Adapter<HomeBannerAdapter.ViewHolder>() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -176,6 +187,13 @@ class HomeBannerLayout(
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             val data = itemList[getRealPosition(position)]
             holder.bind(data)
+            holder.itemView.setOnClickListener {
+                if (onItemOnClickListener != null) {
+                    onItemOnClickListener.invoke(it)
+                } else {
+                    holder.itemView.openBrowser(data.url)
+                }
+            }
         }
 
         fun setData(bannerList: List<BannerBean>) {
