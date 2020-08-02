@@ -3,11 +3,11 @@ package com.qihuan.wanandroid.biz.main
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
-import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
 import com.qihuan.wanandroid.R
 import com.qihuan.wanandroid.biz.home.HomeFragment
+import com.qihuan.wanandroid.common.ktx.isDarkTheme
 import com.qihuan.wanandroid.common.ktx.viewBinding
 import com.qihuan.wanandroid.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,17 +27,21 @@ class MainActivity : AppCompatActivity() {
 
     private fun initStatusBar() {
         window.apply {
-            clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-            decorView.systemUiVisibility =
-                (View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE)
-            addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
             statusBarColor = Color.TRANSPARENT
+            if (isDarkTheme()) {
+                decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
+            } else {
+                decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+            }
         }
     }
 
     private fun initView() {
         supportFragmentManager.commit {
-            add(R.id.layout_content, HomeFragment())
+            replace(R.id.layout_content, obtainViewFragment())
         }
     }
+
+    private fun obtainViewFragment() =
+        supportFragmentManager.findFragmentById(R.id.layout_content) ?: HomeFragment()
 }
