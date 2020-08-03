@@ -44,6 +44,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         binding.apply {
             rvList.layoutManager = LinearLayoutManager(context)
+//            rvList.addItemDecoration(RecyclerViewItemDecoration.Builder(context)
+//                .paddingStart(15f.dp)
+//                .thickness(1f.dp)
+//                .color(ContextCompat.getColor(context, android.R.attr.dividerVertical))
+//                .ignoreTypes(0)
+//                .create())
             rvList.itemAnimator = DefaultItemAnimator()
             rvList.adapter = adapter
             refreshLayout.setColorSchemeResources(
