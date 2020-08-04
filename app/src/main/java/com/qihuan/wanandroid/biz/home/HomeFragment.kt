@@ -2,6 +2,7 @@ package com.qihuan.wanandroid.biz.home
 
 import android.os.Bundle
 import android.view.View
+import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -13,9 +14,11 @@ import com.qihuan.wanandroid.R
 import com.qihuan.wanandroid.bean.Article
 import com.qihuan.wanandroid.bean.BannerBean
 import com.qihuan.wanandroid.bean.BannerList
+import com.qihuan.wanandroid.common.ktx.dp
 import com.qihuan.wanandroid.common.ktx.viewBinding
 import com.qihuan.wanandroid.databinding.FragmentHomeBinding
 import com.qihuan.wanandroid.utils.LoadMoreDelegate
+import com.qihuan.wanandroid.widget.MultiTypeDividerItemDecoration
 import com.qihuan.wanandroid.widget.TabContainer
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -44,12 +47,16 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         binding.apply {
             rvList.layoutManager = LinearLayoutManager(context)
-//            rvList.addItemDecoration(RecyclerViewItemDecoration.Builder(context)
-//                .paddingStart(15f.dp)
-//                .thickness(1f.dp)
-//                .color(ContextCompat.getColor(context, android.R.attr.dividerVertical))
-//                .ignoreTypes(0)
-//                .create())
+            rvList.addItemDecoration(
+                MultiTypeDividerItemDecoration(
+                    context,
+                    LinearLayout.VERTICAL,
+                    15f.dp,
+                    15f.dp,
+                    adapter,
+                    arrayOf(Article::class.java)
+                )
+            )
             rvList.itemAnimator = DefaultItemAnimator()
             rvList.adapter = adapter
             refreshLayout.setColorSchemeResources(
