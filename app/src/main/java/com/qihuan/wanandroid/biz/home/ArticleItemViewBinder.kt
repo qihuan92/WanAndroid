@@ -1,5 +1,6 @@
 package com.qihuan.wanandroid.biz.home
 
+import android.content.Context
 import android.graphics.Color
 import android.text.Html
 import android.view.LayoutInflater
@@ -54,10 +55,6 @@ class ArticleItemViewBinder : ItemViewBinder<Article, ArticleItemViewBinder.View
                     // todo 收藏
                 }
 
-                btnShare.setOnClickListener {
-                    // todo 分享
-                }
-
                 itemView.setOnClickListener {
                     it.openBrowser(item.link)
                 }
@@ -68,27 +65,31 @@ class ArticleItemViewBinder : ItemViewBinder<Article, ArticleItemViewBinder.View
             binding.apply {
                 cgTags.removeAllViews()
                 for (tag in tags) {
-                    val chip = Chip(cgTags.context).apply {
-                        layoutParams = ViewGroup.LayoutParams(
-                            ViewGroup.LayoutParams.WRAP_CONTENT, 20f.dp
-                        )
-                        setChipBackgroundColorResource(R.color.colorAccent)
-                        setEnsureMinTouchTargetSize(false)
-                        ensureAccessibleTouchTarget(0)
-                        setPadding(paddingLeft, 0, paddingRight, 0)
-                        chipStartPadding = 0f
-                        chipEndPadding = 0f
-                        isCheckable = false
-                        text = tag.name
-                        textSize = 12f
-                        setTextColor(Color.WHITE)
-                    }
-                    chip.setOnClickListener {
-                        // todo 跳转分类列表
-                    }
-                    cgTags.addView(chip)
+                    cgTags.addView(tagView(cgTags.context, tag))
                 }
             }
+        }
+
+        private fun tagView(context: Context, tag: ArticleTag): Chip {
+            val chip = Chip(context).apply {
+                layoutParams = ViewGroup.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT, 20f.dp
+                )
+                setChipBackgroundColorResource(R.color.colorAccent)
+                setEnsureMinTouchTargetSize(false)
+                ensureAccessibleTouchTarget(0)
+                setPadding(paddingLeft, 0, paddingRight, 0)
+                chipStartPadding = 0f
+                chipEndPadding = 0f
+                isCheckable = false
+                text = tag.name
+                textSize = 12f
+                setTextColor(Color.WHITE)
+            }
+            chip.setOnClickListener {
+                // todo 跳转分类列表
+            }
+            return chip
         }
     }
 }
