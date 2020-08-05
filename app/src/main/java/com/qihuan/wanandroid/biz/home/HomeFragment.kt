@@ -59,14 +59,21 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             )
             rvList.itemAnimator = DefaultItemAnimator()
             rvList.adapter = adapter
-            refreshLayout.setColorSchemeResources(
-                R.color.colorPrimary,
-                R.color.colorPrimaryDark,
-                R.color.colorAccent
-            )
-            refreshLayout.setOnRefreshListener {
-                viewModel.refresh()
+
+            refreshLayout.apply {
+                setProgressViewOffset(true, 50f.dp, 100f.dp)
+
+                setColorSchemeResources(
+                    R.color.colorPrimary,
+                    R.color.colorPrimaryDark,
+                    R.color.colorAccent
+                )
+
+                setOnRefreshListener {
+                    viewModel.refresh()
+                }
             }
+
             LoadMoreDelegate(
                 isLoading = { return@LoadMoreDelegate viewModel.isLoading.get() },
                 onLoadMore = { viewModel.loadMore() }
@@ -132,6 +139,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
     }
 
+    @Suppress("unused")
     class Tab : TabContainer {
         override fun title(): String {
             return "首页"
