@@ -9,18 +9,21 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.drakeet.multitype.MultiTypeAdapter
 import com.qihuan.wanandroid.R
 import com.qihuan.wanandroid.bean.Article
 import com.qihuan.wanandroid.bean.BannerBean
 import com.qihuan.wanandroid.bean.BannerList
 import com.qihuan.wanandroid.common.ktx.dp
+import com.qihuan.wanandroid.common.ktx.hideInvisible
 import com.qihuan.wanandroid.common.ktx.viewBinding
 import com.qihuan.wanandroid.databinding.FragmentHomeBinding
 import com.qihuan.wanandroid.utils.LoadMoreDelegate
 import com.qihuan.wanandroid.widget.MultiTypeDividerItemDecoration
 import com.qihuan.wanandroid.widget.TabContainer
 import dagger.hilt.android.AndroidEntryPoint
+
 
 /**
  * HomeFragment
@@ -46,7 +49,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         adapter.register(ArticleItemViewBinder())
 
         binding.apply {
-            rvList.layoutManager = LinearLayoutManager(context)
+            val layoutManager = LinearLayoutManager(context)
+            rvList.layoutManager = layoutManager
             rvList.addItemDecoration(
                 MultiTypeDividerItemDecoration(
                     context,
@@ -59,6 +63,14 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             )
             rvList.itemAnimator = DefaultItemAnimator()
             rvList.adapter = adapter
+            rvList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+                    if (layoutManager.findFirstCompletelyVisibleItemPosition() == 0) {
+                        fabTop.hideInvisible()
+                    }
+                }
+            })
 
             refreshLayout.apply {
                 setProgressViewOffset(true, 50f.dp, 100f.dp)
@@ -78,6 +90,15 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 isLoading = { return@LoadMoreDelegate viewModel.isLoading.get() },
                 onLoadMore = { viewModel.loadMore() }
             ).attach(rvList)
+
+            fabTop.setOnClickListener {
+                val threshold = 50
+                if (adapter.itemCount <= threshold) {
+                    rvList.smoothScrollToPosition(0)
+                } else {
+                    layoutManager.scrollToPositionWithOffset(0, 0)
+                }
+            }
         }
     }
 
