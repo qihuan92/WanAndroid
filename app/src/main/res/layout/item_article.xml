@@ -47,11 +47,12 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:singleLine="true"
+        android:ellipsize="end"
+        android:maxLines="2"
         android:textAppearance="?attr/textAppearanceSubtitle1"
         android:textColor="?android:attr/textColorPrimary"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/btn_collect"
         app:layout_constraintTop_toBottomOf="@id/barrier_info"
         tools:text="标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题" />
 
@@ -65,9 +66,9 @@
         android:textAppearance="?attr/textAppearanceBody2"
         android:textColor="?android:attr/textColorSecondary"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/btn_collect"
         app:layout_constraintTop_toBottomOf="@id/tv_title"
-        tools:text="描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述" />
+        tools:text="描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述" />
 
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/barrier_content"
@@ -123,16 +124,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
+        app:chipSpacingVertical="5dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/btn_collect"
         app:layout_constraintTop_toBottomOf="@id/tv_author" />
-
-    <androidx.constraintlayout.widget.Barrier
-        android:id="@+id/barrier_time_tags"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:barrierDirection="bottom"
-        app:constraint_referenced_ids="tv_time,cg_tags" />
 
     <ImageView
         android:id="@+id/btn_collect"
@@ -141,17 +136,8 @@
         android:layout_marginEnd="10dp"
         android:background="?android:attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/iv_desc_collect_button"
-        app:layout_constraintRight_toLeftOf="@id/btn_share"
-        app:layout_constraintTop_toBottomOf="@id/barrier_time_tags"
-        tools:src="@drawable/ic_round_turned_in_not_24" />
-
-    <ImageView
-        android:id="@+id/btn_share"
-        android:layout_width="22dp"
-        android:layout_height="22dp"
-        android:background="?android:attr/selectableItemBackgroundBorderless"
-        android:contentDescription="@string/iv_desc_collect_button"
-        android:src="@drawable/ic_round_share_24"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/barrier_time_tags" />
+        app:layout_constraintTop_toBottomOf="@id/tv_author"
+        tools:src="@drawable/ic_round_turned_in_not_24" />
 </androidx.constraintlayout.widget.ConstraintLayout>
