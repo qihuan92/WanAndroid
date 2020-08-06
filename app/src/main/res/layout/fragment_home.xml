@@ -29,10 +29,13 @@
         app:liftOnScroll="true">
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/layout_search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="15dp"
             android:layout_marginVertical="5dp"
+            android:background="?android:selectableItemBackground"
+            android:transitionName="@string/transition_name_search"
             app:cardCornerRadius="8dp"
             app:cardElevation="4dp"
             app:layout_scrollFlags="scroll|enterAlways">

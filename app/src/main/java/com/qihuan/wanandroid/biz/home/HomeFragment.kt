@@ -1,5 +1,7 @@
 package com.qihuan.wanandroid.biz.home
 
+import android.app.ActivityOptions
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
@@ -15,6 +17,7 @@ import com.qihuan.wanandroid.R
 import com.qihuan.wanandroid.bean.Article
 import com.qihuan.wanandroid.bean.BannerBean
 import com.qihuan.wanandroid.bean.BannerList
+import com.qihuan.wanandroid.biz.main.SearchActivity
 import com.qihuan.wanandroid.common.ktx.dp
 import com.qihuan.wanandroid.common.ktx.hideInvisible
 import com.qihuan.wanandroid.common.ktx.viewBinding
@@ -98,6 +101,17 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 } else {
                     layoutManager.scrollToPositionWithOffset(0, 0)
                 }
+            }
+
+            layoutSearch.setOnClickListener {
+                startActivity(
+                    Intent(context, SearchActivity::class.java),
+                    ActivityOptions.makeSceneTransitionAnimation(
+                        activity,
+                        binding.layoutSearch,
+                        getString(R.string.transition_name_search)
+                    ).toBundle()
+                )
             }
         }
     }
