@@ -27,6 +27,10 @@
         <activity
             android:name=".biz.main.MainActivity"
             android:launchMode="singleTask" />
+
+        <activity
+            android:name=".biz.main.SearchActivity"
+            android:windowSoftInputMode="stateVisible" />
     </application>
 
 </manifest>
