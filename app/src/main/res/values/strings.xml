@@ -4,4 +4,5 @@
     <string name="iv_desc_collect_button">收藏按钮</string>
     <string name="main_search_hint">搜索感兴趣的内容</string>
     <string name="iv_desc_user_head">用户头像</string>
+    <string name="iv_desc_article_pic">文章图片预览</string>
 </resources>

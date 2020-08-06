@@ -1,7 +1,9 @@
 package com.qihuan.wanandroid.common.ktx
 
+import android.graphics.Outline
 import android.util.TypedValue
 import android.view.View
+import android.view.ViewOutlineProvider
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 fun View.openBrowser(url: String, title: String = url) {
@@ -25,4 +27,22 @@ fun FloatingActionButton.hideInvisible() {
             fab?.visibility = View.INVISIBLE
         }
     })
+}
+
+fun View.clipRound(radius: Int = 5f.dp) {
+    outlineProvider = object : ViewOutlineProvider() {
+        override fun getOutline(view: View, outline: Outline?) {
+            outline?.setRoundRect(0, 0, view.width, view.height, radius.toFloat())
+        }
+    }
+    clipToOutline = true
+}
+
+fun View.clipCircle() {
+    outlineProvider = object : ViewOutlineProvider() {
+        override fun getOutline(view: View, outline: Outline?) {
+            outline?.setOval(0, 0, view.width, view.height)
+        }
+    }
+    clipToOutline = true
 }
