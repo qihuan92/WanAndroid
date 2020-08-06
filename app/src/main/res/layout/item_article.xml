@@ -42,6 +42,18 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="PS4·神秘海域" />
 
+    <ImageView
+        android:id="@+id/iv_pic"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:contentDescription="@string/iv_desc_article_pic"
+        app:layout_constraintDimensionRatio="H,16:9"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_time"
+        tools:src="@color/colorPrimary" />
+
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="0dp"
@@ -52,7 +64,6 @@
         android:textAppearance="?attr/textAppearanceSubtitle1"
         android:textColor="?android:attr/textColorPrimary"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/btn_collect"
         app:layout_constraintTop_toBottomOf="@id/barrier_info"
         tools:text="标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题" />
 
@@ -66,7 +77,6 @@
         android:textAppearance="?attr/textAppearanceBody2"
         android:textColor="?android:attr/textColorSecondary"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/btn_collect"
         app:layout_constraintTop_toBottomOf="@id/tv_title"
         tools:text="描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述" />
 
@@ -82,7 +92,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:barrierDirection="bottom"
-        app:constraint_referenced_ids="tv_time" />
+        app:constraint_referenced_ids="tv_time,iv_pic" />
 
     <TextView
         android:id="@+id/tv_author"
@@ -133,6 +143,7 @@
         android:id="@+id/btn_collect"
         android:layout_width="24dp"
         android:layout_height="24dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
         android:background="?android:attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/iv_desc_collect_button"

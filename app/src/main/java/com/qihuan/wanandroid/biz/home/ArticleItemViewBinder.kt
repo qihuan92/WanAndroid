@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.text.Html
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.drakeet.multitype.ItemViewBinder
@@ -12,9 +13,7 @@ import com.google.android.material.chip.Chip
 import com.qihuan.wanandroid.R
 import com.qihuan.wanandroid.bean.Article
 import com.qihuan.wanandroid.bean.ArticleTag
-import com.qihuan.wanandroid.common.ktx.dp
-import com.qihuan.wanandroid.common.ktx.openBrowser
-import com.qihuan.wanandroid.common.ktx.showText
+import com.qihuan.wanandroid.common.ktx.*
 import com.qihuan.wanandroid.databinding.ItemArticleBinding
 
 /**
@@ -38,6 +37,14 @@ class ArticleItemViewBinder : ItemViewBinder<Article, ArticleItemViewBinder.View
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Article) {
             binding.apply {
+                ivPic.clipRound()
+                if (item.envelopePic.isNotBlank()) {
+                    ivPic.isGone = false
+                    ivPic.load(url = item.envelopePic)
+                } else {
+                    ivPic.isGone = true
+                }
+
                 tvTitle.text = Html.fromHtml(item.title, Html.FROM_HTML_MODE_LEGACY)
                 tvDescription.showText(Html.fromHtml(item.desc, Html.FROM_HTML_MODE_LEGACY))
                 tvAuthor.showText(item.author)
