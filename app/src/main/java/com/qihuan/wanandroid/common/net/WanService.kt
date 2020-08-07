@@ -63,7 +63,7 @@ interface WanService {
 
     @FormUrlEncoded
     @POST("/article/query/{page}/json")
-    suspend fun searchHot(
+    suspend fun search(
         @Path("page") page: Int,
         @Field("k") key: String
     ): WanResponse<WanPage<Article>>

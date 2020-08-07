@@ -58,6 +58,7 @@ class SearchActivity : AppCompatActivity() {
                         SearchRecommendFragmentDirections.actionSearchRecommendFragmentToSearchResultFragment()
                     )
                 }
+                viewModel.searchEvent.call()
             }
             return@setOnEditorActionListener false
         }
