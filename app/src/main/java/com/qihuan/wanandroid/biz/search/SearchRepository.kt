@@ -1,5 +1,6 @@
 package com.qihuan.wanandroid.biz.search
 
+import com.qihuan.wanandroid.bean.Article
 import com.qihuan.wanandroid.bean.SearchKey
 import com.qihuan.wanandroid.common.net.WanService
 import javax.inject.Inject
@@ -20,5 +21,13 @@ class SearchRepository @Inject constructor(private val service: WanService) {
 
     suspend fun getHistoryKey() {
         // todo 获取搜索历史
+    }
+
+    suspend fun getSearchResult(page: Int = 0, searchText: String): List<Article> {
+        val resp = service.search(page, searchText)
+        if (resp.isSuccess()) {
+            return resp.data?.datas.orEmpty()
+        }
+        return emptyList()
     }
 }
