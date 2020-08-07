@@ -17,7 +17,7 @@ import com.qihuan.wanandroid.R
 import com.qihuan.wanandroid.bean.Article
 import com.qihuan.wanandroid.bean.BannerBean
 import com.qihuan.wanandroid.bean.BannerList
-import com.qihuan.wanandroid.biz.main.SearchActivity
+import com.qihuan.wanandroid.biz.search.SearchActivity
 import com.qihuan.wanandroid.common.ktx.dp
 import com.qihuan.wanandroid.common.ktx.hideInvisible
 import com.qihuan.wanandroid.common.ktx.viewBinding

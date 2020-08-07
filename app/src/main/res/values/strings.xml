@@ -7,4 +7,6 @@
     <string name="iv_desc_article_pic">文章图片预览</string>
     <string name="back">返回</string>
     <string name="transition_name_search">search_view</string>
+    <string name="hot_search">热门搜索</string>
+    <string name="history_search">历史搜索</string>
 </resources>
