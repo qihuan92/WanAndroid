@@ -56,10 +56,10 @@ interface WanService {
     ): WanResponse<WanPage<Article>>
 
     @GET("/friend/json")
-    suspend fun getWebsites(): WanResponse<List<Hot>>
+    suspend fun getWebsites(): WanResponse<List<SearchKey>>
 
     @GET("/hotkey/json")
-    suspend fun getHot(): WanResponse<List<Hot>>
+    suspend fun hotKey(): WanResponse<List<SearchKey>>
 
     @FormUrlEncoded
     @POST("/article/query/{page}/json")

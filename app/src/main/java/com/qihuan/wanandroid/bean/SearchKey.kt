@@ -1,6 +1,6 @@
 package com.qihuan.wanandroid.bean
 
-data class Hot(
+data class SearchKey(
     val id: Int,
     val link: String,
     val name: String,
