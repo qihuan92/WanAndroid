@@ -12,17 +12,16 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.drakeet.multitype.MultiTypeAdapter
 import com.qihuan.wanandroid.R
 import com.qihuan.wanandroid.bean.Article
 import com.qihuan.wanandroid.bean.BannerBean
 import com.qihuan.wanandroid.bean.BannerList
 import com.qihuan.wanandroid.biz.search.SearchActivity
+import com.qihuan.wanandroid.common.adapter.PageMultiTypeAdapter
 import com.qihuan.wanandroid.common.ktx.dp
 import com.qihuan.wanandroid.common.ktx.hideInvisible
 import com.qihuan.wanandroid.common.ktx.viewBinding
 import com.qihuan.wanandroid.databinding.FragmentHomeBinding
-import com.qihuan.wanandroid.utils.LoadMoreDelegate
 import com.qihuan.wanandroid.widget.MultiTypeDividerItemDecoration
 import com.qihuan.wanandroid.widget.TabContainer
 import dagger.hilt.android.AndroidEntryPoint
@@ -38,7 +37,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private val binding by viewBinding(FragmentHomeBinding::bind)
     private val viewModel: HomeViewModel by viewModels()
-    private lateinit var adapter: MultiTypeAdapter
+    private lateinit var adapter: PageMultiTypeAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -47,7 +46,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun initView() {
-        adapter = MultiTypeAdapter()
+        adapter = PageMultiTypeAdapter()
         adapter.register(HomeBannerViewDelegate(this))
         adapter.register(ArticleItemViewBinder())
 
@@ -89,10 +88,14 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 }
             }
 
-            LoadMoreDelegate(
-                isLoading = { return@LoadMoreDelegate viewModel.isLoading.get() },
-                onLoadMore = { viewModel.loadMore() }
-            ).attach(rvList)
+//            LoadMoreDelegate(
+//                isLoading = { return@LoadMoreDelegate viewModel.isLoading.get() },
+//                onLoadMore = { viewModel.loadMore() }
+//            ).attach(rvList)
+
+            adapter.setOnLoadMoreListener {
+                viewModel.loadMore()
+            }
 
             fabTop.setOnClickListener {
                 val threshold = 50
@@ -122,6 +125,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             if (binding.refreshLayout.isRefreshing) {
                 binding.refreshLayout.isRefreshing = false
             }
+            adapter.loadMoreComplete()
             DiffUtil.calculateDiff(ItemDiffCallback(oldList, newList)).dispatchUpdatesTo(adapter)
             adapter.items = newList
         })

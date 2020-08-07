@@ -30,6 +30,9 @@ public class MultiTypeDividerItemDecoration extends DividerItemDecoration {
 
     @Override
     protected boolean showDivider(int position) {
+        if (position < 0) {
+            return false;
+        }
         if (adapter == null || dividerClasses == null) {
             return true;
         }
