@@ -88,11 +88,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 }
             }
 
-//            LoadMoreDelegate(
-//                isLoading = { return@LoadMoreDelegate viewModel.isLoading.get() },
-//                onLoadMore = { viewModel.loadMore() }
-//            ).attach(rvList)
-
             adapter.setOnLoadMoreListener {
                 viewModel.loadMore()
             }

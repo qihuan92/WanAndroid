@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.properties.Delegates
 
 /**
@@ -16,7 +15,6 @@ import kotlin.properties.Delegates
 class HomeViewModel @ViewModelInject constructor(
     private val repository: HomeRepository
 ) : ViewModel() {
-    var isLoading: AtomicBoolean = AtomicBoolean(false)
     val listLiveData = MutableLiveData<ChangeList<Any>>(ChangeList())
     private var list by Delegates.observable(mutableListOf<Any>()) { _, oldList, newList ->
         listLiveData.value = ChangeList(oldList, newList)
@@ -47,7 +45,6 @@ class HomeViewModel @ViewModelInject constructor(
 
     fun loadMore() {
         page += 1
-        isLoading.set(true)
         viewModelScope.launch {
             val list = mutableListOf<Any>()
             list.addAll(this@HomeViewModel.list)
@@ -56,7 +53,6 @@ class HomeViewModel @ViewModelInject constructor(
             list.addAll(articleList)
 
             this@HomeViewModel.list = list
-            isLoading.set(false)
         }
     }
 
