@@ -31,6 +31,8 @@
         <activity
             android:name=".biz.search.SearchActivity"
             android:windowSoftInputMode="stateVisible" />
+
+        <activity android:name=".biz.search.SearchResultActivity" />
     </application>
 
 </manifest>
