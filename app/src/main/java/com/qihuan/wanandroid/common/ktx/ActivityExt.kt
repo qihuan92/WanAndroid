@@ -1,5 +1,6 @@
 package com.qihuan.wanandroid.common.ktx
 
+import android.app.Activity
 import android.content.res.Configuration
 import android.graphics.Color
 import android.view.View
@@ -16,5 +17,14 @@ fun AppCompatActivity.transparentStatusBar() {
         } else {
             decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         }
+    }
+}
+
+inline fun <reified T : Any> Activity.extra(name: String, default: T? = null) = lazy {
+    val value = intent.extras?.get(name)
+    if (value is T) {
+        value
+    } else {
+        default
     }
 }
