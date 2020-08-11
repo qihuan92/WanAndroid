@@ -8,7 +8,6 @@ import androidx.lifecycle.viewModelScope
 import com.qihuan.wanandroid.bean.SearchKey
 import com.qihuan.wanandroid.common.SingleLiveEvent
 import kotlinx.coroutines.launch
-import java.util.concurrent.atomic.AtomicBoolean
 
 /**
  * SearchViewModel
@@ -23,7 +22,6 @@ class SearchViewModel @ViewModelInject constructor(
     val searchText by lazy { ObservableField<String>("") }
     val searchEvent by lazy { SingleLiveEvent<Any>() }
     val listLiveData by lazy { MutableLiveData<MutableList<Any>>(mutableListOf()) }
-    var isLoading: AtomicBoolean = AtomicBoolean(false)
     private var page = 0
 
     init {
@@ -44,15 +42,12 @@ class SearchViewModel @ViewModelInject constructor(
         }
         viewModelScope.launch {
             val list = repository.getSearchResult(page, searchText)
+            val value = listLiveData.value
             if (page == 0) {
-                listLiveData.value?.apply {
-                    clear()
-                    addAll(list)
-                }
-            } else {
-                listLiveData.value?.addAll(list)
-                isLoading.set(false)
+                value?.clear()
             }
+            value?.addAll(list)
+            listLiveData.value = value
         }
     }
 
@@ -63,7 +58,6 @@ class SearchViewModel @ViewModelInject constructor(
 
     fun loadMore() {
         page += 1
-        isLoading.set(true)
         search()
     }
 }

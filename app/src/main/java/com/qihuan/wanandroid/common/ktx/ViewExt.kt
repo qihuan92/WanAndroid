@@ -4,7 +4,9 @@ import android.graphics.Outline
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewOutlineProvider
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.qihuan.wanandroid.R
 
 fun View.openBrowser(url: String, title: String = url) {
     this.context.openBrowser(url, title)
@@ -45,4 +47,12 @@ fun View.clipCircle() {
         }
     }
     clipToOutline = true
+}
+
+fun SwipeRefreshLayout.setDefaultColors() {
+    setColorSchemeResources(
+        R.color.colorPrimary,
+        R.color.colorPrimaryDark,
+        R.color.colorAccent
+    )
 }
