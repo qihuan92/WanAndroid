@@ -8,6 +8,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import com.google.android.material.chip.Chip
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.qihuan.wanandroid.R
 import com.qihuan.wanandroid.bean.HistorySearchKey
 import com.qihuan.wanandroid.bean.SearchKey
@@ -63,7 +64,19 @@ class SearchRecommendFragment : Fragment(R.layout.fragment_search_recommend) {
     private fun bindHistoryKeys(keys: List<HistorySearchKey>) {
         binding.tvClearHistory.isGone = keys.isNullOrEmpty()
         binding.tvClearHistory.setOnClickListener {
-            viewModel.deleteAll()
+            context?.let { context ->
+                MaterialAlertDialogBuilder(context)
+                    .setTitle(R.string.alert)
+                    .setMessage(R.string.msg_delete_all_history_keys)
+                    .setPositiveButton(R.string.confirm) { dialog, _ ->
+                        viewModel.deleteAll()
+                        dialog.dismiss()
+                    }
+                    .setNegativeButton(R.string.cancel) { dialog, _ ->
+                        dialog.cancel()
+                    }
+                    .show()
+            }
         }
         binding.cgHistorySearch.apply {
             removeAllViews()
