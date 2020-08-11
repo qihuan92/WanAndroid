@@ -49,9 +49,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         adapter = PageMultiTypeAdapter()
         adapter.register(HomeBannerViewDelegate(this))
         adapter.register(ArticleItemViewBinder())
-        adapter.setOnLoadMoreListener {
-            viewModel.loadMore()
-        }
 
         binding.apply {
             val layoutManager = LinearLayoutManager(context)
@@ -91,6 +88,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 }
             }
 
+            adapter.setOnLoadMoreListener {
+                viewModel.loadMore()
+            }
+
             fabTop.setOnClickListener {
                 val threshold = 50
                 if (adapter.itemCount <= threshold) {
@@ -116,7 +117,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private fun initListener() {
         viewModel.listLiveData.observe(viewLifecycleOwner, Observer {
             val (oldList, newList) = it
-            binding.refreshLayout.isRefreshing = false
+            if (binding.refreshLayout.isRefreshing) {
+                binding.refreshLayout.isRefreshing = false
+            }
             adapter.loadMoreComplete()
             DiffUtil.calculateDiff(ItemDiffCallback(oldList, newList)).dispatchUpdatesTo(adapter)
             adapter.items = newList
