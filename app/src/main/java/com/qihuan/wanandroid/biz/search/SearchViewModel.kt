@@ -68,4 +68,16 @@ class SearchViewModel @ViewModelInject constructor(
         page += 1
         search()
     }
+
+    fun deleteKey(key: String) {
+        viewModelScope.launch {
+            repository.deleteKey(key)
+        }
+    }
+
+    fun deleteAll() {
+        viewModelScope.launch {
+            repository.deleteAllKey()
+        }
+    }
 }

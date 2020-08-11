@@ -2,6 +2,7 @@ package com.qihuan.wanandroid.biz.search
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -42,23 +43,43 @@ class SearchRecommendFragment : Fragment(R.layout.fragment_search_recommend) {
         binding.cgHotSearch.apply {
             removeAllViews()
             for (key in keys) {
-                addView(buildChip(key.name))
+                addView(buildHotChip(key.name))
+            }
+        }
+    }
+
+    private fun buildHotChip(key: String): Chip {
+        return Chip(context).apply {
+            text = key
+            setOnClickListener {
+                viewModel.searchText.set(key)
+                findNavController().navigate(
+                    SearchRecommendFragmentDirections.actionSearchRecommendFragmentToSearchResultFragment()
+                )
             }
         }
     }
 
     private fun bindHistoryKeys(keys: List<HistorySearchKey>) {
+        binding.tvClearHistory.isGone = keys.isNullOrEmpty()
+        binding.tvClearHistory.setOnClickListener {
+            viewModel.deleteAll()
+        }
         binding.cgHistorySearch.apply {
             removeAllViews()
             for (key in keys) {
-                addView(buildChip(key.name))
+                addView(buildHistoryChip(key.name))
             }
         }
     }
 
-    private fun buildChip(key: String): Chip {
+    private fun buildHistoryChip(key: String): Chip {
         return Chip(context).apply {
             text = key
+            isCloseIconVisible = true
+            setOnCloseIconClickListener {
+                viewModel.deleteKey(key)
+            }
             setOnClickListener {
                 viewModel.searchText.set(key)
                 findNavController().navigate(

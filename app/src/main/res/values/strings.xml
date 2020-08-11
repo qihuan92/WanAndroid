@@ -9,4 +9,5 @@
     <string name="transition_name_search">search_view</string>
     <string name="hot_search">热门搜索</string>
     <string name="history_search">历史搜索</string>
+    <string name="clear_all_search_key">清除所有</string>
 </resources>

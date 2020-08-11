@@ -39,4 +39,12 @@ class SearchRepository @Inject constructor(
         }
         return emptyList()
     }
+
+    suspend fun deleteKey(key: String) {
+        historySearchKeyDao.deleteByName(key)
+    }
+
+    suspend fun deleteAllKey() {
+        historySearchKeyDao.deleteAll()
+    }
 }
