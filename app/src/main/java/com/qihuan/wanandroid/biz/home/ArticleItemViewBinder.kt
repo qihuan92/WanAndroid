@@ -65,6 +65,10 @@ class ArticleItemViewBinder : ItemViewBinder<Article, ArticleItemViewBinder.View
                 itemView.setOnClickListener {
                     it.openBrowser(item.link)
                 }
+                itemView.setOnLongClickListener {
+                    it.openBrowserNewTask(item.link)
+                    true
+                }
             }
         }
 
