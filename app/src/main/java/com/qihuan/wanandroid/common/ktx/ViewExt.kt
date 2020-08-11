@@ -12,6 +12,10 @@ fun View.openBrowser(url: String, title: String = url) {
     this.context.openBrowser(url, title)
 }
 
+fun View.openBrowserNewTask(url: String, title: String = url) {
+    this.context.openBrowserNewTask(url, title)
+}
+
 fun View.addRipple() = with(TypedValue()) {
     context.theme.resolveAttribute(android.R.attr.selectableItemBackground, this, true)
     setBackgroundResource(resourceId)
