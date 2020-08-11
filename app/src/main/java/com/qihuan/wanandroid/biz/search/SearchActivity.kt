@@ -36,7 +36,9 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun initSearchView() {
-        binding.btnBack.setOnClickListener { onBackPressed() }
+        binding.btnBack.setOnClickListener {
+            onBackPressed()
+        }
         binding.etSearch.requestFocus()
         binding.etSearch.addTextChangedListener {
             val searchText = it?.toString().orEmpty()
