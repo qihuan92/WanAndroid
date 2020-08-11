@@ -36,6 +36,6 @@ class HomeRepository @Inject constructor(private val wanService: WanService) {
         if (resp.isSuccess()) {
             list = resp.data?.datas?.toMutableList() ?: mutableListOf()
         }
-        return list;
+        return list
     }
 }
