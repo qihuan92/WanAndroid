@@ -1,6 +1,7 @@
 package com.qihuan.wanandroid.bean
 
 import android.os.Parcelable
+import com.qihuan.wanandroid.common.adapter.DiffItem
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
@@ -36,4 +37,8 @@ data class Article(
     val tags: List<ArticleTag>,
     val userId: Int,
     var isTop: Boolean = false
-) : Parcelable
+) : Parcelable, DiffItem {
+    override fun getUniqueId(): Any {
+        return id
+    }
+}

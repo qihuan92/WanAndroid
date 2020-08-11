@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import kotlin.properties.Delegates
 
 /**
  * HomeViewModel
@@ -15,10 +14,7 @@ import kotlin.properties.Delegates
 class HomeViewModel @ViewModelInject constructor(
     private val repository: HomeRepository
 ) : ViewModel() {
-    val listLiveData = MutableLiveData<ChangeList<Any>>(ChangeList())
-    private var list by Delegates.observable(mutableListOf<Any>()) { _, oldList, newList ->
-        listLiveData.value = ChangeList(oldList, newList)
-    }
+    val listLiveData = MutableLiveData<MutableList<Any>>(mutableListOf())
     private var page: Int = 0
 
     init {
@@ -39,7 +35,7 @@ class HomeViewModel @ViewModelInject constructor(
             val articleList = repository.getArticleList(page)
             list.addAll(articleList)
 
-            this@HomeViewModel.list = list
+            listLiveData.value = list
         }
     }
 
@@ -47,17 +43,14 @@ class HomeViewModel @ViewModelInject constructor(
         page += 1
         viewModelScope.launch {
             val list = mutableListOf<Any>()
-            list.addAll(this@HomeViewModel.list)
+            listLiveData.value?.apply {
+                list.addAll(this)
+            }
 
             val articleList = repository.getArticleList(page)
             list.addAll(articleList)
 
-            this@HomeViewModel.list = list
+            listLiveData.value = list
         }
     }
-
-    data class ChangeList<T>(
-        val oldList: List<T> = emptyList(),
-        val newList: List<T> = emptyList()
-    )
 }

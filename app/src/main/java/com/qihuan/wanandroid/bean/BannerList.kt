@@ -1,5 +1,7 @@
 package com.qihuan.wanandroid.bean
 
+import com.qihuan.wanandroid.common.adapter.DiffItem
+
 /**
  * BannerList
  * @author qi
@@ -7,4 +9,8 @@ package com.qihuan.wanandroid.bean
  */
 data class BannerList(
     val list: List<BannerBean>
-)
+) : DiffItem {
+    override fun getUniqueId(): Any {
+        return list.map { it.id }.joinToString()
+    }
+}

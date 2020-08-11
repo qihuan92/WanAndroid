@@ -45,8 +45,7 @@ class SearchResultFragment : Fragment(R.layout.fragment_search_result) {
         viewModel.listLiveData.observe(viewLifecycleOwner, Observer {
             binding.refreshLayout.isRefreshing = false
             adapter.loadMoreComplete()
-            adapter.items = it
-            adapter.notifyDataSetChanged()
+            adapter.setData(it)
         })
     }
 

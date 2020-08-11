@@ -26,8 +26,18 @@ class LoadMoreViewDelegate : ViewDelegate<LoadMoreItem, LoadMoreView>() {
     }
 }
 
+/**
+ * LoadMoreItem
+ * @author qi
+ * @since 2020/8/7
+ */
 class LoadMoreItem
 
+/**
+ * LoadMoreView
+ * @author qi
+ * @since 2020/8/7
+ */
 class LoadMoreView(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr) {
