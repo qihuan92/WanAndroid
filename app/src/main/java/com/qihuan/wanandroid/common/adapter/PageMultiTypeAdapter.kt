@@ -2,7 +2,6 @@ package com.qihuan.wanandroid.common.adapter
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.drakeet.multitype.MultiTypeAdapter
 import java.util.concurrent.atomic.AtomicBoolean
 
 /**
@@ -10,7 +9,7 @@ import java.util.concurrent.atomic.AtomicBoolean
  * @author qi
  * @since 2020/8/7
  */
-class PageMultiTypeAdapter : MultiTypeAdapter() {
+class PageMultiTypeAdapter : DiffMultiTypeAdapter() {
 
     private var loadMoreListener: (() -> Unit)? = null
     private var recyclerView: RecyclerView? = null
