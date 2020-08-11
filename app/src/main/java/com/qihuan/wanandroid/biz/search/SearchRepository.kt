@@ -1,6 +1,8 @@
 package com.qihuan.wanandroid.biz.search
 
+import androidx.lifecycle.LiveData
 import com.qihuan.wanandroid.bean.Article
+import com.qihuan.wanandroid.bean.HistorySearchKey
 import com.qihuan.wanandroid.bean.SearchKey
 import com.qihuan.wanandroid.common.net.WanService
 import javax.inject.Inject
@@ -10,7 +12,10 @@ import javax.inject.Inject
  * @author qi
  * @since 2020/8/6
  */
-class SearchRepository @Inject constructor(private val service: WanService) {
+class SearchRepository @Inject constructor(
+    private val service: WanService,
+    private val historySearchKeyDao: HistorySearchKeyDao
+) {
     suspend fun getHotSearchKey(): List<SearchKey> {
         val resp = service.hotKey()
         if (resp.isSuccess()) {
@@ -19,8 +24,12 @@ class SearchRepository @Inject constructor(private val service: WanService) {
         return emptyList()
     }
 
-    suspend fun getHistoryKey() {
-        // todo 获取搜索历史
+    fun getHistoryKey(): LiveData<List<HistorySearchKey>> {
+        return historySearchKeyDao.selectAll()
+    }
+
+    suspend fun saveHistoryKey(name: String) {
+        historySearchKeyDao.save(HistorySearchKey(name))
     }
 
     suspend fun getSearchResult(page: Int = 0, searchText: String): List<Article> {

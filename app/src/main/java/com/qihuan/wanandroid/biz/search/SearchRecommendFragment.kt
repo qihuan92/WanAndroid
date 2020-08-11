@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import com.google.android.material.chip.Chip
 import com.qihuan.wanandroid.R
+import com.qihuan.wanandroid.bean.HistorySearchKey
 import com.qihuan.wanandroid.bean.SearchKey
 import com.qihuan.wanandroid.common.ktx.viewBinding
 import com.qihuan.wanandroid.databinding.FragmentSearchRecommendBinding
@@ -32,22 +33,34 @@ class SearchRecommendFragment : Fragment(R.layout.fragment_search_recommend) {
         viewModel.hotKeys.observe(viewLifecycleOwner, Observer {
             bindHotKeys(it)
         })
+        viewModel.historyKeys.observe(viewLifecycleOwner, Observer {
+            bindHistoryKeys(it)
+        })
     }
 
     private fun bindHotKeys(keys: List<SearchKey>) {
         binding.cgHotSearch.apply {
             removeAllViews()
             for (key in keys) {
-                addView(buildChip(key))
+                addView(buildChip(key.name))
             }
         }
     }
 
-    private fun buildChip(key: SearchKey): Chip {
+    private fun bindHistoryKeys(keys: List<HistorySearchKey>) {
+        binding.cgHistorySearch.apply {
+            removeAllViews()
+            for (key in keys) {
+                addView(buildChip(key.name))
+            }
+        }
+    }
+
+    private fun buildChip(key: String): Chip {
         return Chip(context).apply {
-            text = key.name
+            text = key
             setOnClickListener {
-                viewModel.searchText.set(key.name)
+                viewModel.searchText.set(key)
                 findNavController().navigate(
                     SearchRecommendFragmentDirections.actionSearchRecommendFragmentToSearchResultFragment()
                 )
