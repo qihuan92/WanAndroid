@@ -5,7 +5,6 @@ import android.text.Html
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isGone
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.drakeet.multitype.ItemViewBinder
 import com.google.android.material.chip.Chip
@@ -48,7 +47,7 @@ class ArticleItemViewBinder : ItemViewBinder<Article, ArticleItemViewBinder.View
                 tvDescription.showText(Html.fromHtml(item.desc, Html.FROM_HTML_MODE_LEGACY))
                 tvAuthor.showText(item.author)
                 tvTime.showText(item.niceDate)
-                groupTop.isVisible = item.isTop
+                //groupTop.isVisible = item.isTop
                 tvCategory.showText("${item.superChapterName}·${item.chapterName}")
                 bindTags(item.tags)
                 if (item.collect) {

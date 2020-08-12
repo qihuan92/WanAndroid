@@ -45,6 +45,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         adapter = PageMultiTypeAdapter()
         adapter.register(HomeBannerViewDelegate(this))
         adapter.register(ArticleItemViewBinder())
+        adapter.register(HomeTitleViewBinder())
 
         binding.apply {
             val layoutManager = LinearLayoutManager(context)
