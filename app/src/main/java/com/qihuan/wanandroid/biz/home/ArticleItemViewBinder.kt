@@ -1,7 +1,6 @@
 package com.qihuan.wanandroid.biz.home
 
 import android.content.Context
-import android.graphics.Color
 import android.text.Html
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -86,7 +85,6 @@ class ArticleItemViewBinder : ItemViewBinder<Article, ArticleItemViewBinder.View
                 layoutParams = ViewGroup.LayoutParams(
                     ViewGroup.LayoutParams.WRAP_CONTENT, 20f.dp
                 )
-                setChipBackgroundColorResource(R.color.colorAccent)
                 setEnsureMinTouchTargetSize(false)
                 ensureAccessibleTouchTarget(0)
                 setPadding(paddingLeft, 0, paddingRight, 0)
@@ -95,7 +93,6 @@ class ArticleItemViewBinder : ItemViewBinder<Article, ArticleItemViewBinder.View
                 isCheckable = false
                 text = tag.name
                 textSize = 12f
-                setTextColor(Color.WHITE)
             }
             chip.setOnClickListener {
                 // todo 跳转分类列表

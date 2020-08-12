@@ -86,8 +86,11 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="15dp"
+        android:background="@color/colorAccent"
+        android:backgroundTint="@color/colorAccent"
         android:src="@drawable/ic_sharp_vertical_align_top_24"
         android:visibility="invisible"
+        app:borderWidth="0dp"
         app:layout_behavior="com.qihuan.wanandroid.widget.FabScrollBehavior"
         app:tint="@android:color/white"
         tools:visibility="visible" />

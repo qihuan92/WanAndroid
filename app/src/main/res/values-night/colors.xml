@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="colorPrimary">#D1C4E9</color>
+    <color name="colorPrimaryDark">#D1C4E9</color>
+    <color name="colorAccent">#D1C4E9</color>
+
     <color name="colorDivider">#1FFFFFFF</color>
     <color name="colorTitleLayout">@android:color/transparent</color>
 </resources>
