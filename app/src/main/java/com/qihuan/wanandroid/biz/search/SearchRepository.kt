@@ -4,7 +4,9 @@ import androidx.lifecycle.LiveData
 import com.qihuan.wanandroid.bean.Article
 import com.qihuan.wanandroid.bean.HistorySearchKey
 import com.qihuan.wanandroid.bean.SearchKey
+import com.qihuan.wanandroid.common.ApiResult
 import com.qihuan.wanandroid.common.net.WanService
+import com.qihuan.wanandroid.common.net.handleRequest
 import javax.inject.Inject
 
 /**
@@ -17,8 +19,8 @@ class SearchRepository @Inject constructor(
     private val historySearchKeyDao: HistorySearchKeyDao
 ) {
     suspend fun getHotSearchKey(): List<SearchKey> {
-        val resp = service.hotKey()
-        if (resp.isSuccess()) {
+        val resp = handleRequest { service.hotKey() }
+        if (resp is ApiResult.Success) {
             return resp.data.orEmpty()
         }
         return emptyList()
@@ -33,8 +35,8 @@ class SearchRepository @Inject constructor(
     }
 
     suspend fun getSearchResult(page: Int = 0, searchText: String): List<Article> {
-        val resp = service.search(page, searchText)
-        if (resp.isSuccess()) {
+        val resp = handleRequest { service.search(page, searchText) }
+        if (resp is ApiResult.Success) {
             return resp.data?.datas.orEmpty()
         }
         return emptyList()
