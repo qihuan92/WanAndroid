@@ -1,9 +1,11 @@
 package com.qihuan.wanandroid.biz.home
 
+import androidx.core.text.buildSpannedString
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.qihuan.wanandroid.bean.TitleType
 import kotlinx.coroutines.launch
 
 /**
@@ -30,10 +32,19 @@ class HomeViewModel @ViewModelInject constructor(
             list.add(bannerList)
 
             val topArticleList = repository.getTopArticleList()
-            list.addAll(topArticleList)
+            if (topArticleList.isNotEmpty()) {
+                buildSpannedString {
+
+                }
+                list.add(TitleType.TOP.create())
+                list.addAll(topArticleList)
+            }
 
             val articleList = repository.getArticleList(page)
-            list.addAll(articleList)
+            if (articleList.isNotEmpty()) {
+                list.add(TitleType.TIMELINE.create())
+                list.addAll(articleList)
+            }
 
             listLiveData.value = list
         }

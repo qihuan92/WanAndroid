@@ -14,4 +14,5 @@
     <string name="msg_delete_all_history_keys">确定要清除搜索历史？</string>
     <string name="confirm">确定</string>
     <string name="cancel">取消</string>
+    <string name="iv_desc_title_icon">标题图标</string>
 </resources>
