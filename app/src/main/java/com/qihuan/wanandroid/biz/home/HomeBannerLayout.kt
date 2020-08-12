@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.ImageView
-import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.setMargins
@@ -16,6 +15,8 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.card.MaterialCardView
+import com.qihuan.wanandroid.R
 import com.qihuan.wanandroid.bean.BannerBean
 import com.qihuan.wanandroid.common.ktx.dp
 import com.qihuan.wanandroid.common.ktx.load
@@ -277,7 +278,7 @@ class HomeBannerLayout(
         context: Context,
         attrs: AttributeSet? = null,
         defStyleAttr: Int = 0
-    ) : CardView(context, attrs, defStyleAttr) {
+    ) : MaterialCardView(context, attrs, defStyleAttr) {
         val ivBanner: ImageView
 
         init {
@@ -287,6 +288,9 @@ class HomeBannerLayout(
             preventCornerOverlap = false
 
             radius = 8f.dp.toFloat()
+            cardElevation = 0f
+            strokeColor = context.getColor(R.color.colorDivider)
+            strokeWidth = 1f.dp
 
             addView(
                 ConstraintLayout(context).apply {
