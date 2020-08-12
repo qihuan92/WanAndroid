@@ -8,7 +8,7 @@ import com.qihuan.wanandroid.common.adapter.DiffItem
  * @since 2020/7/16
  */
 data class BannerList(
-    val list: List<BannerBean>
+    var list: List<BannerBean>
 ) : DiffItem {
     override fun getUniqueId(): Any {
         return list.map { it.id }.joinToString()

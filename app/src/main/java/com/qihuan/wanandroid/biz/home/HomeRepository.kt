@@ -2,7 +2,9 @@ package com.qihuan.wanandroid.biz.home
 
 import com.qihuan.wanandroid.bean.Article
 import com.qihuan.wanandroid.bean.BannerList
+import com.qihuan.wanandroid.common.ApiResult
 import com.qihuan.wanandroid.common.net.WanService
+import com.qihuan.wanandroid.common.net.handleRequest
 import javax.inject.Inject
 
 /**
@@ -13,16 +15,17 @@ import javax.inject.Inject
 class HomeRepository @Inject constructor(private val wanService: WanService) {
 
     suspend fun getBanner(): BannerList {
-        val resp = wanService.getBanner()
-        if (resp.isSuccess()) {
-            resp.data
+        val result = handleRequest { wanService.getBanner() }
+        val bannerList = BannerList(emptyList())
+        if (result is ApiResult.Success) {
+            bannerList.list = result.data.orEmpty()
         }
-        return BannerList(resp.data.orEmpty())
+        return bannerList
     }
 
     suspend fun getTopArticleList(): List<Article> {
-        val resp = wanService.getTopArticles()
-        if (resp.isSuccess()) {
+        val resp = handleRequest { wanService.getTopArticles() }
+        if (resp is ApiResult.Success) {
             return resp.data.orEmpty().onEach {
                 it.isTop = true
             }
@@ -32,8 +35,8 @@ class HomeRepository @Inject constructor(private val wanService: WanService) {
 
     suspend fun getArticleList(page: Int = 0): List<Article> {
         var list = mutableListOf<Article>()
-        val resp = wanService.getHomeArticles(page)
-        if (resp.isSuccess()) {
+        val resp = handleRequest { wanService.getHomeArticles(page) }
+        if (resp is ApiResult.Success) {
             list = resp.data?.datas?.toMutableList() ?: mutableListOf()
         }
         return list
