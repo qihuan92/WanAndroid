@@ -63,6 +63,7 @@ class SearchRecommendFragment : Fragment(R.layout.fragment_search_recommend) {
 
     private fun bindHistoryKeys(keys: List<HistorySearchKey>) {
         binding.tvClearHistory.isGone = keys.isNullOrEmpty()
+        binding.tvTitleHistory.isGone = keys.isNullOrEmpty()
         binding.tvClearHistory.setOnClickListener {
             context?.let { context ->
                 MaterialAlertDialogBuilder(context)
