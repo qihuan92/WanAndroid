@@ -70,7 +70,7 @@ class PageMultiTypeAdapter : DiffMultiTypeAdapter() {
             }
             val itemCount = layoutManager.itemCount
             val lastVisiblePosition = layoutManager.findLastCompletelyVisibleItemPosition()
-            val isBottom = lastVisiblePosition >= itemCount - 1
+            val isBottom = lastVisiblePosition >= itemCount - 3
             if (isBottom) {
                 recyclerView.post { loadMore() }
             }

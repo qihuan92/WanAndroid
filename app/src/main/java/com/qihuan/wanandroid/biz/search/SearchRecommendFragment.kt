@@ -41,6 +41,7 @@ class SearchRecommendFragment : Fragment(R.layout.fragment_search_recommend) {
     }
 
     private fun bindHotKeys(keys: List<SearchKey>) {
+        binding.tvTitleHot.isGone = keys.isNullOrEmpty()
         binding.cgHotSearch.apply {
             removeAllViews()
             for (key in keys) {

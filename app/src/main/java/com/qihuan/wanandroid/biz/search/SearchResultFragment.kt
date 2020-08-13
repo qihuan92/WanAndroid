@@ -2,7 +2,6 @@ package com.qihuan.wanandroid.biz.search
 
 import android.os.Bundle
 import android.view.View
-import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -12,12 +11,10 @@ import com.qihuan.wanandroid.R
 import com.qihuan.wanandroid.biz.home.ArticleItemViewBinder
 import com.qihuan.wanandroid.biz.home.HomeBannerViewDelegate
 import com.qihuan.wanandroid.common.adapter.PageMultiTypeAdapter
-import com.qihuan.wanandroid.common.ktx.dp
 import com.qihuan.wanandroid.common.ktx.hideKeyboard
 import com.qihuan.wanandroid.common.ktx.setDefaultColors
 import com.qihuan.wanandroid.common.ktx.viewBinding
 import com.qihuan.wanandroid.databinding.FragmentSearchResultBinding
-import com.qihuan.wanandroid.widget.DividerItemDecoration
 
 /**
  * SearchResultFragment
@@ -60,14 +57,6 @@ class SearchResultFragment : Fragment(R.layout.fragment_search_result) {
         binding.apply {
             val layoutManager = LinearLayoutManager(context)
             rvList.layoutManager = layoutManager
-            rvList.addItemDecoration(
-                DividerItemDecoration(
-                    context,
-                    LinearLayout.VERTICAL,
-                    15f.dp,
-                    15f.dp
-                )
-            )
             rvList.itemAnimator = DefaultItemAnimator()
             rvList.adapter = adapter
 
