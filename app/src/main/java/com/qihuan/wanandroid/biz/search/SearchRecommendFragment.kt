@@ -12,6 +12,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.qihuan.wanandroid.R
 import com.qihuan.wanandroid.bean.HistorySearchKey
 import com.qihuan.wanandroid.bean.SearchKey
+import com.qihuan.wanandroid.common.ktx.setListener
 import com.qihuan.wanandroid.common.ktx.viewBinding
 import com.qihuan.wanandroid.databinding.FragmentSearchRecommendBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -43,6 +44,7 @@ class SearchRecommendFragment : Fragment(R.layout.fragment_search_recommend) {
     private fun bindHotKeys(keys: List<SearchKey>) {
         binding.tvTitleHot.isGone = keys.isNullOrEmpty()
         binding.cgHotSearch.apply {
+            isGone = keys.isNullOrEmpty()
             removeAllViews()
             for (key in keys) {
                 addView(buildHotChip(key.name))
@@ -63,8 +65,7 @@ class SearchRecommendFragment : Fragment(R.layout.fragment_search_recommend) {
     }
 
     private fun bindHistoryKeys(keys: List<HistorySearchKey>) {
-        binding.tvClearHistory.isGone = keys.isNullOrEmpty()
-        binding.tvTitleHistory.isGone = keys.isNullOrEmpty()
+        binding.layoutSearchHistory.isGone = keys.isNullOrEmpty()
         binding.tvClearHistory.setOnClickListener {
             context?.let { context ->
                 MaterialAlertDialogBuilder(context)
@@ -81,6 +82,7 @@ class SearchRecommendFragment : Fragment(R.layout.fragment_search_recommend) {
             }
         }
         binding.cgHistorySearch.apply {
+            isGone = keys.isNullOrEmpty()
             removeAllViews()
             for (key in keys) {
                 addView(buildHistoryChip(key.name))
@@ -93,7 +95,11 @@ class SearchRecommendFragment : Fragment(R.layout.fragment_search_recommend) {
             text = key
             isCloseIconVisible = true
             setOnCloseIconClickListener {
-                viewModel.deleteKey(key)
+                it.animate()
+                    .alpha(0f)
+                    .setDuration(150)
+                    .setListener { viewModel.deleteKey(key) }
+                    .start()
             }
             setOnClickListener {
                 viewModel.searchText.set(key)
