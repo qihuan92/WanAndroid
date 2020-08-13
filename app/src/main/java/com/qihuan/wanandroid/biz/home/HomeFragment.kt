@@ -4,7 +4,6 @@ import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -12,14 +11,12 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.qihuan.wanandroid.R
-import com.qihuan.wanandroid.bean.Article
 import com.qihuan.wanandroid.biz.search.SearchActivity
 import com.qihuan.wanandroid.common.adapter.PageMultiTypeAdapter
 import com.qihuan.wanandroid.common.ktx.dp
 import com.qihuan.wanandroid.common.ktx.hideInvisible
 import com.qihuan.wanandroid.common.ktx.viewBinding
 import com.qihuan.wanandroid.databinding.FragmentHomeBinding
-import com.qihuan.wanandroid.widget.MultiTypeDividerItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -50,16 +47,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         binding.apply {
             val layoutManager = LinearLayoutManager(context)
             rvList.layoutManager = layoutManager
-            rvList.addItemDecoration(
-                MultiTypeDividerItemDecoration(
-                    context,
-                    LinearLayout.VERTICAL,
-                    15f.dp,
-                    15f.dp,
-                    adapter,
-                    arrayOf(Article::class.java)
-                )
-            )
             rvList.itemAnimator = DefaultItemAnimator()
             rvList.adapter = adapter
             rvList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -90,12 +77,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             }
 
             fabTop.setOnClickListener {
-                val threshold = 50
-                if (adapter.itemCount <= threshold) {
-                    rvList.smoothScrollToPosition(0)
-                } else {
-                    layoutManager.scrollToPositionWithOffset(0, 0)
-                }
+                layoutManager.scrollToPositionWithOffset(0, 0)
             }
 
             layoutSearch.setOnClickListener {
