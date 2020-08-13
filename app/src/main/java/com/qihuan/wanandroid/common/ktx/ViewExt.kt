@@ -54,6 +54,7 @@ fun View.clipCircle() {
 }
 
 fun SwipeRefreshLayout.setDefaultColors() {
+    setProgressBackgroundColorSchemeResource(R.color.colorRefreshIndicatorBackground)
     setColorSchemeResources(
         R.color.colorPrimary,
         R.color.colorPrimaryDark,

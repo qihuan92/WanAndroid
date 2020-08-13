@@ -6,4 +6,5 @@
 
     <color name="colorDivider">#1FFFFFFF</color>
     <color name="colorTitleLayout">@android:color/transparent</color>
+    <color name="colorRefreshIndicatorBackground">#2B2B2B</color>
 </resources>

@@ -6,4 +6,5 @@
 
     <color name="colorDivider">#EEEEEE</color>
     <color name="colorTitleLayout">#FFFFFF</color>
+    <color name="colorRefreshIndicatorBackground">#FFFFFF</color>
 </resources>
