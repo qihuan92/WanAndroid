@@ -44,6 +44,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         adapter.register(HomeBannerViewDelegate(this))
         adapter.register(ArticleItemViewBinder())
         adapter.register(HomeTitleViewBinder())
+        adapter.register(ModuleItemViewBinder())
 
         binding.apply {
             val layoutManager = LinearLayoutManager(context)

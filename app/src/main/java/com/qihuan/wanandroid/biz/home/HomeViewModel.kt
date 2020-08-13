@@ -1,6 +1,5 @@
 package com.qihuan.wanandroid.biz.home
 
-import androidx.core.text.buildSpannedString
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -31,11 +30,14 @@ class HomeViewModel @ViewModelInject constructor(
             val bannerList = repository.getBanner()
             list.add(bannerList)
 
+            val homeModuleList = repository.getHomeModuleList()
+            if (homeModuleList.list.isNotEmpty()) {
+                list.add(TitleType.MODULE.create())
+                list.add(homeModuleList)
+            }
+
             val topArticleList = repository.getTopArticleList()
             if (topArticleList.isNotEmpty()) {
-                buildSpannedString {
-
-                }
                 list.add(TitleType.TOP.create())
                 list.addAll(topArticleList)
             }
