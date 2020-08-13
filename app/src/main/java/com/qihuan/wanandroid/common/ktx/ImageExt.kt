@@ -7,6 +7,7 @@ import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.widget.ImageView
 import androidx.annotation.DrawableRes
+import androidx.palette.graphics.Palette
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.MultiTransformation
 import com.bumptech.glide.load.engine.GlideException
@@ -100,7 +101,7 @@ fun ImageView.get(drawable: Drawable): GlideRequest<Drawable> =
  * @return
  */
 fun Bitmap.getSwatchColor(): Int {
-    val p = androidx.palette.graphics.Palette.from(this).generate()
+    val p = Palette.from(this).generate()
     val swatchMuted = p.darkMutedSwatch
     val swatchVibrant = p.darkVibrantSwatch
     return swatchMuted?.rgb ?: (swatchVibrant?.rgb ?: Color.parseColor("#ABB0BE"))

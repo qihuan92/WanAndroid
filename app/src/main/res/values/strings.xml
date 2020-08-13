@@ -15,4 +15,6 @@
     <string name="confirm">确定</string>
     <string name="cancel">取消</string>
     <string name="iv_desc_title_icon">标题图标</string>
+    <string name="iv_desc_home_module_icon">模块ICON</string>
+    <string name="iv_desc_home_module_background">首页模块背景图片</string>
 </resources>
