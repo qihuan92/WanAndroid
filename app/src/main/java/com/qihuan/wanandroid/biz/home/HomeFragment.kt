@@ -15,6 +15,7 @@ import com.qihuan.wanandroid.biz.search.SearchActivity
 import com.qihuan.wanandroid.common.adapter.PageMultiTypeAdapter
 import com.qihuan.wanandroid.common.ktx.dp
 import com.qihuan.wanandroid.common.ktx.hideInvisible
+import com.qihuan.wanandroid.common.ktx.setDefaultColors
 import com.qihuan.wanandroid.common.ktx.viewBinding
 import com.qihuan.wanandroid.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -60,12 +61,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
             refreshLayout.apply {
                 setProgressViewOffset(true, 50f.dp, 100f.dp)
-
-                setColorSchemeResources(
-                    R.color.colorPrimary,
-                    R.color.colorPrimaryDark,
-                    R.color.colorAccent
-                )
+                setDefaultColors()
 
                 setOnRefreshListener {
                     viewModel.refresh()
