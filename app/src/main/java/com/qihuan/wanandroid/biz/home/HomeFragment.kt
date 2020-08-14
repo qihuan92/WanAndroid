@@ -92,9 +92,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun bindView() {
         viewModel.listLiveData.observe(viewLifecycleOwner, Observer {
+            adapter.items = it
             binding.refreshLayout.isRefreshing = false
             adapter.loadMoreComplete()
-            adapter.items = it
         })
     }
 }

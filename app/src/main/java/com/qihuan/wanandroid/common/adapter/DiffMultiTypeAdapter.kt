@@ -16,13 +16,13 @@ open class DiffMultiTypeAdapter : MultiTypeAdapter() {
 
     override var items: List<Any>
         get() = super.items
-        set(list) {
-            diffCallback = DefaultDiffCallback(oldList, list)
+        set(value) {
+            diffCallback = DefaultDiffCallback(oldList, value)
             val diffResult = DiffUtil.calculateDiff(diffCallback)
             oldList.clear()
-            oldList.addAll(list)
+            oldList.addAll(value)
             diffResult.dispatchUpdatesTo(this)
-            super.items = list
+            super.items = value
         }
 }
 

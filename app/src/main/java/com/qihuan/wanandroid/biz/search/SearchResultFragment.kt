@@ -40,9 +40,9 @@ class SearchResultFragment : Fragment(R.layout.fragment_search_result) {
         })
 
         viewModel.listLiveData.observe(viewLifecycleOwner, Observer {
+            adapter.items = it
             binding.refreshLayout.isRefreshing = false
             adapter.loadMoreComplete()
-            adapter.items = it
         })
     }
 
