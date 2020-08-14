@@ -6,11 +6,8 @@
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="15dp"
     android:layout_marginVertical="5dp"
-    android:background="?android:selectableItemBackground"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="0dp"
-    app:strokeColor="@color/colorDivider"
-    app:strokeWidth="1dp">
+    android:foreground="?android:selectableItemBackground"
+    app:cardCornerRadius="8dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
