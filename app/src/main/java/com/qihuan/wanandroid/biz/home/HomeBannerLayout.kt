@@ -16,7 +16,6 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.card.MaterialCardView
-import com.qihuan.wanandroid.R
 import com.qihuan.wanandroid.bean.BannerBean
 import com.qihuan.wanandroid.common.ktx.dp
 import com.qihuan.wanandroid.common.ktx.load
@@ -288,9 +287,6 @@ class HomeBannerLayout(
             preventCornerOverlap = false
 
             radius = 8f.dp.toFloat()
-            cardElevation = 0f
-            strokeColor = context.getColor(R.color.colorDivider)
-            strokeWidth = 1f.dp
 
             addView(
                 ConstraintLayout(context).apply {
