@@ -14,6 +14,7 @@ class PageMultiTypeAdapter : DiffMultiTypeAdapter() {
     private var loadMoreListener: (() -> Unit)? = null
     private var recyclerView: RecyclerView? = null
     private var isLoading = AtomicBoolean(false)
+    private var tempSize = 0
 
     init {
         register(LoadMoreViewDelegate())
@@ -26,9 +27,6 @@ class PageMultiTypeAdapter : DiffMultiTypeAdapter() {
     }
 
     fun loadMoreComplete() {
-        if (isLoading.get()) {
-            isLoading.set(false)
-        }
         if (items.isEmpty()) {
             return
         }
@@ -38,6 +36,9 @@ class PageMultiTypeAdapter : DiffMultiTypeAdapter() {
         if (item is LoadMoreItem) {
             mutableList.remove(loadMorePosition)
             items = mutableList
+        }
+        if (isLoading.get()) {
+            isLoading.set(false)
         }
     }
 
@@ -53,23 +54,28 @@ class PageMultiTypeAdapter : DiffMultiTypeAdapter() {
 
     private fun loadMore() {
         isLoading.set(true)
-        loadMoreListener?.invoke()
         val loadMorePosition = items.size
         val mutableList = items.toMutableList()
         mutableList.add(loadMorePosition, LoadMoreItem())
         items = mutableList
+        loadMoreListener?.invoke()
+
+        tempSize = items.size - 1
     }
 
     private inner class EndlessScrollListener constructor(
         private val layoutManager: LinearLayoutManager
     ) : RecyclerView.OnScrollListener() {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            if (tempSize >= items.size) {
+                return
+            }
             if (dy < 0 || isLoading.get()) {
                 return
             }
             val itemCount = layoutManager.itemCount
             val lastVisiblePosition = layoutManager.findLastCompletelyVisibleItemPosition()
-            val isBottom = lastVisiblePosition >= itemCount - 3
+            val isBottom = lastVisiblePosition >= itemCount - 1
             if (isBottom) {
                 recyclerView.post { loadMore() }
             }
