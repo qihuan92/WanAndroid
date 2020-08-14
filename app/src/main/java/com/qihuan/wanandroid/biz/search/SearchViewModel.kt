@@ -61,6 +61,7 @@ class SearchViewModel @ViewModelInject constructor(
 
     fun refresh() {
         page = 0
+        listLiveData.value = mutableListOf()
         search()
     }
 

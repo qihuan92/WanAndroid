@@ -61,6 +61,7 @@ class SearchActivity : AppCompatActivity() {
                     )
                 }
                 viewModel.searchEvent.call()
+                return@setOnEditorActionListener true
             }
             return@setOnEditorActionListener false
         }
