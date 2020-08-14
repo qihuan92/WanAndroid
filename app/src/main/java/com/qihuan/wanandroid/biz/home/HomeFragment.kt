@@ -94,7 +94,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         viewModel.listLiveData.observe(viewLifecycleOwner, Observer {
             binding.refreshLayout.isRefreshing = false
             adapter.loadMoreComplete()
-            adapter.setData(it)
+            adapter.items = it
         })
     }
 }

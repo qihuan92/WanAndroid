@@ -14,16 +14,16 @@ open class DiffMultiTypeAdapter : MultiTypeAdapter() {
     private lateinit var diffCallback: DiffUtil.Callback
     private var oldList = mutableListOf<Any>()
 
-    fun setData(list: List<Any>) {
-        diffCallback = DefaultDiffCallback(oldList, list)
-        val diffResult = DiffUtil.calculateDiff(diffCallback)
-
-        oldList.clear()
-        oldList.addAll(list)
-
-        diffResult.dispatchUpdatesTo(this)
-        items = list
-    }
+    override var items: List<Any>
+        get() = super.items
+        set(list) {
+            diffCallback = DefaultDiffCallback(oldList, list)
+            val diffResult = DiffUtil.calculateDiff(diffCallback)
+            oldList.clear()
+            oldList.addAll(list)
+            diffResult.dispatchUpdatesTo(this)
+            super.items = list
+        }
 }
 
 interface DiffItem {

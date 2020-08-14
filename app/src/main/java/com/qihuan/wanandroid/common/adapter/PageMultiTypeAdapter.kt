@@ -37,7 +37,7 @@ class PageMultiTypeAdapter : DiffMultiTypeAdapter() {
         val item = mutableList[loadMorePosition]
         if (item is LoadMoreItem) {
             mutableList.remove(loadMorePosition)
-            notifyItemRemoved(loadMorePosition)
+            items = mutableList
         }
     }
 
@@ -58,7 +58,6 @@ class PageMultiTypeAdapter : DiffMultiTypeAdapter() {
         val mutableList = items.toMutableList()
         mutableList.add(loadMorePosition, LoadMoreItem())
         items = mutableList
-        notifyItemInserted(loadMorePosition)
     }
 
     private inner class EndlessScrollListener constructor(
