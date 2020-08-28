@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
-import androidx.lifecycle.Observer
 import com.qihuan.wanandroid.R
 import com.qihuan.wanandroid.biz.home.HomeFragment
 import com.qihuan.wanandroid.common.ApiResult
@@ -39,7 +38,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun bindEvent() {
         // todo 全局异常处理
-        handleEvent(ApiResult.Error::class).observe(this, Observer {
+        handleEvent(ApiResult.Error::class).observe(this, {
             Toast.makeText(this, it.error.message, Toast.LENGTH_SHORT).show()
         })
     }
