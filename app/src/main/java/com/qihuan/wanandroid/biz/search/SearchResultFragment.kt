@@ -5,6 +5,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.qihuan.wanandroid.R
@@ -40,6 +41,11 @@ class SearchResultFragment : Fragment(R.layout.fragment_search_result) {
         viewModel.searchEvent.observe(viewLifecycleOwner) {
             search()
         }
+        lifecycleScope.launchWhenCreated {
+            adapter.loadStateFlow.collectLatest {
+                binding.refreshLayout.isRefreshing = it.refresh is LoadState.Loading
+            }
+        }
     }
 
     private fun initView() {
@@ -53,7 +59,7 @@ class SearchResultFragment : Fragment(R.layout.fragment_search_result) {
 
             refreshLayout.setDefaultColors()
             refreshLayout.setOnRefreshListener {
-                search()
+                adapter.refresh()
             }
         }
 
@@ -61,7 +67,6 @@ class SearchResultFragment : Fragment(R.layout.fragment_search_result) {
     }
 
     private fun search() {
-        binding.refreshLayout.isRefreshing = false
         searchJob?.cancel()
         searchJob = lifecycleScope.launch {
             viewModel.search().collectLatest {
