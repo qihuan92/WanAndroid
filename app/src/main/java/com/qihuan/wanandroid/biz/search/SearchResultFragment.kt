@@ -10,12 +10,16 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.qihuan.wanandroid.R
 import com.qihuan.wanandroid.biz.home.ArticlePageAdapter
+import com.qihuan.wanandroid.common.adapter.DefaultLoadStateAdapter
 import com.qihuan.wanandroid.common.ktx.hideKeyboard
 import com.qihuan.wanandroid.common.ktx.setDefaultColors
 import com.qihuan.wanandroid.common.ktx.viewBinding
 import com.qihuan.wanandroid.databinding.FragmentSearchResultBinding
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChangedBy
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
 
 /**
@@ -46,21 +50,28 @@ class SearchResultFragment : Fragment(R.layout.fragment_search_result) {
                 binding.refreshLayout.isRefreshing = it.refresh is LoadState.Loading
             }
         }
+
+        lifecycleScope.launchWhenCreated {
+            adapter.loadStateFlow
+                // Only emit when REFRESH LoadState for RemoteMediator changes.
+                .distinctUntilChangedBy { it.refresh }
+                // Only react to cases where Remote REFRESH completes i.e., NotLoading.
+                .filter { it.refresh is LoadState.NotLoading }
+                .collect { binding.rvList.scrollToPosition(0) }
+        }
     }
 
     private fun initView() {
         adapter = ArticlePageAdapter()
 
-        binding.apply {
-            val layoutManager = LinearLayoutManager(context)
-            rvList.layoutManager = layoutManager
-            rvList.itemAnimator = DefaultItemAnimator()
-            rvList.adapter = adapter
+        val layoutManager = LinearLayoutManager(context)
+        binding.rvList.layoutManager = layoutManager
+        binding.rvList.itemAnimator = DefaultItemAnimator()
+        binding.rvList.adapter = adapter.withLoadStateFooter(DefaultLoadStateAdapter(adapter))
 
-            refreshLayout.setDefaultColors()
-            refreshLayout.setOnRefreshListener {
-                adapter.refresh()
-            }
+        binding.refreshLayout.setDefaultColors()
+        binding.refreshLayout.setOnRefreshListener {
+            adapter.refresh()
         }
 
         hideKeyboard()
