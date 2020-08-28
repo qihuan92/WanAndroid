@@ -1,0 +1,83 @@
+package com.qihuan.wanandroid.biz.home
+
+import android.content.Context
+import android.text.Html
+import android.view.ViewGroup
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.chip.Chip
+import com.qihuan.wanandroid.R
+import com.qihuan.wanandroid.bean.Article
+import com.qihuan.wanandroid.bean.ArticleTag
+import com.qihuan.wanandroid.common.ktx.*
+import com.qihuan.wanandroid.databinding.ItemArticleBinding
+
+class ArticleItemViewHolder(
+    private val binding: ItemArticleBinding
+) : RecyclerView.ViewHolder(binding.root) {
+    fun bind(item: Article) {
+        binding.apply {
+            if (item.envelopePic.isNotBlank()) {
+                ivPic.isGone = false
+                ivPic.load(url = item.envelopePic)
+            } else {
+                ivPic.isGone = true
+            }
+
+            tvTitle.text = Html.fromHtml(item.title, Html.FROM_HTML_MODE_LEGACY)
+            tvDescription.showText(Html.fromHtml(item.desc, Html.FROM_HTML_MODE_LEGACY))
+            tvAuthor.showText(item.author)
+            tvTime.showText(item.niceDate)
+            groupTop.isVisible = item.isTop
+            tvCategory.showText("${item.superChapterName}·${item.chapterName}")
+            bindTags(item.tags)
+            if (item.collect) {
+                btnCollect.setImageResource(R.drawable.ic_round_turned_in_24)
+            } else {
+                btnCollect.setImageResource(R.drawable.ic_round_turned_in_not_24)
+            }
+
+            btnCollect.setOnClickListener {
+                // todo 收藏
+            }
+
+            itemView.setOnClickListener {
+                it.openBrowser(item.link)
+            }
+            itemView.setOnLongClickListener {
+                it.openBrowserNewTask(item.link)
+                true
+            }
+        }
+    }
+
+    private fun bindTags(tags: List<ArticleTag>) {
+        binding.apply {
+            cgTags.removeAllViews()
+            for (tag in tags) {
+                cgTags.addView(tagView(cgTags.context, tag))
+            }
+        }
+    }
+
+    private fun tagView(context: Context, tag: ArticleTag): Chip {
+        val chip = Chip(context).apply {
+            layoutParams = ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT, 20f.dp
+            )
+            setEnsureMinTouchTargetSize(false)
+            ensureAccessibleTouchTarget(0)
+            setPadding(paddingLeft, 0, paddingRight, 0)
+            chipStartPadding = 0f
+            chipEndPadding = 0f
+            isCheckable = false
+            text = tag.name
+            textSize = 12f
+        }
+        chip.setOnClickListener {
+            // todo 跳转分类列表
+        }
+        return chip
+    }
+}

@@ -4,17 +4,18 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.qihuan.wanandroid.R
-import com.qihuan.wanandroid.biz.home.ArticleItemViewBinder
-import com.qihuan.wanandroid.biz.home.HomeBannerViewDelegate
-import com.qihuan.wanandroid.common.adapter.PageMultiTypeAdapter
+import com.qihuan.wanandroid.biz.home.ArticlePageAdapter
 import com.qihuan.wanandroid.common.ktx.hideKeyboard
 import com.qihuan.wanandroid.common.ktx.setDefaultColors
 import com.qihuan.wanandroid.common.ktx.viewBinding
 import com.qihuan.wanandroid.databinding.FragmentSearchResultBinding
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 /**
  * SearchResultFragment
@@ -25,7 +26,8 @@ class SearchResultFragment : Fragment(R.layout.fragment_search_result) {
 
     private val binding by viewBinding(FragmentSearchResultBinding::bind)
     private val viewModel by activityViewModels<SearchViewModel>()
-    private lateinit var adapter: PageMultiTypeAdapter
+    private lateinit var adapter: ArticlePageAdapter
+    private var searchJob: Job? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -34,25 +36,14 @@ class SearchResultFragment : Fragment(R.layout.fragment_search_result) {
     }
 
     private fun bindView() {
-        viewModel.refresh()
-        viewModel.searchEvent.observe(viewLifecycleOwner, Observer {
-            viewModel.refresh()
-        })
-
-        viewModel.listLiveData.observe(viewLifecycleOwner, Observer {
-            binding.refreshLayout.isRefreshing = false
-            adapter.loadMoreComplete()
-            adapter.items = it
-        })
+        search()
+        viewModel.searchEvent.observe(viewLifecycleOwner) {
+            search()
+        }
     }
 
     private fun initView() {
-        adapter = PageMultiTypeAdapter()
-        adapter.register(HomeBannerViewDelegate(this))
-        adapter.register(ArticleItemViewBinder())
-        adapter.setOnLoadMoreListener {
-            viewModel.loadMore()
-        }
+        adapter = ArticlePageAdapter()
 
         binding.apply {
             val layoutManager = LinearLayoutManager(context)
@@ -62,10 +53,20 @@ class SearchResultFragment : Fragment(R.layout.fragment_search_result) {
 
             refreshLayout.setDefaultColors()
             refreshLayout.setOnRefreshListener {
-                viewModel.refresh()
+                search()
             }
         }
 
         hideKeyboard()
+    }
+
+    private fun search() {
+        binding.refreshLayout.isRefreshing = false
+        searchJob?.cancel()
+        searchJob = lifecycleScope.launch {
+            viewModel.search().collectLatest {
+                adapter.submitData(it)
+            }
+        }
     }
 }

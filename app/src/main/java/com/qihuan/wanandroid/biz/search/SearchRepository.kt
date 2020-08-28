@@ -1,12 +1,16 @@
 package com.qihuan.wanandroid.biz.search
 
 import androidx.lifecycle.LiveData
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import com.qihuan.wanandroid.bean.Article
 import com.qihuan.wanandroid.bean.HistorySearchKey
 import com.qihuan.wanandroid.bean.SearchKey
 import com.qihuan.wanandroid.common.ApiResult
 import com.qihuan.wanandroid.common.net.WanService
 import com.qihuan.wanandroid.common.net.handleRequest
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 /**
@@ -34,12 +38,11 @@ class SearchRepository @Inject constructor(
         historySearchKeyDao.save(HistorySearchKey(name))
     }
 
-    suspend fun getSearchResult(page: Int = 0, searchText: String): List<Article> {
-        val resp = handleRequest { service.search(page, searchText) }
-        if (resp is ApiResult.Success) {
-            return resp.data?.datas.orEmpty()
-        }
-        return emptyList()
+    fun getSearchResult(searchText: String): Flow<PagingData<Article>> {
+        return Pager(
+            config = PagingConfig(pageSize = 20),
+            pagingSourceFactory = {SearchArticlePagingSource(service, searchText)}
+        ).flow
     }
 
     suspend fun deleteKey(key: String) {
