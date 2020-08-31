@@ -1,4 +1,4 @@
-package com.qihuan.wanandroid.biz.home
+package com.qihuan.wanandroid.biz.home.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

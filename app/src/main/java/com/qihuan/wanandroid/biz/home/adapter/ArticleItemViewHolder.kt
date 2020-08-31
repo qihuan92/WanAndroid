@@ -1,4 +1,4 @@
-package com.qihuan.wanandroid.biz.home
+package com.qihuan.wanandroid.biz.home.adapter
 
 import android.content.Context
 import android.text.Html
