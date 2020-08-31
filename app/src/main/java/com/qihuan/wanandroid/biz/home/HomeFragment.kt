@@ -10,6 +10,10 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.qihuan.wanandroid.R
+import com.qihuan.wanandroid.biz.home.adapter.ArticleItemViewBinder
+import com.qihuan.wanandroid.biz.home.adapter.HomeBannerViewDelegate
+import com.qihuan.wanandroid.biz.home.adapter.HomeTitleViewBinder
+import com.qihuan.wanandroid.biz.home.adapter.ModuleItemViewBinder
 import com.qihuan.wanandroid.biz.search.SearchActivity
 import com.qihuan.wanandroid.common.adapter.PageMultiTypeAdapter
 import com.qihuan.wanandroid.common.ktx.dp

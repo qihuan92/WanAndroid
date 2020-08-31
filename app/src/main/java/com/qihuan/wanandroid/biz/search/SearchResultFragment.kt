@@ -9,7 +9,7 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.qihuan.wanandroid.R
-import com.qihuan.wanandroid.biz.home.ArticlePageAdapter
+import com.qihuan.wanandroid.biz.home.adapter.ArticlePageAdapter
 import com.qihuan.wanandroid.common.adapter.DefaultLoadStateAdapter
 import com.qihuan.wanandroid.common.ktx.hideKeyboard
 import com.qihuan.wanandroid.common.ktx.setDefaultColors
