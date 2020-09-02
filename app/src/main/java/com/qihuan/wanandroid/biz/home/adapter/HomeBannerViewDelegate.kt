@@ -1,9 +1,10 @@
-package com.qihuan.wanandroid.biz.home
+package com.qihuan.wanandroid.biz.home.adapter
 
 import android.content.Context
 import androidx.lifecycle.LifecycleOwner
 import com.drakeet.multitype.ViewDelegate
 import com.qihuan.wanandroid.bean.BannerList
+import com.qihuan.wanandroid.biz.home.HomeBannerLayout
 
 /**
  * HomeBannerViewDelegate
