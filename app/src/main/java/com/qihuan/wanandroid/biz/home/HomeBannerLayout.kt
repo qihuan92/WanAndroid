@@ -30,7 +30,7 @@ import com.qihuan.wanandroid.widget.IndicatorLayout
  * @since 2020/7/16
  */
 class HomeBannerLayout(
-    context: Context?,
+    context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : ConstraintLayout(context, attrs, defStyleAttr), DefaultLifecycleObserver {

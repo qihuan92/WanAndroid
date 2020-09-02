@@ -5,7 +5,6 @@ import android.view.View
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import com.google.android.material.chip.Chip
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -33,10 +32,10 @@ class SearchRecommendFragment : Fragment(R.layout.fragment_search_recommend) {
     }
 
     private fun bindView() {
-        viewModel.hotKeys.observe(viewLifecycleOwner, Observer {
+        viewModel.hotKeys.observe(viewLifecycleOwner, {
             bindHotKeys(it)
         })
-        viewModel.historyKeys.observe(viewLifecycleOwner, Observer {
+        viewModel.historyKeys.observe(viewLifecycleOwner, {
             bindHistoryKeys(it)
         })
     }

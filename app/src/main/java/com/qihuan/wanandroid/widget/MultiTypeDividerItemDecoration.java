@@ -12,7 +12,6 @@ import java.util.List;
  * @author qi
  * @since 2020/8/4
  */
-@SuppressWarnings("unused")
 public class MultiTypeDividerItemDecoration extends DividerItemDecoration {
 
     private final MultiTypeAdapter adapter;

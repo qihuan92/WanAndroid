@@ -6,9 +6,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
+import com.qihuan.wanandroid.bean.Article
 import com.qihuan.wanandroid.bean.HistorySearchKey
 import com.qihuan.wanandroid.bean.SearchKey
 import com.qihuan.wanandroid.common.SingleLiveEvent
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 /**
@@ -21,12 +25,10 @@ class SearchViewModel @ViewModelInject constructor(
 ) : ViewModel() {
 
     val hotKeys by lazy { MutableLiveData<List<SearchKey>>(emptyList()) }
-    val searchText by lazy { ObservableField<String>("") }
+    val searchText by lazy { ObservableField("") }
     val searchEvent by lazy { SingleLiveEvent<Any>() }
-    val listLiveData by lazy { MutableLiveData<MutableList<Any>>(mutableListOf()) }
-    var historyKeys: LiveData<List<HistorySearchKey>> =
-        MutableLiveData<List<HistorySearchKey>>(emptyList())
-    private var page = 0
+    var historyKeys: LiveData<List<HistorySearchKey>> = MutableLiveData(emptyList())
+    private var currentSearchResult: Flow<PagingData<Article>>? = null
 
     init {
         getData()
@@ -41,33 +43,18 @@ class SearchViewModel @ViewModelInject constructor(
         historyKeys = repository.getHistoryKey()
     }
 
-    private fun search() {
-        val searchText = searchText.get()
-        if (searchText.isNullOrEmpty()) {
-            return
-        }
-        viewModelScope.launch {
-            repository.saveHistoryKey(searchText)
-
-            val list = repository.getSearchResult(page, searchText)
-            val value = listLiveData.value
-            if (page == 0) {
-                value?.clear()
+    fun search(): Flow<PagingData<Article>> {
+        val searchText = searchText.get().orEmpty()
+        if (searchText.isNotBlank()) {
+            viewModelScope.launch {
+                repository.saveHistoryKey(searchText)
             }
-            value?.addAll(list)
-            listLiveData.value = value
         }
-    }
 
-    fun refresh() {
-        page = 0
-        listLiveData.value = mutableListOf()
-        search()
-    }
-
-    fun loadMore() {
-        page += 1
-        search()
+        val newResult: Flow<PagingData<Article>> =
+            repository.getSearchResult(searchText).cachedIn(viewModelScope)
+        currentSearchResult = newResult
+        return newResult
     }
 
     fun deleteKey(key: String) {

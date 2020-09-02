@@ -4,17 +4,23 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.qihuan.wanandroid.R
-import com.qihuan.wanandroid.biz.home.ArticleItemViewBinder
-import com.qihuan.wanandroid.biz.home.HomeBannerViewDelegate
-import com.qihuan.wanandroid.common.adapter.PageMultiTypeAdapter
+import com.qihuan.wanandroid.biz.home.adapter.ArticlePageAdapter
+import com.qihuan.wanandroid.common.adapter.DefaultLoadStateAdapter
 import com.qihuan.wanandroid.common.ktx.hideKeyboard
 import com.qihuan.wanandroid.common.ktx.setDefaultColors
 import com.qihuan.wanandroid.common.ktx.viewBinding
 import com.qihuan.wanandroid.databinding.FragmentSearchResultBinding
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChangedBy
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.launch
 
 /**
  * SearchResultFragment
@@ -25,7 +31,8 @@ class SearchResultFragment : Fragment(R.layout.fragment_search_result) {
 
     private val binding by viewBinding(FragmentSearchResultBinding::bind)
     private val viewModel by activityViewModels<SearchViewModel>()
-    private lateinit var adapter: PageMultiTypeAdapter
+    private lateinit var adapter: ArticlePageAdapter
+    private var searchJob: Job? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -34,38 +41,48 @@ class SearchResultFragment : Fragment(R.layout.fragment_search_result) {
     }
 
     private fun bindView() {
-        viewModel.refresh()
-        viewModel.searchEvent.observe(viewLifecycleOwner, Observer {
-            viewModel.refresh()
-        })
-
-        viewModel.listLiveData.observe(viewLifecycleOwner, Observer {
-            binding.refreshLayout.isRefreshing = false
-            adapter.loadMoreComplete()
-            adapter.items = it
-        })
-    }
-
-    private fun initView() {
-        adapter = PageMultiTypeAdapter()
-        adapter.register(HomeBannerViewDelegate(this))
-        adapter.register(ArticleItemViewBinder())
-        adapter.setOnLoadMoreListener {
-            viewModel.loadMore()
+        search()
+        viewModel.searchEvent.observe(viewLifecycleOwner) {
+            search()
         }
-
-        binding.apply {
-            val layoutManager = LinearLayoutManager(context)
-            rvList.layoutManager = layoutManager
-            rvList.itemAnimator = DefaultItemAnimator()
-            rvList.adapter = adapter
-
-            refreshLayout.setDefaultColors()
-            refreshLayout.setOnRefreshListener {
-                viewModel.refresh()
+        lifecycleScope.launchWhenCreated {
+            adapter.loadStateFlow.collectLatest {
+                binding.refreshLayout.isRefreshing = it.refresh is LoadState.Loading
             }
         }
 
+        lifecycleScope.launchWhenCreated {
+            adapter.loadStateFlow
+                // Only emit when REFRESH LoadState for RemoteMediator changes.
+                .distinctUntilChangedBy { it.refresh }
+                // Only react to cases where Remote REFRESH completes i.e., NotLoading.
+                .filter { it.refresh is LoadState.NotLoading }
+                .collect { binding.rvList.scrollToPosition(0) }
+        }
+    }
+
+    private fun initView() {
+        adapter = ArticlePageAdapter()
+
+        val layoutManager = LinearLayoutManager(context)
+        binding.rvList.layoutManager = layoutManager
+        binding.rvList.itemAnimator = DefaultItemAnimator()
+        binding.rvList.adapter = adapter.withLoadStateFooter(DefaultLoadStateAdapter(adapter))
+
+        binding.refreshLayout.setDefaultColors()
+        binding.refreshLayout.setOnRefreshListener {
+            adapter.refresh()
+        }
+
         hideKeyboard()
+    }
+
+    private fun search() {
+        searchJob?.cancel()
+        searchJob = lifecycleScope.launch {
+            viewModel.search().collectLatest {
+                adapter.submitData(it)
+            }
+        }
     }
 }
