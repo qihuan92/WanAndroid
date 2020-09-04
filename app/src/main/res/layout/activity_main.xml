@@ -1,14 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".biz.main.MainActivity">
 
-    <FrameLayout
-        android:id="@+id/layout_content"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
-</LinearLayout>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-60dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            android:overScrollMode="never"
+            android:paddingTop="60dp" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        app:elevation="0dp"
+        app:liftOnScroll="true">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/layout_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginVertical="5dp"
+            android:background="?android:selectableItemBackground"
+            android:transitionName="@string/transition_name_search"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp"
+            app:layout_scrollFlags="scroll|enterAlways">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+
+                <ImageView
+                    android:id="@+id/iv_search"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:src="@drawable/ic_round_search_24"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:text="@string/main_search_hint"
+                    android:textColor="?android:textColorHint"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="@id/iv_search"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/iv_head"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginEnd="15dp"
+                    android:contentDescription="@string/iv_desc_user_head"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:src="@drawable/ic_baseline_account_circle_15" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="15dp"
+        android:background="@color/colorAccent"
+        android:backgroundTint="@color/colorAccent"
+        android:src="@drawable/ic_sharp_vertical_align_top_24"
+        android:visibility="invisible"
+        app:borderWidth="0dp"
+        app:layout_behavior="com.qihuan.wanandroid.widget.FabScrollBehavior"
+        app:tint="@android:color/white"
+        tools:visibility="visible" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
