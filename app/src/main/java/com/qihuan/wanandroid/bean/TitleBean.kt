@@ -1,6 +1,7 @@
 package com.qihuan.wanandroid.bean
 
 import com.qihuan.wanandroid.R
+import com.qihuan.wanandroid.common.adapter.DiffItem
 
 /**
  * TitleBean
@@ -10,7 +11,11 @@ import com.qihuan.wanandroid.R
 data class TitleBean(
     val title: CharSequence,
     val icon: Int
-)
+) : DiffItem {
+    override fun getUniqueId(): Any {
+        return title
+    }
+}
 
 enum class TitleType(
     private val title: CharSequence,

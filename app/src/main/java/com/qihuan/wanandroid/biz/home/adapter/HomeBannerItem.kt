@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.drakeet.multitype.ItemViewBinder
 import com.qihuan.wanandroid.bean.BannerList
 import com.qihuan.wanandroid.databinding.ItemBannerLayoutBinding
 
@@ -55,25 +54,5 @@ class HomeBannerAdapter : ListAdapter<BannerList, HomeBannerViewHolder>(DiffCall
 
     override fun onBindViewHolder(holder: HomeBannerViewHolder, position: Int) {
         holder.bind(getItem(position))
-    }
-}
-
-/**
- * HomeBannerViewBinder
- * @author qi
- * @since 2020/9/8
- */
-class HomeBannerViewBinder : ItemViewBinder<BannerList, HomeBannerViewHolder>() {
-
-    override fun onCreateViewHolder(
-        inflater: LayoutInflater,
-        parent: ViewGroup
-    ): HomeBannerViewHolder {
-        val binding = ItemBannerLayoutBinding.inflate(inflater, parent, false)
-        return HomeBannerViewHolder(binding)
-    }
-
-    override fun onBindViewHolder(holder: HomeBannerViewHolder, item: BannerList) {
-        holder.bind(item)
     }
 }

@@ -9,18 +9,17 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.marginBottom
 import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
+import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.qihuan.wanandroid.R
 import com.qihuan.wanandroid.biz.home.HomeViewModel
-import com.qihuan.wanandroid.biz.home.adapter.ArticleItemViewBinder
-import com.qihuan.wanandroid.biz.home.adapter.HomeBannerViewBinder
-import com.qihuan.wanandroid.biz.home.adapter.HomeTitleViewBinder
-import com.qihuan.wanandroid.biz.home.adapter.ModuleItemViewBinder
+import com.qihuan.wanandroid.biz.home.adapter.ArticlePageAdapter
+import com.qihuan.wanandroid.biz.home.adapter.HomeHeadAdapter
 import com.qihuan.wanandroid.biz.search.SearchActivity
 import com.qihuan.wanandroid.common.ApiResult
-import com.qihuan.wanandroid.common.adapter.PageMultiTypeAdapter
+import com.qihuan.wanandroid.common.adapter.DefaultLoadStateAdapter
 import com.qihuan.wanandroid.common.ktx.*
 import com.qihuan.wanandroid.common.net.handleEvent
 import com.qihuan.wanandroid.databinding.ActivityMainBinding
@@ -32,7 +31,10 @@ class MainActivity : AppCompatActivity() {
 
     private val binding by viewBinding(ActivityMainBinding::inflate)
     private val viewModel by viewModels<HomeViewModel>()
-    private lateinit var adapter: PageMultiTypeAdapter
+
+    private val adapter by lazy { ConcatAdapter() }
+    private val headAdapter by lazy { HomeHeadAdapter() }
+    private val pageAdapter by lazy { ArticlePageAdapter() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,11 +48,8 @@ class MainActivity : AppCompatActivity() {
     private fun initView() {
         adaptNavigationBar()
 
-        adapter = PageMultiTypeAdapter()
-        adapter.register(HomeBannerViewBinder())
-        adapter.register(ArticleItemViewBinder())
-        adapter.register(HomeTitleViewBinder())
-        adapter.register(ModuleItemViewBinder())
+        adapter.addAdapter(headAdapter)
+        adapter.addAdapter(pageAdapter.withLoadStateFooter(DefaultLoadStateAdapter(pageAdapter)))
 
         val layoutManager = LinearLayoutManager(this)
         binding.rvList.layoutManager = layoutManager
@@ -71,11 +70,8 @@ class MainActivity : AppCompatActivity() {
 
             setOnRefreshListener {
                 viewModel.refresh()
+                pageAdapter.refresh()
             }
-        }
-
-        adapter.setOnLoadMoreListener {
-            viewModel.loadMore()
         }
 
         binding.fabTop.setOnClickListener {
@@ -114,13 +110,22 @@ class MainActivity : AppCompatActivity() {
             }
             insets
         }
+
+        // 列表 Padding 处理
+        binding.rvList.setOnApplyWindowInsetsListener { view, insets ->
+            view.updatePadding(bottom = insets.systemWindowInsetBottom)
+            insets
+        }
     }
 
     private fun bindView() {
         viewModel.listLiveData.observe(this, {
             binding.refreshLayout.isRefreshing = false
-            adapter.loadMoreComplete()
-            adapter.items = it
+            headAdapter.submitList(it)
+        })
+
+        viewModel.getArticleList().observe(this, {
+            pageAdapter.submitData(lifecycle, it)
         })
     }
 
