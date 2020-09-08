@@ -1,5 +1,7 @@
 package com.qihuan.wanandroid.bean
 
+import com.qihuan.wanandroid.common.adapter.DiffItem
+
 data class BannerBean(
     val desc: String,
     val id: Int,
@@ -9,4 +11,8 @@ data class BannerBean(
     val title: String,
     val type: Int,
     val url: String
-)
+) : DiffItem {
+    override fun getUniqueId(): Any {
+        return id
+    }
+}

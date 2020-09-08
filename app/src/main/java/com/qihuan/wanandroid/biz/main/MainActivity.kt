@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.qihuan.wanandroid.R
 import com.qihuan.wanandroid.biz.home.HomeViewModel
 import com.qihuan.wanandroid.biz.home.adapter.ArticleItemViewBinder
-import com.qihuan.wanandroid.biz.home.adapter.HomeBannerViewDelegate
+import com.qihuan.wanandroid.biz.home.adapter.HomeBannerViewBinder
 import com.qihuan.wanandroid.biz.home.adapter.HomeTitleViewBinder
 import com.qihuan.wanandroid.biz.home.adapter.ModuleItemViewBinder
 import com.qihuan.wanandroid.biz.search.SearchActivity
@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
         adaptNavigationBar()
 
         adapter = PageMultiTypeAdapter()
-        adapter.register(HomeBannerViewDelegate(this))
+        adapter.register(HomeBannerViewBinder())
         adapter.register(ArticleItemViewBinder())
         adapter.register(HomeTitleViewBinder())
         adapter.register(ModuleItemViewBinder())

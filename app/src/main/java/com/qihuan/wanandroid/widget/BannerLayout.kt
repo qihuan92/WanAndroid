@@ -2,9 +2,11 @@ package com.qihuan.wanandroid.widget
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
@@ -19,11 +21,7 @@ import com.qihuan.wanandroid.databinding.BannerLayoutBinding
  * @author qi
  * @since 2020/7/16
  */
-class BannerLayout(
-    context: Context,
-    attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0
-) : ConstraintLayout(context, attrs, defStyleAttr), DefaultLifecycleObserver {
+class BannerLayout : ConstraintLayout, DefaultLifecycleObserver {
 
     companion object {
         const val INCREASE_COUNT = 2
@@ -31,60 +29,38 @@ class BannerLayout(
     }
 
     private lateinit var binding: BannerLayoutBinding
-    private lateinit var homeBannerAdapter: BannerAdapterWrapper
-//    private lateinit var viewPager: ViewPager2
-//    private lateinit var indicatorLayout: IndicatorLayout
+    private lateinit var homeBannerAdapter: BannerAdapterWrapper<out RecyclerView.ViewHolder>
+
     private var infinite = true
     private var autoPlay = true
     private var period = 3000L
     private var bannerRunnable: BannerRunnable? = null
 
-    init {
+    constructor(context: Context) : super(context) {
+        initView()
+    }
+
+    constructor(context: Context, attributeSet: AttributeSet) : super(context, attributeSet) {
+        initView()
+    }
+
+    constructor(context: Context, attributeSet: AttributeSet, defStyleAttr: Int) : super(
+        context,
+        attributeSet,
+        defStyleAttr
+    ) {
         initView()
     }
 
     private fun initView() {
-        binding = BannerLayoutBinding.bind(this)
-//        initViewPager()
-//        initIndicator()
+        binding = BannerLayoutBinding.inflate(LayoutInflater.from(context), this, true)
+        val context = context
+        if (context is FragmentActivity) {
+            context.lifecycle.addObserver(this)
+        }
     }
 
-//    private fun initViewPager() {
-//        viewPager = ViewPager2(context).apply {
-//            id = View.generateViewId()
-//            layoutParams = LayoutParams(0, 0)
-//        }
-//        addView(viewPager)
-//
-//        val set = ConstraintSet()
-//        set.clone(this)
-//        set.connect(viewPager.id, ConstraintSet.TOP, id, ConstraintSet.TOP)
-//        set.connect(viewPager.id, ConstraintSet.BOTTOM, id, ConstraintSet.BOTTOM)
-//        set.connect(viewPager.id, ConstraintSet.LEFT, id, ConstraintSet.LEFT)
-//        set.connect(viewPager.id, ConstraintSet.RIGHT, id, ConstraintSet.RIGHT)
-//        set.setDimensionRatio(viewPager.id, "H,16:9")
-//        set.applyTo(this)
-//    }
-
-//    private fun initIndicator() {
-//        indicatorLayout = IndicatorLayout(context).apply {
-//            id = View.generateViewId()
-//            layoutParams = LayoutParams(WRAP_CONTENT, WRAP_CONTENT).apply {
-//                setMargins(15f.dp)
-//            }
-//        }
-//        addView(indicatorLayout)
-//
-//        val set = ConstraintSet()
-//        set.clone(this)
-//        //set.connect(dotsIndicator.id, ConstraintSet.TOP, viewPager.id, ConstraintSet.BOTTOM)
-//        set.connect(indicatorLayout.id, ConstraintSet.BOTTOM, viewPager.id, ConstraintSet.BOTTOM)
-//        set.connect(indicatorLayout.id, ConstraintSet.LEFT, id, ConstraintSet.LEFT)
-//        set.connect(indicatorLayout.id, ConstraintSet.RIGHT, id, ConstraintSet.RIGHT)
-//        set.applyTo(this)
-//    }
-
-    fun setAdapter(adapter: RecyclerView.Adapter<RecyclerView.ViewHolder>) {
+    fun setAdapter(adapter: RecyclerView.Adapter<out RecyclerView.ViewHolder>) {
         homeBannerAdapter = BannerAdapterWrapper(infinite, adapter)
 
         binding.vpBanner.adapter = homeBannerAdapter
@@ -140,16 +116,24 @@ class BannerLayout(
         return super.dispatchTouchEvent(ev)
     }
 
-    class BannerAdapterWrapper(
+    class BannerAdapterWrapper<VH : RecyclerView.ViewHolder>(
         private val infinite: Boolean,
-        private val adapter: RecyclerView.Adapter<RecyclerView.ViewHolder>
-    ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        private val adapter: RecyclerView.Adapter<VH>
+    ) : RecyclerView.Adapter<VH>() {
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
             return adapter.onCreateViewHolder(parent, viewType)
         }
 
-        override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-            adapter.bindViewHolder(holder, position)
+        override fun onBindViewHolder(holder: VH, position: Int) {
+            adapter.bindViewHolder(holder, getRealPosition(position))
+        }
+
+        override fun onBindViewHolder(
+            holder: VH,
+            position: Int,
+            payloads: MutableList<Any>
+        ) {
+            adapter.onBindViewHolder(holder, getRealPosition(position), payloads)
         }
 
         override fun getItemCount(): Int {
@@ -157,7 +141,7 @@ class BannerLayout(
         }
 
         override fun getItemViewType(position: Int): Int {
-            return adapter.getItemViewType(position)
+            return adapter.getItemViewType(getRealPosition(position))
         }
 
         fun getRealItemCount(): Int {
@@ -191,15 +175,19 @@ class BannerLayout(
     class OnPageChangeCallback(
         private val infinite: Boolean,
         private val viewPager: ViewPager2,
-        private val adapter: BannerAdapterWrapper,
+        private val adapter: BannerAdapterWrapper<out RecyclerView.ViewHolder>,
         private val indicatorLayout: ProgressIndicator? = null
     ) : ViewPager2.OnPageChangeCallback() {
         private var tempPosition: Int = 0
         override fun onPageSelected(position: Int) {
-            if (adapter.getRealItemCount() > 1) {
+            val realItemCount = adapter.getRealItemCount()
+            if (realItemCount > 1) {
                 tempPosition = position
             }
-            indicatorLayout?.setProgressCompat((adapter.getRealPosition(position) + 1) / adapter.getRealItemCount(), true)
+
+            val realPosition = adapter.getRealPosition(position)
+            val progress = ((realPosition + 1) * 100f / realItemCount).toInt()
+            indicatorLayout?.setProgressCompat(progress, true)
         }
 
         override fun onPageScrollStateChanged(state: Int) {
