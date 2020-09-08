@@ -1,5 +1,7 @@
 package com.qihuan.wanandroid.bean
 
+import com.qihuan.wanandroid.common.adapter.DiffItem
+
 /**
  * ModuleBean
  * @author qi
@@ -7,11 +9,19 @@ package com.qihuan.wanandroid.bean
  */
 data class ModuleList(
     val list: List<ModuleBean>
-)
+) : DiffItem {
+    override fun getUniqueId(): Any {
+        return list.joinToString { it.title }
+    }
+}
 
 data class ModuleBean(
     val backgroundImage: String,
     val icon: String,
     val title: String,
     val link: String
-)
+) : DiffItem {
+    override fun getUniqueId(): Any {
+        return title
+    }
+}

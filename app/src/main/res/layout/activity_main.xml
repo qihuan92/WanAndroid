@@ -19,8 +19,7 @@
             android:layout_height="wrap_content"
             android:clipToPadding="false"
             android:overScrollMode="never"
-            android:paddingTop="60dp"
-            android:paddingBottom="40dp" />
+            android:paddingTop="60dp" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <com.google.android.material.appbar.AppBarLayout

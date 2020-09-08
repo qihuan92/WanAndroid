@@ -1,5 +1,7 @@
 package com.qihuan.wanandroid.biz.home
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
 import com.qihuan.wanandroid.bean.Article
 import com.qihuan.wanandroid.bean.BannerList
 import com.qihuan.wanandroid.bean.ModuleBean
@@ -16,10 +18,10 @@ import javax.inject.Inject
  * @author qi
  * @since 2020/7/22
  */
-class HomeRepository @Inject constructor(private val wanService: WanService) {
+class HomeRepository @Inject constructor(private val service: WanService) {
 
     suspend fun getBanner(): BannerList {
-        val result = handleRequest { wanService.getBanner() }
+        val result = handleRequest { service.getBanner() }
         val bannerList = BannerList(emptyList())
         if (result is ApiResult.Success) {
             bannerList.list = result.data.orEmpty()
@@ -28,7 +30,7 @@ class HomeRepository @Inject constructor(private val wanService: WanService) {
     }
 
     suspend fun getTopArticleList(): List<Article> {
-        val resp = handleRequest { wanService.getTopArticles() }
+        val resp = handleRequest { service.getTopArticles() }
         if (resp is ApiResult.Success) {
             return resp.data.orEmpty().onEach {
                 it.isTop = true
@@ -39,12 +41,17 @@ class HomeRepository @Inject constructor(private val wanService: WanService) {
 
     suspend fun getArticleList(page: Int = 0): List<Article> {
         var list = mutableListOf<Article>()
-        val resp = handleRequest { wanService.getHomeArticles(page) }
+        val resp = handleRequest { service.getHomeArticles(page) }
         if (resp is ApiResult.Success) {
             list = resp.data?.datas?.toMutableList() ?: mutableListOf()
         }
         return list
     }
+
+    fun getArticleList() = Pager(
+        config = PagingConfig(pageSize = 20),
+        pagingSourceFactory = { HomeArticlePagingSource(service) }
+    ).flow
 
     suspend fun getHomeModuleList(): ModuleList {
         return withContext(Dispatchers.IO) {

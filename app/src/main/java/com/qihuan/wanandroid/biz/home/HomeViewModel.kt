@@ -3,8 +3,12 @@ package com.qihuan.wanandroid.biz.home
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
+import androidx.paging.cachedIn
 import com.qihuan.wanandroid.bean.TitleType
+import com.qihuan.wanandroid.common.adapter.DiffItem
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 /**
@@ -15,7 +19,7 @@ import kotlinx.coroutines.launch
 class HomeViewModel @ViewModelInject constructor(
     private val repository: HomeRepository
 ) : ViewModel() {
-    val listLiveData = MutableLiveData<MutableList<Any>>(mutableListOf())
+    val listLiveData = MutableLiveData<MutableList<DiffItem>>(mutableListOf())
     private var page: Int = 0
 
     init {
@@ -25,7 +29,7 @@ class HomeViewModel @ViewModelInject constructor(
     fun refresh() {
         page = 0
         viewModelScope.launch {
-            val list = mutableListOf<Any>()
+            val list = mutableListOf<DiffItem>()
 
             val bannerList = repository.getBanner()
             list.add(bannerList)
@@ -42,28 +46,17 @@ class HomeViewModel @ViewModelInject constructor(
                 list.addAll(topArticleList)
             }
 
-            val articleList = repository.getArticleList(page)
-            if (articleList.isNotEmpty()) {
-                list.add(TitleType.TIMELINE.create())
-                list.addAll(articleList)
-            }
+            list.add(TitleType.TIMELINE.create())
 
             listLiveData.value = list
         }
     }
 
-    fun loadMore() {
-        page += 1
-        viewModelScope.launch {
-            val list = mutableListOf<Any>()
-            listLiveData.value?.apply {
-                list.addAll(this)
+    fun getArticleList() = liveData {
+        repository.getArticleList()
+            .cachedIn(viewModelScope)
+            .collectLatest {
+                emit(it)
             }
-
-            val articleList = repository.getArticleList(page)
-            list.addAll(articleList)
-
-            listLiveData.value = list
-        }
     }
 }
