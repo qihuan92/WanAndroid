@@ -29,7 +29,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun initView() {
         supportFragmentManager.commit {
-            val findFragmentById = supportFragmentManager.findFragmentById(R.id.layout_content)
             replace(R.id.layout_content, obtainViewFragment())
         }
     }
