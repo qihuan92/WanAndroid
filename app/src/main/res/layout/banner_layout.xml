@@ -20,6 +20,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
+        app:growMode="bidirectional"
         app:indicatorColor="?attr/colorPrimary"
         app:indicatorCornerRadius="2dp"
         app:layout_constraintBottom_toBottomOf="@id/vp_banner"

@@ -195,6 +195,7 @@ class BannerLayout : ConstraintLayout, DefaultLifecycleObserver {
 
             val realPosition = adapter.getRealPosition(position)
             val progress = ((realPosition + 1) * 100f / realItemCount).toInt()
+            indicatorLayout?.show()
             indicatorLayout?.setProgressCompat(progress, true)
         }
 
