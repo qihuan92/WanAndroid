@@ -17,6 +17,7 @@ import com.qihuan.wanandroid.R
 import com.qihuan.wanandroid.biz.home.adapter.ArticlePageAdapter
 import com.qihuan.wanandroid.biz.home.adapter.HomeHeadAdapter
 import com.qihuan.wanandroid.biz.search.SearchActivity
+import com.qihuan.wanandroid.common.adapter.DefaultLoadStateAdapter
 import com.qihuan.wanandroid.common.ktx.*
 import com.qihuan.wanandroid.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -36,7 +37,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private val adapter by lazy {
         ConcatAdapter().apply {
             addAdapter(headAdapter)
-            addAdapter(pageAdapter)
+            addAdapter(pageAdapter.withLoadStateFooter(DefaultLoadStateAdapter(pageAdapter)))
         }
     }
 
