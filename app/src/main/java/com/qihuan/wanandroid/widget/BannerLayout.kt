@@ -6,13 +6,13 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.progressindicator.ProgressIndicator
 import com.qihuan.wanandroid.databinding.BannerLayoutBinding
+import dagger.hilt.android.internal.managers.ViewComponentManager
 
 
 /**
@@ -35,6 +35,7 @@ class BannerLayout : ConstraintLayout, DefaultLifecycleObserver {
     private var autoPlay = true
     private var period = 3000L
     private var bannerRunnable: BannerRunnable? = null
+    private var isLifeStop = false
 
     constructor(context: Context) : super(context) {
         initView()
@@ -55,8 +56,10 @@ class BannerLayout : ConstraintLayout, DefaultLifecycleObserver {
     private fun initView() {
         binding = BannerLayoutBinding.inflate(LayoutInflater.from(context), this, true)
         val context = context
-        if (context is FragmentActivity) {
+        if (context is LifecycleOwner) {
             context.lifecycle.addObserver(this)
+        } else if (context is ViewComponentManager.FragmentContextWrapper) {
+            context.fragment.lifecycle.addObserver(this)
         }
     }
 
@@ -76,16 +79,21 @@ class BannerLayout : ConstraintLayout, DefaultLifecycleObserver {
 
     override fun onStart(owner: LifecycleOwner) {
         super.onStart(owner)
+        isLifeStop = false
         startPlay()
     }
 
     override fun onStop(owner: LifecycleOwner) {
         super.onStop(owner)
+        isLifeStop = true
         stopPlay()
     }
 
     private fun startPlay() {
         if (!autoPlay) {
+            return
+        }
+        if (isLifeStop) {
             return
         }
         if (bannerRunnable == null) {
