@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.progressindicator.ProgressIndicator
 import com.qihuan.wanandroid.databinding.BannerLayoutBinding
-import kotlin.math.abs
 
 
 /**
@@ -36,9 +35,6 @@ class BannerLayout : ConstraintLayout, DefaultLifecycleObserver {
     private var autoPlay = true
     private var period = 3000L
     private var bannerRunnable: BannerRunnable? = null
-
-    private var startX = 0
-    private var startY = 0
 
     constructor(context: Context) : super(context) {
         initView()
@@ -105,23 +101,6 @@ class BannerLayout : ConstraintLayout, DefaultLifecycleObserver {
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
         when (ev?.actionMasked) {
             MotionEvent.ACTION_DOWN -> {
-                startX = ev.x.toInt()
-                startY = ev.y.toInt()
-                parent.requestDisallowInterceptTouchEvent(true)
-
-                if (autoPlay) {
-                    stopPlay()
-                }
-            }
-            MotionEvent.ACTION_MOVE -> {
-                val endX = ev.x.toInt()
-                val endY = ev.y.toInt()
-                val disX = abs(endX - startX)
-                val disY = abs(endY - startY)
-                if (disX > disY) {
-                    parent.requestDisallowInterceptTouchEvent(true)
-                }
-
                 if (autoPlay) {
                     stopPlay()
                 }
