@@ -1,6 +1,5 @@
 package com.qihuan.wanandroid.biz.home.adapter
 
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.qihuan.wanandroid.bean.ModuleList
@@ -16,11 +15,7 @@ class HomeModuleViewHolder(binding: ItemHomeModuleBinding) : RecyclerView.ViewHo
     private val adapter by lazy { ModuleCellAdapter() }
 
     init {
-        binding.rvList.layoutManager = LinearLayoutManager(
-            binding.rvList.context, LinearLayoutManager.HORIZONTAL, false
-        )
         PagerSnapHelper().attachToRecyclerView(binding.rvList)
-
         binding.rvList.adapter = adapter
     }
 
