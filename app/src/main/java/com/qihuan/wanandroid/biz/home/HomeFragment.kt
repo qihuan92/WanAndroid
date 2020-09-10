@@ -123,7 +123,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             headAdapter.submitList(it)
         })
 
-        viewModel.getArticleList().observe(viewLifecycleOwner, {
+        viewModel.pageLiveData.observe(viewLifecycleOwner, {
             pageAdapter.submitData(lifecycle, it)
         })
     }

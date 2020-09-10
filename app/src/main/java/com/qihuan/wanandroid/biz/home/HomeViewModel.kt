@@ -3,9 +3,10 @@ package com.qihuan.wanandroid.biz.home
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import com.qihuan.wanandroid.bean.Article
 import com.qihuan.wanandroid.bean.TitleType
 import com.qihuan.wanandroid.common.adapter.DiffItem
 import kotlinx.coroutines.flow.collectLatest
@@ -20,6 +21,7 @@ class HomeViewModel @ViewModelInject constructor(
     private val repository: HomeRepository
 ) : ViewModel() {
     val listLiveData = MutableLiveData<MutableList<DiffItem>>(mutableListOf())
+    val pageLiveData by lazy { MutableLiveData<PagingData<Article>>() }
     private var page: Int = 0
 
     init {
@@ -49,14 +51,12 @@ class HomeViewModel @ViewModelInject constructor(
             list.add(TitleType.TIMELINE.create())
 
             listLiveData.value = list
-        }
-    }
 
-    fun getArticleList() = liveData {
-        repository.getArticleList()
-            .cachedIn(viewModelScope)
-            .collectLatest {
-                emit(it)
-            }
+            repository.getArticleList()
+                .cachedIn(viewModelScope)
+                .collectLatest {
+                    pageLiveData.value = it
+                }
+        }
     }
 }
