@@ -2,6 +2,9 @@ package com.qihuan.wanandroid.biz.search
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -36,8 +39,19 @@ class SearchResultFragment : Fragment(R.layout.fragment_search_result) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        adaptBars()
         initView()
         bindView()
+    }
+
+    private fun adaptBars() {
+        ViewCompat.setOnApplyWindowInsetsListener(binding.rvList) { view, insets ->
+            val barInsets = insets.getInsets(
+                WindowInsetsCompat.Type.ime() or WindowInsetsCompat.Type.navigationBars()
+            )
+            view.updatePadding(bottom = barInsets.bottom)
+            insets
+        }
     }
 
     private fun bindView() {

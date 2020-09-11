@@ -10,6 +10,5 @@
         android:layout_height="wrap_content"
         android:clipToPadding="false"
         android:overScrollMode="never"
-        android:paddingTop="10dp"
-        android:paddingBottom="40dp" />
+        android:paddingTop="10dp" />
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
