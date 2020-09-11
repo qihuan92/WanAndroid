@@ -3,11 +3,11 @@ package com.qihuan.wanandroid.biz.main
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.WindowCompat
 import androidx.fragment.app.commit
 import com.qihuan.wanandroid.R
 import com.qihuan.wanandroid.biz.home.HomeFragment
 import com.qihuan.wanandroid.common.ApiResult
-import com.qihuan.wanandroid.common.ktx.applyEdgeToEdge
 import com.qihuan.wanandroid.common.ktx.viewBinding
 import com.qihuan.wanandroid.common.net.handleEvent
 import com.qihuan.wanandroid.databinding.ActivityMainBinding
@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        applyEdgeToEdge()
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         setContentView(binding.root)
         initView()
         bindEvent()

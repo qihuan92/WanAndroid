@@ -9,8 +9,10 @@
         <item name="android:listDivider">@drawable/default_item_divider</item>
     </style>
 
-    <style name="AppTheme.TranslucentNavigationBar">
-        <item name="android:navigationBarColor">@android:color/transparent</item>
+    <style name="AppTheme.TranslucentBars">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@color/colorNavigationBar</item>
+        <item name="android:windowLightStatusBar">true</item>
     </style>
 
     <style name="AppTheme.Splash" parent="Theme.MaterialComponents.DayNight.NoActionBar">
