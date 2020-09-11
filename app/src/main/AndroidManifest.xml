@@ -26,10 +26,12 @@
 
         <activity
             android:name=".biz.main.MainActivity"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.TranslucentBars" />
 
         <activity
             android:name=".biz.search.SearchActivity"
+            android:theme="@style/AppTheme.TranslucentBars"
             android:windowSoftInputMode="stateVisible|adjustResize" />
     </application>
 

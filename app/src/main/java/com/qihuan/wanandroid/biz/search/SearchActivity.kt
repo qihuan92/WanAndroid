@@ -4,12 +4,14 @@ import android.os.Bundle
 import android.view.inputmethod.EditorInfo
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import androidx.core.widget.addTextChangedListener
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.qihuan.wanandroid.R
-import com.qihuan.wanandroid.common.ktx.applyEdgeToEdge
 import com.qihuan.wanandroid.common.ktx.viewBinding
 import com.qihuan.wanandroid.databinding.ActivitySearchBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -30,7 +32,7 @@ class SearchActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        applyEdgeToEdge()
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         setContentView(binding.root)
         binding.viewModel = viewModel
         initSearchView()
@@ -38,8 +40,9 @@ class SearchActivity : AppCompatActivity() {
 
     private fun adaptNavigationBar() {
         // 顶部 Padding 处理
-        binding.root.setOnApplyWindowInsetsListener { view, insets ->
-            view.updatePadding(top = insets.systemWindowInsetTop)
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, insets ->
+            val statusBarInsets = insets.getInsets(WindowInsetsCompat.Type.statusBars())
+            view.updatePadding(top = statusBarInsets.top)
             insets
         }
     }

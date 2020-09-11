@@ -4,9 +4,7 @@ import android.app.ActivityOptions
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.marginBottom
-import androidx.core.view.updateLayoutParams
-import androidx.core.view.updatePadding
+import androidx.core.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ConcatAdapter
@@ -91,28 +89,31 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun adaptNavigationBar() {
         // 顶部 Padding 处理
-        binding.root.setOnApplyWindowInsetsListener { view, insets ->
-            view.updatePadding(top = insets.systemWindowInsetTop)
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, insets ->
+            val statusBarInserts = insets.getInsets(WindowInsetsCompat.Type.statusBars())
+            view.updatePadding(top = statusBarInserts.top)
             insets
         }
 
         val fabTopMarginBottom = binding.fabTop.marginBottom
         // FAB 适配 NavigationBar
-        binding.fabTop.setOnApplyWindowInsetsListener { view, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(binding.fabTop) { view, insets ->
+            val navigationBarInserts = insets.getInsets(WindowInsetsCompat.Type.navigationBars())
             view.updateLayoutParams {
                 (this as ViewGroup.MarginLayoutParams).setMargins(
                     leftMargin,
                     topMargin,
                     rightMargin,
-                    fabTopMarginBottom + insets.systemWindowInsetBottom
+                    fabTopMarginBottom + navigationBarInserts.bottom
                 )
             }
             insets
         }
 
         // 列表 Padding 处理
-        binding.rvList.setOnApplyWindowInsetsListener { view, insets ->
-            view.updatePadding(bottom = insets.systemWindowInsetBottom)
+        ViewCompat.setOnApplyWindowInsetsListener(binding.rvList) { view, insets ->
+            val navigationBarInserts = insets.getInsets(WindowInsetsCompat.Type.navigationBars())
+            view.updatePadding(bottom = navigationBarInserts.bottom)
             insets
         }
     }

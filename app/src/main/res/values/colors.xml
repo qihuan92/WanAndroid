@@ -7,4 +7,5 @@
     <color name="colorDivider">#EEEEEE</color>
     <color name="colorTitleLayout">#FFFFFF</color>
     <color name="colorRefreshIndicatorBackground">#FFFFFF</color>
+    <color name="colorNavigationBar">#B3FFFFFF</color>
 </resources>
