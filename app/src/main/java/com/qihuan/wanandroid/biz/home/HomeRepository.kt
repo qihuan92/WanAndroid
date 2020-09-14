@@ -2,6 +2,7 @@ package com.qihuan.wanandroid.biz.home
 
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
+import com.qihuan.wanandroid.R
 import com.qihuan.wanandroid.bean.Article
 import com.qihuan.wanandroid.bean.BannerList
 import com.qihuan.wanandroid.bean.ModuleBean
@@ -57,10 +58,9 @@ class HomeRepository @Inject constructor(private val service: WanService) {
         return withContext(Dispatchers.IO) {
             // todo 获取数据
             val list = listOf(
-                ModuleBean("", "", "", ""),
-                ModuleBean("", "", "", ""),
-                ModuleBean("", "", "", ""),
-                ModuleBean("", "", "", "")
+                ModuleBean("", R.drawable.ic_round_account_tree_24, "体系", ""),
+                ModuleBean("", R.drawable.ic_round_explore_24, "导航", ""),
+                ModuleBean("", R.drawable.ic_round_question_answer_24, "问答", ""),
             )
             return@withContext ModuleList(list)
         }

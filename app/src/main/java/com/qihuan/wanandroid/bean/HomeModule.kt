@@ -1,5 +1,6 @@
 package com.qihuan.wanandroid.bean
 
+import androidx.annotation.DrawableRes
 import com.qihuan.wanandroid.common.adapter.DiffItem
 
 /**
@@ -17,7 +18,7 @@ data class ModuleList(
 
 data class ModuleBean(
     val backgroundImage: String,
-    val icon: String,
+    @DrawableRes val icon: Int,
     val title: String,
     val link: String
 ) : DiffItem {
