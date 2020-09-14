@@ -29,6 +29,22 @@
             android:name=".biz.search.SearchActivity"
             android:theme="@style/AppTheme.TranslucentBars"
             android:windowSoftInputMode="stateVisible|adjustResize" />
+
+        <activity
+            android:name=".biz.tree.SystemTreeActivity"
+            android:theme="@style/AppTheme.TranslucentBars">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="wanandroid"
+                    android:path="/tree"
+                    android:scheme="open" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
