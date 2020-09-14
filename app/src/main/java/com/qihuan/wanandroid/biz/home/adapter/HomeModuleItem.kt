@@ -1,6 +1,5 @@
 package com.qihuan.wanandroid.biz.home.adapter
 
-import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.qihuan.wanandroid.bean.ModuleList
 import com.qihuan.wanandroid.databinding.ItemHomeModuleBinding
@@ -15,7 +14,6 @@ class HomeModuleViewHolder(binding: ItemHomeModuleBinding) : RecyclerView.ViewHo
     private val adapter by lazy { ModuleCellAdapter() }
 
     init {
-        PagerSnapHelper().attachToRecyclerView(binding.rvList)
         binding.rvList.adapter = adapter
     }
 

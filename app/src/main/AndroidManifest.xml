@@ -14,20 +14,16 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".biz.main.SplashActivity"
-            android:launchMode="singleTop"
-            android:theme="@style/AppTheme.Splash">
+            android:name=".biz.main.MainActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.TranslucentBars">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity
-            android:name=".biz.main.MainActivity"
-            android:launchMode="singleTask"
-            android:theme="@style/AppTheme.TranslucentBars" />
 
         <activity
             android:name=".biz.search.SearchActivity"

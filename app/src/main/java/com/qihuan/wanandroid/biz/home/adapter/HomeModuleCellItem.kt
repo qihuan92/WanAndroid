@@ -24,7 +24,7 @@ class ModuleCellViewHolder(
 
     fun bind(item: ModuleBean) {
         binding.ivBackground.load(item.backgroundImage)
-        binding.ivIcon.load(item.icon)
+        binding.ivIcon.setImageResource(item.icon)
         binding.tvTitle.text = item.title
         binding.root.setOnClickListener {
             if (item.link.isEmpty()) {
