@@ -21,7 +21,7 @@ interface WanService {
     suspend fun getBanner(): WanResponse<List<BannerBean>>
 
     @GET("/tree/json")
-    suspend fun getSystemType(): WanResponse<List<SystemNode>>
+    suspend fun getSystemTreeList(): WanResponse<List<SystemNode>>
 
     @GET("/article/list/{page}/json")
     suspend fun getSystemTypeDetail(
