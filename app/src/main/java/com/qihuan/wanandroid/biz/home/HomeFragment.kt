@@ -1,12 +1,12 @@
 package com.qihuan.wanandroid.biz.home
 
-import android.app.ActivityOptions
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,9 +14,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.qihuan.wanandroid.R
 import com.qihuan.wanandroid.biz.home.adapter.ArticlePageAdapter
 import com.qihuan.wanandroid.biz.home.adapter.HomeHeadAdapter
-import com.qihuan.wanandroid.biz.search.SearchActivity
 import com.qihuan.wanandroid.common.adapter.DefaultLoadStateAdapter
-import com.qihuan.wanandroid.common.ktx.*
+import com.qihuan.wanandroid.common.ktx.dp
+import com.qihuan.wanandroid.common.ktx.hideInvisible
+import com.qihuan.wanandroid.common.ktx.setDefaultColors
+import com.qihuan.wanandroid.common.ktx.viewBinding
 import com.qihuan.wanandroid.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -76,14 +78,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
 
         binding.layoutSearch.setOnClickListener {
-            startActivity(
-                buildIntent<SearchActivity>(requireContext()) {},
-                ActivityOptions.makeSceneTransitionAnimation(
-                    requireActivity(),
-                    binding.layoutSearch,
-                    getString(R.string.transition_name_search)
-                ).toBundle()
-            )
+            val directions = HomeFragmentDirections.actionHomeFragmentToSearchActivity()
+            findNavController().navigate(directions)
         }
     }
 

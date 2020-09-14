@@ -4,9 +4,6 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
-import androidx.fragment.app.commit
-import com.qihuan.wanandroid.R
-import com.qihuan.wanandroid.biz.home.HomeFragment
 import com.qihuan.wanandroid.common.ApiResult
 import com.qihuan.wanandroid.common.ktx.viewBinding
 import com.qihuan.wanandroid.common.net.handleEvent
@@ -23,18 +20,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContentView(binding.root)
-        initView()
         bindEvent()
     }
-
-    private fun initView() {
-        supportFragmentManager.commit {
-            replace(R.id.layout_content, obtainViewFragment())
-        }
-    }
-
-    private fun obtainViewFragment() =
-        supportFragmentManager.findFragmentById(R.id.layout_content) ?: HomeFragment()
 
     private fun bindEvent() {
         // todo 全局异常处理
