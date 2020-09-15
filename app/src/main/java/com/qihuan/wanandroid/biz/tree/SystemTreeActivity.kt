@@ -3,7 +3,6 @@ package com.qihuan.wanandroid.biz.tree
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.selection.SelectionPredicates
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.selection.StableIdKeyProvider
 import androidx.recyclerview.selection.StorageStrategy
@@ -53,7 +52,19 @@ class SystemTreeActivity : AppCompatActivity() {
             SystemTreeFirstAdapter.ItemLookup(binding.rvListFirst),
             StorageStrategy.createLongStorage()
         ).withSelectionPredicate(
-            SelectionPredicates.createSelectSingleAnything()
+            object : SelectionTracker.SelectionPredicate<Long>() {
+                override fun canSetStateForKey(key: Long, nextState: Boolean): Boolean {
+                    return nextState
+                }
+
+                override fun canSetStateAtPosition(position: Int, nextState: Boolean): Boolean {
+                    return nextState
+                }
+
+                override fun canSelectMultiple(): Boolean {
+                    return false
+                }
+            }
         ).build().apply {
             select(0)
             addObserver(object : SelectionTracker.SelectionObserver<Long>() {
