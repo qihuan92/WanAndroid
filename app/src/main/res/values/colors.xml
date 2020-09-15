@@ -8,4 +8,5 @@
     <color name="colorTitleLayout">#FFFFFF</color>
     <color name="colorRefreshIndicatorBackground">#FFFFFF</color>
     <color name="colorNavigationBar">#B3FFFFFF</color>
+    <color name="colorItemUnSelection">#F5F5F5</color>
 </resources>
