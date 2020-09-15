@@ -8,4 +8,5 @@
     <color name="colorTitleLayout">@android:color/transparent</color>
     <color name="colorRefreshIndicatorBackground">#2B2B2B</color>
     <color name="colorNavigationBar">#B3000000</color>
+    <color name="colorItemUnSelection">#1FFFFFFF</color>
 </resources>
