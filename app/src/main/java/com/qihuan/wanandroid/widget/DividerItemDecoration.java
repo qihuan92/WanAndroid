@@ -136,8 +136,8 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
         final int left;
         final int right;
         if (parent.getClipToPadding()) {
-            left = parent.getPaddingLeft();
-            right = parent.getWidth() - parent.getPaddingRight();
+            left = parent.getPaddingLeft() + paddingStart;
+            right = parent.getWidth() - parent.getPaddingRight() - paddingEnd;
             canvas.clipRect(left, parent.getPaddingTop(), right, parent.getHeight() - parent.getPaddingBottom());
         } else {
             left = paddingStart;
@@ -167,8 +167,8 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
         final int top;
         final int bottom;
         if (parent.getClipToPadding()) {
-            top = parent.getPaddingTop();
-            bottom = parent.getHeight() - parent.getPaddingBottom();
+            top = parent.getPaddingTop() + paddingStart;
+            bottom = parent.getHeight() - parent.getPaddingBottom() - paddingEnd;
             canvas.clipRect(parent.getPaddingLeft(), top, parent.getWidth() - parent.getPaddingRight(), bottom);
         } else {
             top = paddingStart;
