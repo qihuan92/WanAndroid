@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="?android:actionBarSize"
             android:background="@color/colorTitleLayout"
-            android:elevation="4dp"
+            android:elevation="@dimen/elevation_title_bar"
             android:paddingHorizontal="16dp"
             android:paddingVertical="5dp">
 

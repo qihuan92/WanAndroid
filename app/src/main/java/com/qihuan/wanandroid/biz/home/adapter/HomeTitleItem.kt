@@ -16,8 +16,9 @@ class HomeTitleViewHolder(
     fun bind(item: TitleBean) {
         binding.apply {
             tvTitle.text = item.title
-            ivIcon.isVisible = true
-            ivIcon.setImageResource(item.icon)
+            val icon = item.icon
+            ivIcon.isVisible = icon > 0
+            ivIcon.setImageResource(icon)
         }
     }
 }

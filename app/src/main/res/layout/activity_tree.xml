@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
         android:background="@color/colorTitleLayout"
-        android:elevation="4dp"
+        android:elevation="@dimen/elevation_title_bar"
         app:navigationIcon="@drawable/ic_round_arrow_back_24"
         app:title="体系" />
 

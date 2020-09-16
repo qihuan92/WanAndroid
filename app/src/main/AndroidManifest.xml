@@ -50,6 +50,22 @@
             android:name=".biz.tree.TreeArticleActivity"
             android:configChanges="orientation|screenSize"
             android:theme="@style/AppTheme.TranslucentBars" />
+
+        <activity
+            android:name=".biz.navigation.NavigationActivity"
+            android:theme="@style/AppTheme.TranslucentBars">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="wanandroid"
+                    android:path="/navigation"
+                    android:scheme="open" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

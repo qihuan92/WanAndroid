@@ -30,7 +30,7 @@ interface WanService {
     ): WanResponse<WanPage<Article>>
 
     @GET("/navi/json")
-    suspend fun getNavigation(): WanResponse<List<Navigation>>
+    suspend fun getNavigation(): WanResponse<List<NavigationBean>>
 
     @GET("/project/tree/json")
     suspend fun getProjectType(): WanResponse<List<SystemNode>>

@@ -10,7 +10,7 @@ import com.qihuan.wanandroid.common.adapter.DiffItem
  */
 data class TitleBean(
     val title: CharSequence,
-    val icon: Int
+    val icon: Int = 0
 ) : DiffItem {
     override fun getUniqueId(): Any {
         return title

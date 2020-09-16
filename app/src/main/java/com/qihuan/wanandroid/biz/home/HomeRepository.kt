@@ -59,7 +59,7 @@ class HomeRepository @Inject constructor(private val service: WanService) {
             // todo 获取数据
             val list = listOf(
                 ModuleBean("", R.drawable.ic_round_account_tree_24, "体系", "open://wanandroid/tree"),
-                ModuleBean("", R.drawable.ic_round_explore_24, "导航", ""),
+                ModuleBean("", R.drawable.ic_round_explore_24, "导航", "open://wanandroid/navigation"),
                 ModuleBean("", R.drawable.ic_round_question_answer_24, "问答", ""),
             )
             return@withContext ModuleList(list)
