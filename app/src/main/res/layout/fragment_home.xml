@@ -38,7 +38,7 @@
             android:background="?android:selectableItemBackground"
             android:transitionName="@string/transition_name_search"
             app:cardCornerRadius="8dp"
-            app:cardElevation="4dp"
+            android:elevation="@dimen/elevation_title_bar"
             app:layout_scrollFlags="scroll|enterAlways">
 
             <androidx.constraintlayout.widget.ConstraintLayout

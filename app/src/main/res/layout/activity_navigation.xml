@@ -12,21 +12,18 @@
         android:background="@color/colorTitleLayout"
         android:elevation="@dimen/elevation_title_bar"
         app:navigationIcon="@drawable/ic_round_arrow_back_24"
-        app:title="体系" />
+        app:title="导航" />
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tab_layout"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorTitleLayout"
-        android:elevation="@dimen/elevation_title_bar"
-        app:tabIndicator="@drawable/shape_tab_indicator"
-        app:tabIndicatorFullWidth="false"
-        app:tabMode="scrollable"
-        app:tabTextAppearance="@style/TextAppearance.MaterialComponents.Subtitle2.TabText" />
+        android:layout_height="match_parent">
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/vp_content"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingTop="10dp" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </LinearLayout>
