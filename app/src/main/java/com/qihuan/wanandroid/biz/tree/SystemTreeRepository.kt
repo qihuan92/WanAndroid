@@ -1,5 +1,7 @@
 package com.qihuan.wanandroid.biz.tree
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
 import com.qihuan.wanandroid.bean.SystemNode
 import com.qihuan.wanandroid.common.ApiResult
 import com.qihuan.wanandroid.common.net.WanService
@@ -20,4 +22,9 @@ class SystemTreeRepository @Inject constructor(private val service: WanService) 
         }
         return emptyList()
     }
+
+    fun getTreeArticleList(treeId: Long) = Pager(
+        config = PagingConfig(pageSize = 20, prefetchDistance = 1),
+        pagingSourceFactory = { TreeArticlePagingSource(service, treeId) }
+    ).flow
 }

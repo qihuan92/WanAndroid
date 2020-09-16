@@ -89,9 +89,6 @@ class SystemTreeSecondViewHolder(
 ) : RecyclerView.ViewHolder(binding.root) {
     fun bind(item: SystemNode) {
         binding.tvContent.text = item.name
-        binding.root.setOnClickListener {
-            // todo 跳转列表
-        }
     }
 }
 
@@ -100,6 +97,8 @@ class SystemTreeSecondViewHolder(
  */
 class SystemTreeSecondAdapter :
     ListAdapter<SystemNode, SystemTreeSecondViewHolder>(DiffCallback()) {
+
+    private var itemOnClickListener: ((SystemNode) -> Unit)? = null
 
     private class DiffCallback : DiffUtil.ItemCallback<SystemNode>() {
         override fun areItemsTheSame(oldItem: SystemNode, newItem: SystemNode): Boolean {
@@ -118,6 +117,14 @@ class SystemTreeSecondAdapter :
     }
 
     override fun onBindViewHolder(holder: SystemTreeSecondViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        val item = getItem(position)
+        holder.bind(item)
+        holder.itemView.setOnClickListener {
+            itemOnClickListener?.invoke(item)
+        }
+    }
+
+    fun setOnItemClickListener(itemOnClickListener: ((SystemNode) -> Unit)) {
+        this.itemOnClickListener = itemOnClickListener
     }
 }

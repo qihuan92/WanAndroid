@@ -45,6 +45,11 @@
                     android:scheme="open" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".biz.tree.TreeArticleActivity"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/AppTheme.TranslucentBars" />
     </application>
 
 </manifest>

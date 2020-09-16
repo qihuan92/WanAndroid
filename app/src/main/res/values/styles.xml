@@ -14,4 +14,8 @@
         <item name="android:navigationBarColor">@color/colorNavigationBar</item>
         <item name="android:windowLightStatusBar">true</item>
     </style>
+
+    <style name="TextAppearance.MaterialComponents.Subtitle2.TabText">
+        <item name="android:textStyle">bold</item>
+    </style>
 </resources>

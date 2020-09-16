@@ -24,9 +24,9 @@ interface WanService {
     suspend fun getSystemTreeList(): WanResponse<List<SystemNode>>
 
     @GET("/article/list/{page}/json")
-    suspend fun getSystemTypeDetail(
+    suspend fun getSystemArticleList(
         @Path("page") page: Int,
-        @Query("cid") cid: Int
+        @Query("cid") cid: Long
     ): WanResponse<WanPage<Article>>
 
     @GET("/navi/json")
