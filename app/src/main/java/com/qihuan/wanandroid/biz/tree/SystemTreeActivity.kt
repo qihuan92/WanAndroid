@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.selection.StableIdKeyProvider
 import androidx.recyclerview.selection.StorageStrategy
+import com.qihuan.wanandroid.common.ktx.buildIntent
 import com.qihuan.wanandroid.common.ktx.dp
 import com.qihuan.wanandroid.common.ktx.viewBinding
 import com.qihuan.wanandroid.databinding.ActivityTreeBinding
@@ -76,7 +77,7 @@ class SystemTreeActivity : AppCompatActivity() {
             addObserver(object : SelectionTracker.SelectionObserver<Long>() {
                 override fun onSelectionChanged() {
                     super.onSelectionChanged()
-                    val position = selectionTracker?.selection?.firstOrNull()?.toInt()
+                    val position = getCurrentSelectionPosition()
                     onFirstSelected(position)
                 }
             })
@@ -94,6 +95,18 @@ class SystemTreeActivity : AppCompatActivity() {
                 10f.dp,
             )
         )
+
+        secondAdapter.setOnItemClickListener { secondItem ->
+            val currentPosition = getCurrentSelectionPosition() ?: return@setOnItemClickListener
+            val firstItem = firstAdapter.currentList[currentPosition]
+
+            startActivity(
+                buildIntent<TreeArticleActivity>(this) {
+                    putExtra("systemNode", firstItem)
+                    putExtra("currentTreeId", secondItem.id)
+                }
+            )
+        }
     }
 
     private fun bindView() {
@@ -112,5 +125,9 @@ class SystemTreeActivity : AppCompatActivity() {
             val children = item.children
             secondAdapter.submitList(children)
         }
+    }
+
+    private fun getCurrentSelectionPosition(): Int? {
+        return selectionTracker?.selection?.firstOrNull()?.toInt()
     }
 }
