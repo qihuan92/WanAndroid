@@ -1,6 +1,5 @@
 package com.qihuan.wanandroid.biz.tree
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.ViewGroup
@@ -9,10 +8,9 @@ import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.chip.Chip
 import com.qihuan.wanandroid.bean.SystemNode
 import com.qihuan.wanandroid.databinding.ItemSystemTreeFirstBinding
-import com.qihuan.wanandroid.databinding.ItemTreeBinding
+import com.qihuan.wanandroid.databinding.ItemSystemTreeSecendBinding
 
 /**
  * First category ViewHolder
@@ -83,28 +81,24 @@ class SystemTreeFirstAdapter : ListAdapter<SystemNode, SystemTreeFirstViewHolder
     }
 }
 
-class TreeViewHolder(
-    private val binding: ItemTreeBinding
+/**
+ * Second category ViewHolder
+ */
+class SystemTreeSecondViewHolder(
+    private val binding: ItemSystemTreeSecendBinding
 ) : RecyclerView.ViewHolder(binding.root) {
     fun bind(item: SystemNode) {
-        binding.layoutTitle.tvTitle.text = item.name
-        binding.cgNodes.removeAllViews()
-        for (child in item.children) {
-            binding.cgNodes.addView(createChip(binding.cgNodes.context, child))
-        }
-    }
-
-    private fun createChip(context: Context, node: SystemNode): Chip {
-        return Chip(context).apply {
-            text = node.name
-            setOnCloseIconClickListener {
-                // todo 打开链接
-            }
+        binding.tvContent.text = item.name
+        binding.root.setOnClickListener {
+            // todo 跳转列表
         }
     }
 }
 
-class SystemTreeAdapter : ListAdapter<SystemNode, TreeViewHolder>(DiffCallback()) {
+/**
+ * Second category adapter
+ */
+class SystemTreeSecondAdapter : ListAdapter<SystemNode, SystemTreeSecondViewHolder>(DiffCallback()) {
 
     private class DiffCallback : DiffUtil.ItemCallback<SystemNode>() {
         override fun areItemsTheSame(oldItem: SystemNode, newItem: SystemNode): Boolean {
@@ -116,12 +110,13 @@ class SystemTreeAdapter : ListAdapter<SystemNode, TreeViewHolder>(DiffCallback()
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TreeViewHolder {
-        val binding = ItemTreeBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return TreeViewHolder(binding)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SystemTreeSecondViewHolder {
+        val binding =
+            ItemSystemTreeSecendBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return SystemTreeSecondViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: TreeViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: SystemTreeSecondViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
 }

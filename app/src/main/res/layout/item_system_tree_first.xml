@@ -12,5 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?textAppearanceBody1"
+        android:textStyle="bold"
         tools:text="知识体系一级条目知识体系一级条目知识体系一级条目知识体系一级条目知识体系一级条目知识体系一级条目知识体系一级条目知识体系一级条目" />
 </FrameLayout>
