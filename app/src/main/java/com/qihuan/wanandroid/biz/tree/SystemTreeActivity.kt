@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.selection.StableIdKeyProvider
 import androidx.recyclerview.selection.StorageStrategy
-import androidx.recyclerview.widget.DefaultItemAnimator
 import com.qihuan.wanandroid.common.ktx.dp
 import com.qihuan.wanandroid.common.ktx.viewBinding
 import com.qihuan.wanandroid.databinding.ActivityTreeBinding
@@ -87,7 +86,6 @@ class SystemTreeActivity : AppCompatActivity() {
 
     private fun initSecondList() {
         binding.rvListSecond.adapter = secondAdapter
-        binding.rvListSecond.itemAnimator = DefaultItemAnimator()
         binding.rvListSecond.addItemDecoration(
             DividerItemDecoration(
                 this,

@@ -5,13 +5,12 @@
     android:layout_height="wrap_content"
     android:background="@drawable/selector_item"
     android:paddingHorizontal="15dp"
-    android:paddingVertical="10dp">
+    android:paddingVertical="15dp">
 
     <TextView
         android:id="@+id/tv_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?textAppearanceBody1"
-        android:textStyle="bold"
         tools:text="知识体系一级条目知识体系一级条目知识体系一级条目知识体系一级条目知识体系一级条目知识体系一级条目知识体系一级条目知识体系一级条目" />
 </FrameLayout>
