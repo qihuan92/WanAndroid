@@ -10,6 +10,8 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
+        android:background="@color/colorTitleLayout"
+        android:elevation="4dp"
         app:navigationIcon="@drawable/ic_round_arrow_back_24"
         app:title="体系" />
 
@@ -31,7 +33,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            tools:listitem="@layout/item_system_tree_second"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_system_tree_second" />
     </LinearLayout>
 </LinearLayout>
