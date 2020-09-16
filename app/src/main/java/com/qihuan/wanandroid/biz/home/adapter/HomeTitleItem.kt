@@ -1,5 +1,6 @@
 package com.qihuan.wanandroid.biz.home.adapter
 
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.qihuan.wanandroid.bean.TitleBean
 import com.qihuan.wanandroid.databinding.ItemHomeTitleBinding
@@ -15,6 +16,7 @@ class HomeTitleViewHolder(
     fun bind(item: TitleBean) {
         binding.apply {
             tvTitle.text = item.title
+            ivIcon.isVisible = true
             ivIcon.setImageResource(item.icon)
         }
     }

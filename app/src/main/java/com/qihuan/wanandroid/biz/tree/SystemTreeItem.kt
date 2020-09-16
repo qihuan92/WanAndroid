@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.qihuan.wanandroid.bean.SystemNode
 import com.qihuan.wanandroid.databinding.ItemSystemTreeFirstBinding
-import com.qihuan.wanandroid.databinding.ItemSystemTreeSecendBinding
+import com.qihuan.wanandroid.databinding.ItemSystemTreeSecondBinding
 
 /**
  * First category ViewHolder
@@ -85,7 +85,7 @@ class SystemTreeFirstAdapter : ListAdapter<SystemNode, SystemTreeFirstViewHolder
  * Second category ViewHolder
  */
 class SystemTreeSecondViewHolder(
-    private val binding: ItemSystemTreeSecendBinding
+    private val binding: ItemSystemTreeSecondBinding
 ) : RecyclerView.ViewHolder(binding.root) {
     fun bind(item: SystemNode) {
         binding.tvContent.text = item.name
@@ -98,7 +98,8 @@ class SystemTreeSecondViewHolder(
 /**
  * Second category adapter
  */
-class SystemTreeSecondAdapter : ListAdapter<SystemNode, SystemTreeSecondViewHolder>(DiffCallback()) {
+class SystemTreeSecondAdapter :
+    ListAdapter<SystemNode, SystemTreeSecondViewHolder>(DiffCallback()) {
 
     private class DiffCallback : DiffUtil.ItemCallback<SystemNode>() {
         override fun areItemsTheSame(oldItem: SystemNode, newItem: SystemNode): Boolean {
@@ -112,7 +113,7 @@ class SystemTreeSecondAdapter : ListAdapter<SystemNode, SystemTreeSecondViewHold
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SystemTreeSecondViewHolder {
         val binding =
-            ItemSystemTreeSecendBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemSystemTreeSecondBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return SystemTreeSecondViewHolder(binding)
     }
 
