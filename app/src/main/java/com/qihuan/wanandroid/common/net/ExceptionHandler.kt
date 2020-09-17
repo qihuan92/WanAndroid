@@ -1,9 +1,15 @@
 package com.qihuan.wanandroid.common.net
 
+import com.google.gson.JsonIOException
+import com.google.gson.JsonSyntaxException
 import com.jeremyliao.liveeventbus.LiveEventBus
 import com.jeremyliao.liveeventbus.core.Observable
 import com.qihuan.wanandroid.bean.WanResponse
-import com.qihuan.wanandroid.common.ApiResult
+import retrofit2.HttpException
+import java.net.ConnectException
+import java.net.UnknownHostException
+import java.util.concurrent.TimeoutException
+import javax.net.ssl.SSLHandshakeException
 import kotlin.reflect.KClass
 
 /**
@@ -16,13 +22,28 @@ suspend fun <T : Any> handleRequest(requestFunc: suspend () -> WanResponse<T>): 
     try {
         resp = requestFunc.invoke()
     } catch (e: Exception) {
-        val error = ApiResult.Error(e)
+        val fixedException = when (e) {
+            is SSLHandshakeException, is UnknownHostException, is ConnectException -> {
+                ApiException(ResultEnum.NET_CONN_ERROR.getDescription())
+            }
+            is TimeoutException, is HttpException -> {
+                ApiException(ResultEnum.IO_ERROR.getDescription())
+            }
+            is JsonIOException, is JsonSyntaxException -> {
+                ApiException(ResultEnum.JSON_ERROR.getDescription())
+            }
+            else -> {
+                ApiException(ResultEnum.NET_CONN_ERROR.getDescription())
+            }
+        }
+
+        val error = ApiResult.Error(error = fixedException)
         postEvent(error)
         return error
     }
 
     if (!resp.isSuccess()) {
-        return ApiResult.Error(ApiException(resp.errorMsg))
+        return ApiResult.Error(error = ApiException(resp.errorMsg))
     }
 
     return ApiResult.Success(resp.data)

@@ -1,7 +1,7 @@
 package com.qihuan.wanandroid.biz.navigation
 
 import com.qihuan.wanandroid.bean.NavigationBean
-import com.qihuan.wanandroid.common.ApiResult
+import com.qihuan.wanandroid.common.net.ApiResult
 import com.qihuan.wanandroid.common.net.WanService
 import com.qihuan.wanandroid.common.net.handleRequest
 import javax.inject.Inject

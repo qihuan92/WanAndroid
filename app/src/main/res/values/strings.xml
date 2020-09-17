@@ -18,4 +18,7 @@
     <string name="iv_desc_home_module_icon">模块ICON</string>
     <string name="iv_desc_home_module_background">首页模块背景图片</string>
     <string name="iv_desc_banner">轮播图</string>
+    <string name="net_conn_error">网络连接异常</string>
+    <string name="io_error">加载失败</string>
+    <string name="json_error">解析异常</string>
 </resources>

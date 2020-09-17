@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
-import com.qihuan.wanandroid.common.ApiResult
+import com.qihuan.wanandroid.common.net.ApiResult
 import com.qihuan.wanandroid.common.ktx.viewBinding
 import com.qihuan.wanandroid.common.net.handleEvent
 import com.qihuan.wanandroid.databinding.ActivityMainBinding
