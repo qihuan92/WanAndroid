@@ -7,7 +7,7 @@ import com.qihuan.wanandroid.bean.Article
 import com.qihuan.wanandroid.bean.BannerList
 import com.qihuan.wanandroid.bean.ModuleBean
 import com.qihuan.wanandroid.bean.ModuleList
-import com.qihuan.wanandroid.common.ApiResult
+import com.qihuan.wanandroid.common.net.ApiResult
 import com.qihuan.wanandroid.common.net.WanService
 import com.qihuan.wanandroid.common.net.handleRequest
 import kotlinx.coroutines.Dispatchers

@@ -1,4 +1,4 @@
-package com.qihuan.wanandroid.common
+package com.qihuan.wanandroid.common.net
 
 /**
  * Result

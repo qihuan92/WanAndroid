@@ -2,7 +2,7 @@ package com.qihuan.wanandroid.biz.tree
 
 import androidx.paging.PagingSource
 import com.qihuan.wanandroid.bean.Article
-import com.qihuan.wanandroid.common.ApiResult
+import com.qihuan.wanandroid.common.net.ApiResult
 import com.qihuan.wanandroid.common.net.WanService
 import com.qihuan.wanandroid.common.net.handleRequest
 import kotlinx.coroutines.delay

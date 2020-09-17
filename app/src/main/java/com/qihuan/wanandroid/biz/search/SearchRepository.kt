@@ -7,7 +7,7 @@ import androidx.paging.PagingData
 import com.qihuan.wanandroid.bean.Article
 import com.qihuan.wanandroid.bean.HistorySearchKey
 import com.qihuan.wanandroid.bean.SearchKey
-import com.qihuan.wanandroid.common.ApiResult
+import com.qihuan.wanandroid.common.net.ApiResult
 import com.qihuan.wanandroid.common.net.WanService
 import com.qihuan.wanandroid.common.net.handleRequest
 import kotlinx.coroutines.flow.Flow

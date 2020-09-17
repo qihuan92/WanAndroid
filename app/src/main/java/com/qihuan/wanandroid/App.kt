@@ -9,4 +9,13 @@ import dagger.hilt.android.HiltAndroidApp
  * @date 2020/5/19
  */
 @HiltAndroidApp
-class App : Application()
+class App : Application() {
+    companion object {
+        lateinit var instance: App private set
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        instance = this
+    }
+}
