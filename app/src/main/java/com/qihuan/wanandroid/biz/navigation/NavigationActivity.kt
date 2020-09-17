@@ -3,8 +3,6 @@ package com.qihuan.wanandroid.biz.navigation
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.GridLayoutManager
-import com.qihuan.wanandroid.bean.Article
 import com.qihuan.wanandroid.common.ktx.setDefaultColors
 import com.qihuan.wanandroid.common.ktx.viewBinding
 import com.qihuan.wanandroid.databinding.ActivityNavigationBinding
@@ -38,18 +36,6 @@ class NavigationActivity : AppCompatActivity() {
             viewModel.getNavigation()
         }
 
-        binding.rvList.layoutManager = GridLayoutManager(this, 2).apply {
-            spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-                override fun getSpanSize(position: Int): Int {
-                    val item = adapter.currentList[position]
-                    return if (item is Article) {
-                        1
-                    } else {
-                        2
-                    }
-                }
-            }
-        }
         binding.rvList.adapter = adapter
     }
 
