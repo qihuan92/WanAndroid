@@ -7,12 +7,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.qihuan.wanandroid.R
 import com.qihuan.wanandroid.bean.Article
 import com.qihuan.wanandroid.bean.TitleBean
-import com.qihuan.wanandroid.biz.home.adapter.HomeTitleViewHolder
 import com.qihuan.wanandroid.common.adapter.DiffItem
-import com.qihuan.wanandroid.databinding.ItemHomeTitleBinding
+import com.qihuan.wanandroid.databinding.ItemNavigationTitleBinding
 import com.qihuan.wanandroid.databinding.ItemSubNavigationBinding
 
 /**
@@ -23,7 +23,7 @@ import com.qihuan.wanandroid.databinding.ItemSubNavigationBinding
 class NavigationAdapter : ListAdapter<DiffItem, RecyclerView.ViewHolder>(DiffCallback()) {
 
     companion object {
-        const val TYPE_TITLE = R.layout.item_home_title
+        const val TYPE_TITLE = R.layout.item_navigation_title
         const val TYPE_ARTICLE = R.layout.item_sub_navigation
     }
 
@@ -44,10 +44,17 @@ class NavigationAdapter : ListAdapter<DiffItem, RecyclerView.ViewHolder>(DiffCal
         val inflater = LayoutInflater.from(parent.context)
         return when (viewType) {
             TYPE_TITLE -> {
-                HomeTitleViewHolder(ItemHomeTitleBinding.inflate(inflater, parent, false))
+                val binding = ItemNavigationTitleBinding.inflate(inflater, parent, false)
+                NavigationTitleItemViewHolder(binding).apply {
+                    val itemLayoutParams = itemView.layoutParams
+                    if (itemLayoutParams is StaggeredGridLayoutManager.LayoutParams) {
+                        itemLayoutParams.isFullSpan = true
+                    }
+                }
             }
             TYPE_ARTICLE -> {
-                NavigationSubItemViewHolder(ItemSubNavigationBinding.inflate(inflater, parent, false))
+                val binding = ItemSubNavigationBinding.inflate(inflater, parent, false)
+                NavigationSubItemViewHolder(binding)
             }
             else -> {
                 EmptyViewHolder(View(parent.context))
@@ -58,7 +65,7 @@ class NavigationAdapter : ListAdapter<DiffItem, RecyclerView.ViewHolder>(DiffCal
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val item = getItem(position)
         when (holder) {
-            is HomeTitleViewHolder -> holder.bind(item as TitleBean)
+            is NavigationTitleItemViewHolder -> holder.bind(item as TitleBean)
             is NavigationSubItemViewHolder -> holder.bind(item as Article)
         }
     }
