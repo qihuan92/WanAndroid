@@ -40,15 +40,6 @@ class HomeRepository @Inject constructor(private val service: WanService) {
         return mutableListOf()
     }
 
-    suspend fun getArticleList(page: Int = 0): List<Article> {
-        var list = mutableListOf<Article>()
-        val resp = handleRequest { service.getHomeArticles(page) }
-        if (resp is ApiResult.Success) {
-            list = resp.data?.datas?.toMutableList() ?: mutableListOf()
-        }
-        return list
-    }
-
     fun getArticleList() = Pager(
         config = PagingConfig(pageSize = 20, prefetchDistance = 1),
         pagingSourceFactory = { HomeArticlePagingSource(service) }
@@ -56,11 +47,25 @@ class HomeRepository @Inject constructor(private val service: WanService) {
 
     suspend fun getHomeModuleList(): ModuleList {
         return withContext(Dispatchers.IO) {
-            // todo 获取数据
             val list = listOf(
-                ModuleBean("", R.drawable.ic_round_account_tree_24, "体系", "open://wanandroid/tree"),
-                ModuleBean("", R.drawable.ic_round_explore_24, "导航", "open://wanandroid/navigation"),
-                ModuleBean("", R.drawable.ic_round_question_answer_24, "问答", ""),
+                ModuleBean(
+                    "",
+                    R.drawable.ic_round_account_tree_24,
+                    "体系",
+                    "open://wanandroid/tree"
+                ),
+                ModuleBean(
+                    "",
+                    R.drawable.ic_round_explore_24,
+                    "导航",
+                    "open://wanandroid/navigation"
+                ),
+                ModuleBean(
+                    "",
+                    R.drawable.ic_round_question_answer_24,
+                    "问答",
+                    "open://wanandroid/qa"
+                ),
             )
             return@withContext ModuleList(list)
         }
