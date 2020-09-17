@@ -5,7 +5,6 @@ import com.qihuan.wanandroid.bean.Article
 import com.qihuan.wanandroid.common.net.ApiResult
 import com.qihuan.wanandroid.common.net.WanService
 import com.qihuan.wanandroid.common.net.handleRequest
-import kotlinx.coroutines.delay
 
 /**
  * QaArticlePagingSource
@@ -17,7 +16,6 @@ class QaArticlePagingSource constructor(
 ) : PagingSource<Int, Article>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Article> {
-        delay(1000)
         val page = params.key ?: 0
         return when (val result = handleRequest { service.getQAList(page) }) {
             is ApiResult.Success -> {
