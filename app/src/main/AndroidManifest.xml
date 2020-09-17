@@ -66,6 +66,21 @@
                     android:scheme="open" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".biz.qa.QaActivity"
+            android:theme="@style/AppTheme.TranslucentBars">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="wanandroid"
+                    android:path="/qa"
+                    android:scheme="open" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

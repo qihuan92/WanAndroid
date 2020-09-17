@@ -112,4 +112,9 @@ interface WanService {
         @Field("title") title: String,
         @Field("link") url: String
     ): WanResponse<String>
+
+    @GET("/wenda/list/{page}/json")
+    suspend fun getQAList(
+        @Path("page") page: Int
+    ): WanResponse<WanPage<Article>>
 }
