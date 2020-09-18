@@ -28,6 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="15dp"
+            android:layoutAnimation="@anim/layout_anim_fail_down"
             android:visibility="gone"
             tools:visibility="visible" />
 
