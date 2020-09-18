@@ -3,7 +3,6 @@ package com.qihuan.wanandroid.biz.qa
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import com.qihuan.wanandroid.biz.home.adapter.ArticlePageAdapter
 import com.qihuan.wanandroid.common.adapter.DefaultLoadStateAdapter
@@ -11,7 +10,6 @@ import com.qihuan.wanandroid.common.ktx.setDefaultColors
 import com.qihuan.wanandroid.common.ktx.viewBinding
 import com.qihuan.wanandroid.databinding.ActivityQaBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
 
 /**
  * QaActivity
@@ -37,7 +35,7 @@ class QaActivity : AppCompatActivity() {
 
         binding.refreshLayout.setDefaultColors()
         binding.refreshLayout.setOnRefreshListener {
-            viewModel.getQaList()
+            adapter.refresh()
         }
 
         binding.rvList.adapter = adapter.withLoadStateFooter(DefaultLoadStateAdapter(adapter))
@@ -48,9 +46,13 @@ class QaActivity : AppCompatActivity() {
             adapter.submitData(lifecycle, it)
         }
 
-        lifecycleScope.launchWhenCreated {
-            adapter.loadStateFlow.collectLatest {
-                binding.refreshLayout.isRefreshing = it.refresh is LoadState.Loading
+        adapter.addLoadStateListener {
+            binding.refreshLayout.isRefreshing = it.refresh is LoadState.Loading
+        }
+
+        adapter.addLoadStateListener {
+            if (it.refresh is LoadState.Loading) {
+                binding.rvList.scheduleLayoutAnimation()
             }
         }
     }

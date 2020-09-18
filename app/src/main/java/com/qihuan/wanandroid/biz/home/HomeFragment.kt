@@ -114,9 +114,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun bindView() {
         viewModel.listLiveData.observe(viewLifecycleOwner, {
+            binding.rvList.scheduleLayoutAnimation()
             binding.refreshLayout.isRefreshing = false
             headAdapter.submitList(it)
-            binding.rvList.scheduleLayoutAnimation()
         })
 
         viewModel.pageLiveData.observe(viewLifecycleOwner, {
