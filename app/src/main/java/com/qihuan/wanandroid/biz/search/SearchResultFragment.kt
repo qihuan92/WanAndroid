@@ -92,6 +92,7 @@ class SearchResultFragment : Fragment(R.layout.fragment_search_result) {
     }
 
     private fun search() {
+        binding.rvList.scheduleLayoutAnimation()
         searchJob?.cancel()
         searchJob = lifecycleScope.launch {
             viewModel.search().collectLatest {
