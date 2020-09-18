@@ -2,12 +2,15 @@ package com.qihuan.wanandroid.biz.tree
 
 import android.view.LayoutInflater
 import android.view.MotionEvent
+import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.recyclerview.selection.ItemDetailsLookup
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.qihuan.wanandroid.R
 import com.qihuan.wanandroid.bean.SystemNode
 import com.qihuan.wanandroid.databinding.ItemSystemTreeFirstBinding
 import com.qihuan.wanandroid.databinding.ItemSystemTreeSecondBinding
@@ -122,9 +125,19 @@ class SystemTreeSecondAdapter :
         holder.itemView.setOnClickListener {
             itemOnClickListener?.invoke(item)
         }
+        setAnimation(holder.itemView, position)
     }
 
     fun setOnItemClickListener(itemOnClickListener: ((SystemNode) -> Unit)) {
         this.itemOnClickListener = itemOnClickListener
+    }
+
+    private fun setAnimation(viewToAnimate: View, position: Int) {
+        viewToAnimate.startAnimation(
+            AnimationUtils.loadAnimation(
+                viewToAnimate.context,
+                R.anim.item_anim_fall_down
+            )
+        )
     }
 }
