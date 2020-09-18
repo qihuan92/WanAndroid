@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ConcatAdapter
-import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.qihuan.wanandroid.R
@@ -52,7 +51,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         val layoutManager = LinearLayoutManager(context)
         binding.rvList.layoutManager = layoutManager
-        binding.rvList.itemAnimator = DefaultItemAnimator()
         binding.rvList.adapter = adapter
         binding.rvList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -118,6 +116,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         viewModel.listLiveData.observe(viewLifecycleOwner, {
             binding.refreshLayout.isRefreshing = false
             headAdapter.submitList(it)
+            binding.rvList.scheduleLayoutAnimation()
         })
 
         viewModel.pageLiveData.observe(viewLifecycleOwner, {
