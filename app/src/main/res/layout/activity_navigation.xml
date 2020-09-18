@@ -25,6 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
+            android:layoutAnimation="@anim/layout_anim_bottom"
             android:orientation="vertical"
             android:paddingHorizontal="10dp"
             app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"

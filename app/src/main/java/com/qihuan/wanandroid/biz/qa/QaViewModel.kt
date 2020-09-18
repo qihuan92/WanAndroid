@@ -25,7 +25,7 @@ class QaViewModel @ViewModelInject constructor(
         getQaList()
     }
 
-    fun getQaList() {
+    private fun getQaList() {
         viewModelScope.launch {
             repository.getQaList()
                 .cachedIn(viewModelScope)
