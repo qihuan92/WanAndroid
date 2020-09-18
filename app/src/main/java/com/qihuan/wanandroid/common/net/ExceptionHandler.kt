@@ -33,7 +33,7 @@ suspend fun <T : Any> handleRequest(requestFunc: suspend () -> WanResponse<T>): 
                 ApiException(ResultEnum.JSON_ERROR.getDescription())
             }
             else -> {
-                ApiException(ResultEnum.NET_CONN_ERROR.getDescription())
+                e
             }
         }
 
