@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import com.qihuan.wanandroid.R
 import com.qihuan.wanandroid.biz.home.adapter.ArticlePageAdapter
@@ -13,7 +12,6 @@ import com.qihuan.wanandroid.common.ktx.setDefaultColors
 import com.qihuan.wanandroid.common.ktx.viewBinding
 import com.qihuan.wanandroid.databinding.FragmentTreeArticleBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
 
 /**
  * TreeArticleFragment
@@ -48,14 +46,16 @@ class TreeArticleFragment : Fragment(R.layout.fragment_tree_article) {
     private fun bindView() {
         viewModel.getArticleList(treeId)
         viewModel.articlePage.observe(viewLifecycleOwner) {
-            it?.let {
-                adapter.submitData(lifecycle, it)
-            }
+            adapter.submitData(lifecycle, it)
         }
 
-        lifecycleScope.launchWhenCreated {
-            adapter.loadStateFlow.collectLatest {
-                binding.refreshLayout.isRefreshing = it.refresh is LoadState.Loading
+        adapter.addLoadStateListener {
+            binding.refreshLayout.isRefreshing = it.refresh is LoadState.Loading
+        }
+
+        adapter.addLoadStateListener {
+            if (it.refresh is LoadState.Loading) {
+                binding.rvList.scheduleLayoutAnimation()
             }
         }
     }
