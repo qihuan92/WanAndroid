@@ -17,6 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clipToPadding="false"
+            android:layoutAnimation="@anim/layout_anim_bottom"
             android:overScrollMode="never"
             android:paddingTop="60dp"
             tools:listitem="@layout/item_article" />
@@ -36,9 +37,9 @@
             android:layout_marginHorizontal="15dp"
             android:layout_marginVertical="5dp"
             android:background="?android:selectableItemBackground"
+            android:elevation="@dimen/elevation_title_bar"
             android:transitionName="@string/transition_name_search"
             app:cardCornerRadius="8dp"
-            android:elevation="@dimen/elevation_title_bar"
             app:layout_scrollFlags="scroll|enterAlways">
 
             <androidx.constraintlayout.widget.ConstraintLayout
