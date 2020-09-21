@@ -21,4 +21,8 @@
     <string name="net_conn_error">网络连接异常</string>
     <string name="io_error">加载失败</string>
     <string name="json_error">解析异常</string>
+    <string name="search">搜索</string>
+    <string name="system_tree">体系</string>
+    <string name="navigation">导航</string>
+    <string name="qa">问答</string>
 </resources>

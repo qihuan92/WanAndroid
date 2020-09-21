@@ -15,7 +15,7 @@
 
         <activity
             android:name=".biz.main.MainActivity"
-            android:launchMode="singleTask"
+            android:launchMode="singleTop"
             android:theme="@style/AppTheme.TranslucentBars">
 
             <intent-filter>
@@ -28,7 +28,19 @@
         <activity
             android:name=".biz.search.SearchActivity"
             android:theme="@style/AppTheme.TranslucentBars"
-            android:windowSoftInputMode="stateVisible|adjustResize" />
+            android:windowSoftInputMode="stateVisible|adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="wanandroid"
+                    android:path="/search"
+                    android:scheme="open" />
+            </intent-filter>
+        </activity>
 
         <activity
             android:name=".biz.tree.SystemTreeActivity"
