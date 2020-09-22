@@ -78,6 +78,7 @@
                     android:scheme="open" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".biz.qa.QaActivity"
             android:theme="@style/AppTheme.TranslucentBars">
@@ -93,6 +94,10 @@
                     android:scheme="open" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".biz.user.LoginAActivity"
+            android:theme="@style/AppTheme.TranslucentBars" />
     </application>
 
 </manifest>
