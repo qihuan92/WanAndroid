@@ -72,7 +72,7 @@ interface WanService {
     @POST("/user/login")
     suspend fun login(
         @Field("username") userName: String,
-        @Field("password") passWord: String
+        @Field("password") password: String
     ): WanResponse<User>
 
     @GET("/user/logout/json")
@@ -82,7 +82,7 @@ interface WanService {
     @POST("/user/register")
     suspend fun register(
         @Field("username") userName: String,
-        @Field("password") passWord: String,
+        @Field("password") password: String,
         @Field("repassword") rePassWord: String
     ): WanResponse<User>
 
