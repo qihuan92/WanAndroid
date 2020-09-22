@@ -46,6 +46,7 @@ class SearchResultFragment : Fragment(R.layout.fragment_search_result) {
         adaptBars()
         initView()
         bindView()
+        hideKeyboard(binding.root)
     }
 
     private fun adaptBars() {
@@ -88,8 +89,6 @@ class SearchResultFragment : Fragment(R.layout.fragment_search_result) {
         binding.refreshLayout.setOnRefreshListener {
             adapter.refresh()
         }
-
-        hideKeyboard()
     }
 
     private fun search() {
