@@ -4,6 +4,9 @@ import android.graphics.Outline
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewOutlineProvider
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.qihuan.wanandroid.R
@@ -60,4 +63,40 @@ fun SwipeRefreshLayout.setDefaultColors() {
         R.color.colorPrimaryDark,
         R.color.colorAccent
     )
+}
+
+fun View.adaptStatusBar() {
+    ViewCompat.setOnApplyWindowInsetsListener(this) { view, insets ->
+        val statusBarInserts = insets.getInsets(WindowInsetsCompat.Type.statusBars())
+        view.updatePadding(top = statusBarInserts.top)
+        insets
+    }
+}
+
+fun View.adaptBottomBar() {
+    val paddingBottom = paddingBottom
+    ViewCompat.setOnApplyWindowInsetsListener(this) { view, insets ->
+        val barInsets = insets.getInsets(
+            WindowInsetsCompat.Type.ime() or WindowInsetsCompat.Type.navigationBars()
+        )
+        view.updatePadding(bottom = paddingBottom + barInsets.bottom)
+        insets
+    }
+}
+
+fun View.adaptBars() {
+    val paddingTop = paddingTop
+    val paddingBottom = paddingBottom
+    ViewCompat.setOnApplyWindowInsetsListener(this) { view, insets ->
+        val statusBarInserts = insets.getInsets(WindowInsetsCompat.Type.statusBars())
+
+        val bottomNarInsets = insets.getInsets(
+            WindowInsetsCompat.Type.ime() or WindowInsetsCompat.Type.navigationBars()
+        )
+        view.updatePadding(
+            top = paddingTop + statusBarInserts.top,
+            bottom = paddingBottom + bottomNarInsets.bottom
+        )
+        insets
+    }
 }
