@@ -1,35 +1,37 @@
 package com.qihuan.wanandroid.biz.tree
 
 import android.os.Bundle
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
+import android.view.View
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.selection.StableIdKeyProvider
 import androidx.recyclerview.selection.StorageStrategy
-import com.qihuan.wanandroid.common.ktx.buildIntent
+import com.qihuan.wanandroid.R
+import com.qihuan.wanandroid.common.ktx.adaptBars
 import com.qihuan.wanandroid.common.ktx.dp
 import com.qihuan.wanandroid.common.ktx.viewBinding
-import com.qihuan.wanandroid.databinding.ActivityTreeBinding
+import com.qihuan.wanandroid.databinding.FragmentTreeBinding
 import com.qihuan.wanandroid.widget.DividerItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
- * TreeActivity
+ * SystemTreeFragment
  * @author qi
  * @since 2020/9/14
  */
 @AndroidEntryPoint
-class SystemTreeActivity : AppCompatActivity() {
+class SystemTreeFragment : Fragment(R.layout.fragment_tree) {
 
-    private val binding by viewBinding(ActivityTreeBinding::inflate)
+    private val binding by viewBinding(FragmentTreeBinding::bind)
     private val viewModel by viewModels<SystemTreeViewModel>()
     private val firstAdapter by lazy { SystemTreeFirstAdapter() }
     private val secondAdapter by lazy { SystemTreeSecondAdapter() }
     private var selectionTracker: SelectionTracker<Long>? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(binding.root)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         initView()
         bindView()
     }
@@ -39,13 +41,14 @@ class SystemTreeActivity : AppCompatActivity() {
         selectionTracker?.onSaveInstanceState(outState)
     }
 
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        super.onRestoreInstanceState(savedInstanceState)
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
         selectionTracker?.onRestoreInstanceState(savedInstanceState)
     }
 
     private fun initView() {
-        binding.toolbar.setNavigationOnClickListener { onBackPressed() }
+        binding.root.adaptBars()
+        binding.toolbar.setNavigationOnClickListener { findNavController().navigateUp() }
 
         initFirstList()
         initSecondList()
@@ -54,7 +57,7 @@ class SystemTreeActivity : AppCompatActivity() {
     private fun initFirstList() {
         binding.rvListFirst.adapter = firstAdapter
         selectionTracker = SelectionTracker.Builder(
-            SystemTreeActivity::javaClass.name,
+            SystemTreeFragment::javaClass.name,
             binding.rvListFirst,
             StableIdKeyProvider(binding.rvListFirst),
             SystemTreeFirstAdapter.ItemLookup(binding.rvListFirst),
@@ -89,7 +92,7 @@ class SystemTreeActivity : AppCompatActivity() {
         binding.rvListSecond.adapter = secondAdapter
         binding.rvListSecond.addItemDecoration(
             DividerItemDecoration(
-                this,
+                requireContext(),
                 DividerItemDecoration.VERTICAL,
                 10f.dp,
                 10f.dp,
@@ -100,17 +103,17 @@ class SystemTreeActivity : AppCompatActivity() {
             val currentPosition = getCurrentSelectionPosition() ?: return@setOnItemClickListener
             val firstItem = firstAdapter.currentList[currentPosition]
 
-            startActivity(
-                buildIntent<TreeArticleActivity>(this) {
-                    putExtra("systemNode", firstItem)
-                    putExtra("currentTreeId", secondItem.id)
-                }
+            findNavController().navigate(
+                SystemTreeFragmentDirections.actionSystemTreeFragmentToTreeArticleFragment(
+                    currentTreeId = secondItem.id,
+                    systemNode = firstItem,
+                )
             )
         }
     }
 
     private fun bindView() {
-        viewModel.treeList.observe(this) {
+        viewModel.treeList.observe(viewLifecycleOwner) {
             if (it.isNotEmpty()) {
                 firstAdapter.submitList(it) {
                     selectionTracker?.select(0)

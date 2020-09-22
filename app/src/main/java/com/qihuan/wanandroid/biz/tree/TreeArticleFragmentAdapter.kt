@@ -2,7 +2,6 @@ package com.qihuan.wanandroid.biz.tree
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.qihuan.wanandroid.bean.SystemNode
 
@@ -12,9 +11,9 @@ import com.qihuan.wanandroid.bean.SystemNode
  * @since 2020/9/16
  */
 class TreeArticleFragmentAdapter(
-    fa: FragmentActivity,
+    fragment: Fragment,
     private val treeList: List<SystemNode> = emptyList()
-) : FragmentStateAdapter(fa) {
+) : FragmentStateAdapter(fragment) {
     override fun getItemCount(): Int {
         return treeList.size
     }
@@ -23,7 +22,7 @@ class TreeArticleFragmentAdapter(
         val systemNode = treeList[position]
         val treeId = systemNode.id
 
-        val fragment = TreeArticleFragment()
+        val fragment = TreeArticleListFragment()
         fragment.arguments = Bundle().apply {
             putLong("treeId", treeId)
         }

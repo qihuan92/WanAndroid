@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
+import androidx.navigation.findNavController
 import com.qihuan.wanandroid.R
 import com.qihuan.wanandroid.common.ktx.viewBinding
 import com.qihuan.wanandroid.common.net.ApiResult
@@ -30,6 +31,18 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         initShortcuts()
         bindEvent()
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        intent?.apply {
+            if (action == Intent.ACTION_VIEW) {
+                val uri = data
+                if (uri != null) {
+                    findNavController(R.id.layout_content).navigate(uri)
+                }
+            }
+        }
     }
 
     private fun initShortcuts() {
