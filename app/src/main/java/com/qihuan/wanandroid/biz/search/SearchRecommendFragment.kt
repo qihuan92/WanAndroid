@@ -119,9 +119,9 @@ class SearchRecommendFragment : Fragment(R.layout.fragment_search_recommend) {
     }
 
     private fun search(searchText: String) {
-        val activity = activity
-        if (activity is SearchActivity) {
-            activity.setSearchText(searchText)
+        val parentFragment = parentFragment?.parentFragment
+        if (parentFragment is SearchFragment) {
+            parentFragment.setSearchText(searchText)
         }
 
         findNavController().navigate(

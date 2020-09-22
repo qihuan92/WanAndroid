@@ -76,7 +76,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
 
         binding.layoutSearch.setOnClickListener {
-            val directions = HomeFragmentDirections.actionHomeFragmentToSearchActivity()
+            val directions = HomeFragmentDirections.actionHomeFragmentToSearchFragment()
             findNavController().navigate(directions)
         }
     }

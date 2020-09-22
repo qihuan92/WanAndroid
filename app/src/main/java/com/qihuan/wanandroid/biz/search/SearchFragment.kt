@@ -1,60 +1,50 @@
 package com.qihuan.wanandroid.biz.search
 
 import android.os.Bundle
+import android.view.View
 import android.view.inputmethod.EditorInfo
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.updatePadding
 import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.qihuan.wanandroid.R
+import com.qihuan.wanandroid.common.ktx.hideKeyboard
+import com.qihuan.wanandroid.common.ktx.showKeyboard
 import com.qihuan.wanandroid.common.ktx.viewBinding
-import com.qihuan.wanandroid.databinding.ActivitySearchBinding
+import com.qihuan.wanandroid.databinding.FragmentSearchBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
- * SearchActivity
+ * SearchFragment
  * @author qi
  * @since 2020/8/6
  */
 @AndroidEntryPoint
-class SearchActivity : AppCompatActivity() {
+class SearchFragment : Fragment(R.layout.fragment_search) {
 
-    private val binding by viewBinding(ActivitySearchBinding::inflate)
+    private val binding by viewBinding(FragmentSearchBinding::bind)
     private val navController: NavController by lazy {
-        findNavController(R.id.layout_content)
+        binding.layoutContent.findNavController()
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        WindowCompat.setDecorFitsSystemWindows(window, false)
-        setContentView(binding.root)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         initSearchView()
     }
 
-    private fun adaptNavigationBar() {
-        // 顶部 Padding 处理
-        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, insets ->
-            val statusBarInsets = insets.getInsets(WindowInsetsCompat.Type.statusBars())
-            view.updatePadding(top = statusBarInsets.top)
-            insets
-        }
-    }
-
     private fun initSearchView() {
-        adaptNavigationBar()
         binding.btnBack.setOnClickListener {
-            onBackPressed()
+            hideKeyboard(binding.etSearch)
+            requireActivity().onBackPressed()
         }
         binding.etSearch.requestFocus()
+        showKeyboard(binding.etSearch)
+
         binding.etSearch.addTextChangedListener {
             val searchText = it?.toString().orEmpty()
             if (searchText.isEmpty()) {
                 if (navController.currentDestination?.id == R.id.searchResultFragment) {
-                    onBackPressed()
+                    requireActivity().onBackPressed()
                 }
             }
         }

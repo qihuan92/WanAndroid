@@ -11,13 +11,17 @@
         android:label="HomeFragment"
         tools:layout="@layout/fragment_home">
         <action
-            android:id="@+id/action_homeFragment_to_searchActivity"
-            app:destination="@id/searchActivity" />
+            android:id="@+id/action_homeFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
     </fragment>
 
-    <activity
-        android:id="@+id/searchActivity"
-        android:name="com.qihuan.wanandroid.biz.search.SearchActivity"
-        android:label="SearchActivity"
-        tools:layout="@layout/activity_search" />
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.qihuan.wanandroid.biz.search.SearchFragment"
+        android:label="SearchFragment"
+        tools:layout="@layout/fragment_search">
+        <deepLink
+            android:id="@+id/deepLinkSearch"
+            app:uri="open://wanandroid/search" />
+    </fragment>
 </navigation>
