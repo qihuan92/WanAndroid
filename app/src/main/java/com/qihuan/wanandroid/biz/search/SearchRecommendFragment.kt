@@ -7,8 +7,8 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isGone
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
-import androidx.navigation.findNavController
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.chip.Chip
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.qihuan.wanandroid.R
@@ -27,7 +27,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class SearchRecommendFragment : Fragment(R.layout.fragment_search_recommend) {
     private val binding by viewBinding(FragmentSearchRecommendBinding::bind)
-    private val viewModel by activityViewModels<SearchViewModel>()
+    private val viewModel by viewModels<SearchRecommendViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -69,10 +69,7 @@ class SearchRecommendFragment : Fragment(R.layout.fragment_search_recommend) {
         return Chip(context).apply {
             text = key
             setOnClickListener {
-                viewModel.searchText.set(key)
-                findNavController().navigate(
-                    SearchRecommendFragmentDirections.actionSearchRecommendFragmentToSearchResultFragment()
-                )
+                search(key)
             }
         }
     }
@@ -116,11 +113,21 @@ class SearchRecommendFragment : Fragment(R.layout.fragment_search_recommend) {
                     .start()
             }
             setOnClickListener {
-                viewModel.searchText.set(key)
-                findNavController().navigate(
-                    SearchRecommendFragmentDirections.actionSearchRecommendFragmentToSearchResultFragment()
-                )
+                search(key)
             }
         }
+    }
+
+    private fun search(searchText: String) {
+        val activity = activity
+        if (activity is SearchActivity) {
+            activity.setSearchText(searchText)
+        }
+
+        findNavController().navigate(
+            SearchRecommendFragmentDirections.actionSearchRecommendFragmentToSearchResultFragment(
+                searchText
+            )
+        )
     }
 }
