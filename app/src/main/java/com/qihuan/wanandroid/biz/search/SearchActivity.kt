@@ -2,7 +2,6 @@ package com.qihuan.wanandroid.biz.search
 
 import android.os.Bundle
 import android.view.inputmethod.EditorInfo
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
@@ -25,7 +24,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class SearchActivity : AppCompatActivity() {
 
     private val binding by viewBinding(ActivitySearchBinding::inflate)
-    private val viewModel by viewModels<SearchViewModel>()
     private val navController: NavController by lazy {
         findNavController(R.id.layout_content)
     }
@@ -34,7 +32,6 @@ class SearchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContentView(binding.root)
-        binding.viewModel = viewModel
         initSearchView()
     }
 
@@ -63,20 +60,23 @@ class SearchActivity : AppCompatActivity() {
         }
         binding.etSearch.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                val searchText = viewModel.searchText.get()
+                val searchText = binding.etSearch.text?.toString()
                 if (searchText == null || searchText.isBlank()) {
                     return@setOnEditorActionListener false
                 }
-
-                if (navController.currentDestination?.id == R.id.searchRecommendFragment) {
-                    navController.navigate(
-                        SearchRecommendFragmentDirections.actionSearchRecommendFragmentToSearchResultFragment()
+                navController.navigate(
+                    SearchRecommendFragmentDirections.actionGlobalSearchResultFragment(
+                        searchText
                     )
-                }
-                viewModel.searchEvent.call()
+                )
                 return@setOnEditorActionListener true
             }
             return@setOnEditorActionListener false
         }
+    }
+
+    fun setSearchText(searchText: String) {
+        binding.etSearch.setText(searchText)
+        binding.etSearch.setSelection(searchText.length)
     }
 }

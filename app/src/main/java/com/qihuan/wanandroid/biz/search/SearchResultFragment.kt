@@ -6,8 +6,9 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.navArgs
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,6 +19,7 @@ import com.qihuan.wanandroid.common.ktx.hideKeyboard
 import com.qihuan.wanandroid.common.ktx.setDefaultColors
 import com.qihuan.wanandroid.common.ktx.viewBinding
 import com.qihuan.wanandroid.databinding.FragmentSearchResultBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
@@ -30,10 +32,12 @@ import kotlinx.coroutines.launch
  * @author qi
  * @since 2020/8/7
  */
+@AndroidEntryPoint
 class SearchResultFragment : Fragment(R.layout.fragment_search_result) {
 
     private val binding by viewBinding(FragmentSearchResultBinding::bind)
-    private val viewModel by activityViewModels<SearchViewModel>()
+    private val viewModel by viewModels<SearchResultViewModel>()
+    private val args by navArgs<SearchResultFragmentArgs>()
     private lateinit var adapter: ArticlePageAdapter
     private var searchJob: Job? = null
 
@@ -56,9 +60,6 @@ class SearchResultFragment : Fragment(R.layout.fragment_search_result) {
 
     private fun bindView() {
         search()
-        viewModel.searchEvent.observe(viewLifecycleOwner) {
-            search()
-        }
         lifecycleScope.launchWhenCreated {
             adapter.loadStateFlow.collectLatest {
                 binding.refreshLayout.isRefreshing = it.refresh is LoadState.Loading
@@ -95,7 +96,7 @@ class SearchResultFragment : Fragment(R.layout.fragment_search_result) {
         binding.rvList.scheduleLayoutAnimation()
         searchJob?.cancel()
         searchJob = lifecycleScope.launch {
-            viewModel.search().collectLatest {
+            viewModel.search(args.searchText).collectLatest {
                 adapter.submitData(it)
             }
         }

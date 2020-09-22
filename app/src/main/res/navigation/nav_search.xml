@@ -18,9 +18,19 @@
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
+
     <fragment
         android:id="@+id/searchResultFragment"
         android:name="com.qihuan.wanandroid.biz.search.SearchResultFragment"
         android:label="SearchResultFragment"
-        tools:layout="@layout/fragment_search_result" />
+        tools:layout="@layout/fragment_search_result">
+        <argument
+            android:name="searchText"
+            app:argType="string" />
+    </fragment>
+
+    <action
+        android:id="@+id/action_global_searchResultFragment"
+        app:destination="@id/searchResultFragment"
+        app:launchSingleTop="true" />
 </navigation>
