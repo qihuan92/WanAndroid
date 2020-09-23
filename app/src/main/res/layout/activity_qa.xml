@@ -10,10 +10,13 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
-        android:background="@color/colorTitleLayout"
-        android:elevation="@dimen/elevation_title_bar"
         app:navigationIcon="@drawable/ic_round_arrow_back_24"
         app:title="问答" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorDivider" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/refresh_layout"
