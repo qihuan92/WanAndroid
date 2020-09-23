@@ -16,7 +16,8 @@
         <activity
             android:name=".biz.main.MainActivity"
             android:launchMode="singleTop"
-            android:theme="@style/AppTheme.TranslucentBars">
+            android:theme="@style/AppTheme.TranslucentBars"
+            android:windowSoftInputMode="adjustResize">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
