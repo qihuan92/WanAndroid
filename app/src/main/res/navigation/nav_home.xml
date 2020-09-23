@@ -13,9 +13,6 @@
         <action
             android:id="@+id/action_homeFragment_to_searchFragment"
             app:destination="@id/searchFragment" />
-        <action
-            android:id="@+id/action_homeFragment_to_systemTreeFragment"
-            app:destination="@id/systemTreeFragment" />
     </fragment>
 
     <fragment
@@ -26,32 +23,5 @@
         <deepLink
             android:id="@+id/deepLinkSearch"
             app:uri="open://wanandroid/search" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/systemTreeFragment"
-        android:name="com.qihuan.wanandroid.biz.tree.SystemTreeFragment"
-        android:label="SystemTreeFragment"
-        tools:layout="@layout/fragment_tree">
-        <deepLink
-            android:id="@+id/deepLinkTree"
-            app:uri="open://wanandroid/tree" />
-        <action
-            android:id="@+id/action_systemTreeFragment_to_treeArticleFragment"
-            app:destination="@id/treeArticleFragment" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/treeArticleFragment"
-        android:name="com.qihuan.wanandroid.biz.tree.TreeArticleFragment"
-        android:label="TreeArticleFragment"
-        tools:layout="@layout/fragment_tree_article">
-        <argument
-            android:name="currentTreeId"
-            android:defaultValue="-1L"
-            app:argType="long" />
-        <argument
-            android:name="systemNode"
-            app:argType="com.qihuan.wanandroid.bean.SystemNode" />
     </fragment>
 </navigation>
