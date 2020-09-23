@@ -12,6 +12,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.transition.MaterialFadeThrough
 import com.qihuan.wanandroid.R
 import com.qihuan.wanandroid.biz.home.adapter.ArticlePageAdapter
 import com.qihuan.wanandroid.common.adapter.DefaultLoadStateAdapter
@@ -40,6 +41,17 @@ class SearchResultFragment : Fragment(R.layout.fragment_search_result) {
     private val args by navArgs<SearchResultFragmentArgs>()
     private lateinit var adapter: ArticlePageAdapter
     private var searchJob: Job? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        exitTransition = MaterialFadeThrough().apply {
+            duration = resources.getInteger(android.R.integer.config_mediumAnimTime).toLong()
+        }
+        reenterTransition = MaterialFadeThrough().apply {
+            duration = resources.getInteger(android.R.integer.config_mediumAnimTime).toLong()
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
