@@ -7,6 +7,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
+import com.google.android.material.transition.MaterialSharedAxis
 import com.qihuan.wanandroid.R
 import com.qihuan.wanandroid.common.ktx.hideKeyboard
 import com.qihuan.wanandroid.common.ktx.showKeyboard
@@ -27,6 +28,17 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         binding.layoutContent.findNavController()
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true).apply {
+            duration = resources.getInteger(android.R.integer.config_mediumAnimTime).toLong()
+        }
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false).apply {
+            duration = resources.getInteger(android.R.integer.config_mediumAnimTime).toLong()
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initSearchView()
@@ -37,8 +49,10 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
             hideKeyboard(binding.etSearch)
             requireActivity().onBackPressed()
         }
-        binding.etSearch.requestFocus()
-        showKeyboard(binding.etSearch)
+        binding.etSearch.post {
+            binding.etSearch.requestFocus()
+            showKeyboard(binding.etSearch)
+        }
 
         binding.etSearch.addTextChangedListener {
             val searchText = it?.toString().orEmpty()

@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.transition.MaterialSharedAxis
 import com.qihuan.wanandroid.R
 import com.qihuan.wanandroid.biz.home.adapter.ArticlePageAdapter
 import com.qihuan.wanandroid.biz.home.adapter.HomeHeadAdapter
@@ -76,6 +77,19 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
 
         binding.layoutSearch.setOnClickListener {
+            exitTransition = MaterialSharedAxis(
+                MaterialSharedAxis.Z,
+                /* forward= */ true
+            ).apply {
+                duration = resources.getInteger(android.R.integer.config_mediumAnimTime).toLong()
+            }
+            reenterTransition = MaterialSharedAxis(
+                MaterialSharedAxis.Z,
+                /* forward= */ false
+            ).apply {
+                duration = resources.getInteger(android.R.integer.config_mediumAnimTime).toLong()
+            }
+
             val directions = HomeFragmentDirections.actionHomeFragmentToSearchFragment()
             findNavController().navigate(directions)
         }
@@ -114,7 +128,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun bindView() {
         viewModel.listLiveData.observe(viewLifecycleOwner, {
-            binding.rvList.scheduleLayoutAnimation()
             binding.refreshLayout.isRefreshing = false
             headAdapter.submitList(it)
         })
