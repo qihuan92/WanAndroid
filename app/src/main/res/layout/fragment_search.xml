@@ -11,8 +11,6 @@
         android:id="@+id/layout_title"
         android:layout_width="match_parent"
         android:layout_height="?android:actionBarSize"
-        android:background="@color/colorTitleLayout"
-        android:elevation="@dimen/elevation_title_bar"
         android:paddingHorizontal="16dp"
         android:paddingVertical="5dp">
 
@@ -54,6 +52,11 @@
                 android:singleLine="true" />
         </com.google.android.material.textfield.TextInputLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorDivider" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/layout_content"
