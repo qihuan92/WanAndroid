@@ -98,8 +98,10 @@ class BannerLayout : ConstraintLayout, DefaultLifecycleObserver {
         }
         if (bannerRunnable == null) {
             bannerRunnable = BannerRunnable()
+            post(bannerRunnable)
+        } else {
+            postDelayed(bannerRunnable, period)
         }
-        postDelayed(bannerRunnable, period)
     }
 
     private fun stopPlay() {
