@@ -77,16 +77,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
 
         binding.layoutSearch.setOnClickListener {
-            exitTransition = MaterialSharedAxis(
-                MaterialSharedAxis.Z,
-                /* forward= */ true
-            ).apply {
+            exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true).apply {
                 duration = resources.getInteger(android.R.integer.config_mediumAnimTime).toLong()
             }
-            reenterTransition = MaterialSharedAxis(
-                MaterialSharedAxis.Z,
-                /* forward= */ false
-            ).apply {
+            reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false).apply {
                 duration = resources.getInteger(android.R.integer.config_mediumAnimTime).toLong()
             }
 

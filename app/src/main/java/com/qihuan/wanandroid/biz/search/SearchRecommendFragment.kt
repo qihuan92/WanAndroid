@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.chip.Chip
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.transition.MaterialFadeThrough
 import com.qihuan.wanandroid.R
 import com.qihuan.wanandroid.bean.HistorySearchKey
 import com.qihuan.wanandroid.bean.SearchKey
@@ -122,6 +123,13 @@ class SearchRecommendFragment : Fragment(R.layout.fragment_search_recommend) {
         val parentFragment = parentFragment?.parentFragment
         if (parentFragment is SearchFragment) {
             parentFragment.setSearchText(searchText)
+        }
+
+        exitTransition = MaterialFadeThrough().apply {
+            duration = resources.getInteger(android.R.integer.config_mediumAnimTime).toLong()
+        }
+        reenterTransition = MaterialFadeThrough().apply {
+            duration = resources.getInteger(android.R.integer.config_mediumAnimTime).toLong()
         }
 
         findNavController().navigate(
