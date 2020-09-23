@@ -3,11 +3,12 @@ package com.qihuan.wanandroid.biz.tree
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
-import com.google.android.material.tabs.TabLayoutMediator
+import androidx.fragment.app.viewModels
+import androidx.paging.LoadState
 import com.qihuan.wanandroid.R
-import com.qihuan.wanandroid.common.ktx.adaptStatusBar
+import com.qihuan.wanandroid.biz.home.adapter.ArticlePageAdapter
+import com.qihuan.wanandroid.common.adapter.DefaultLoadStateAdapter
+import com.qihuan.wanandroid.common.ktx.setDefaultColors
 import com.qihuan.wanandroid.common.ktx.viewBinding
 import com.qihuan.wanandroid.databinding.FragmentTreeArticleBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,34 +21,42 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class TreeArticleFragment : Fragment(R.layout.fragment_tree_article) {
 
+    private var treeId: Long? = null
     private val binding by viewBinding(FragmentTreeArticleBinding::bind)
-    private val args by navArgs<TreeArticleFragmentArgs>()
-    private lateinit var adapter: TreeArticleFragmentAdapter
+    private val viewModel by viewModels<TreeArticleViewModel>()
+    private val adapter by lazy { ArticlePageAdapter() }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        treeId = arguments?.getLong("treeId")
+
         initView()
+        bindView()
     }
 
     private fun initView() {
-        val systemNode = args.systemNode
-        val currentTreeId = args.currentTreeId
-
-        binding.root.adaptStatusBar()
-        binding.toolbar.title = systemNode.name
-        binding.toolbar.setNavigationOnClickListener { findNavController().navigateUp() }
-
-        val children = systemNode.children
-        adapter = TreeArticleFragmentAdapter(this, children)
-        binding.vpContent.adapter = adapter
-
-        TabLayoutMediator(binding.tabLayout, binding.vpContent) { tab, position ->
-            tab.text = children[position].name
-        }.attach()
-
-        val index = children.indexOfFirst {
-            currentTreeId == it.id
+        binding.rvList.adapter = adapter.withLoadStateFooter(DefaultLoadStateAdapter(adapter))
+        binding.refreshLayout.setDefaultColors()
+        binding.refreshLayout.setOnRefreshListener {
+            adapter.refresh()
         }
-        binding.vpContent.setCurrentItem(index, false)
+    }
+
+    private fun bindView() {
+        viewModel.getArticleList(treeId)
+        viewModel.articlePage.observe(viewLifecycleOwner) {
+            adapter.submitData(lifecycle, it)
+        }
+
+        adapter.addLoadStateListener {
+            binding.refreshLayout.isRefreshing = it.refresh is LoadState.Loading
+        }
+
+        adapter.addLoadStateListener {
+            if (it.refresh is LoadState.Loading) {
+                binding.rvList.scheduleLayoutAnimation()
+            }
+        }
     }
 }

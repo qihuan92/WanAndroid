@@ -14,7 +14,10 @@ import com.qihuan.wanandroid.R
 import com.qihuan.wanandroid.biz.home.adapter.ArticlePageAdapter
 import com.qihuan.wanandroid.biz.home.adapter.HomeHeadAdapter
 import com.qihuan.wanandroid.common.adapter.DefaultLoadStateAdapter
-import com.qihuan.wanandroid.common.ktx.*
+import com.qihuan.wanandroid.common.ktx.dp
+import com.qihuan.wanandroid.common.ktx.hideInvisible
+import com.qihuan.wanandroid.common.ktx.setDefaultColors
+import com.qihuan.wanandroid.common.ktx.viewBinding
 import com.qihuan.wanandroid.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -79,7 +82,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun adaptNavigationBar() {
-        binding.root.adaptStatusBar()
+        // 顶部 Padding 处理
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, insets ->
+            val statusBarInserts = insets.getInsets(WindowInsetsCompat.Type.statusBars())
+            view.updatePadding(top = statusBarInserts.top)
+            insets
+        }
 
         val fabTopMarginBottom = binding.fabTop.marginBottom
         // FAB 适配 NavigationBar
