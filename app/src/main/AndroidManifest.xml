@@ -82,7 +82,7 @@
         </activity>
 
         <activity
-            android:name=".biz.user.LoginAActivity"
+            android:name=".biz.user.LoginActivity"
             android:theme="@style/AppTheme.TranslucentBars" />
     </application>
 

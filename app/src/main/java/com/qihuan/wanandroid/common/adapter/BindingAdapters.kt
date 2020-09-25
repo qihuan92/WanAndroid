@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.widget.EditText
 import androidx.databinding.BindingAdapter
 import androidx.databinding.adapters.TextViewBindingAdapter
+import com.google.android.material.textfield.TextInputLayout
 
 
 /**
@@ -24,5 +25,11 @@ object BindingAdapters {
         if (text == oldText || oldText == null) {
             view.setSelection(text.length)
         }
+    }
+
+    @JvmStatic
+    @BindingAdapter("app:errorText")
+    fun setErrorText(view: TextInputLayout, errorMessage: String?) {
+        view.error = errorMessage
     }
 }

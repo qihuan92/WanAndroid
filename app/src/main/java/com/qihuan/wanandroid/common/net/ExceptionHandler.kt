@@ -49,7 +49,11 @@ suspend fun <T : Any> handleRequest(requestFunc: suspend () -> WanResponse<T>): 
     return ApiResult.Success(resp.data)
 }
 
-class ApiException(override val message: String?) : Exception()
+class ApiException(override val message: String) : Exception() {
+    override fun toString(): String {
+        return message
+    }
+}
 
 fun <T : Any> postEvent(event: T) {
     LiveEventBus.get(event.javaClass.simpleName, event.javaClass).post(event)

@@ -14,11 +14,9 @@ import com.google.android.material.transition.MaterialSharedAxis
 import com.qihuan.wanandroid.R
 import com.qihuan.wanandroid.biz.home.adapter.ArticlePageAdapter
 import com.qihuan.wanandroid.biz.home.adapter.HomeHeadAdapter
+import com.qihuan.wanandroid.biz.user.LoginActivity
 import com.qihuan.wanandroid.common.adapter.DefaultLoadStateAdapter
-import com.qihuan.wanandroid.common.ktx.dp
-import com.qihuan.wanandroid.common.ktx.hideInvisible
-import com.qihuan.wanandroid.common.ktx.setDefaultColors
-import com.qihuan.wanandroid.common.ktx.viewBinding
+import com.qihuan.wanandroid.common.ktx.*
 import com.qihuan.wanandroid.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -86,6 +84,13 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
             val directions = HomeFragmentDirections.actionHomeFragmentToSearchFragment()
             findNavController().navigate(directions)
+        }
+
+        // todo 测试
+        binding.ivHead.setOnClickListener {
+            startActivity(
+                buildIntent<LoginActivity>(requireContext()) { }
+            )
         }
     }
 

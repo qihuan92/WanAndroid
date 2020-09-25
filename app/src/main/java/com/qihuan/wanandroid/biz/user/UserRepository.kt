@@ -13,16 +13,20 @@ import javax.inject.Inject
  */
 class UserRepository @Inject constructor(private val service: WanService) {
 
-    suspend fun login(model: LoginModel): ApiResult<User> {
-        return handleRequest { service.login(model.userName, model.password) }
+    suspend fun login(userName: String, password: String): ApiResult<User> {
+        return handleRequest { service.login(userName, password) }
     }
 
-    suspend fun register(model: RegisterModel): ApiResult<User> {
+    suspend fun register(
+        userName: String,
+        password: String,
+        confirmPassword: String
+    ): ApiResult<User> {
         return handleRequest {
             service.register(
-                model.userName,
-                model.password,
-                model.confirmPassword
+                userName,
+                password,
+                confirmPassword
             )
         }
     }
