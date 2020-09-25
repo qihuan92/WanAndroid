@@ -9,12 +9,14 @@ import com.qihuan.wanandroid.R
 import com.qihuan.wanandroid.common.ktx.viewBinding
 import com.qihuan.wanandroid.common.net.ApiResult
 import com.qihuan.wanandroid.databinding.FragmentRegisterBinding
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * RegisterFragment
  * @author qi
  * @since 2020/9/24
  */
+@AndroidEntryPoint
 class RegisterFragment : Fragment(R.layout.fragment_register) {
     private val binding by viewBinding(FragmentRegisterBinding::bind)
     private val viewModel by viewModels<RegisterViewModel>()
