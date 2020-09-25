@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layoutAnimation="@anim/layout_anim_bottom"
+        android:orientation="vertical"
+        android:paddingHorizontal="15dp"
+        android:paddingTop="20dp">
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:hint="@string/hint_user_name"
+            app:endIconMode="clear_text"
+            app:errorEnabled="true"
+            app:placeholderText="@string/placeholder_user_name"
+            app:startIconDrawable="@drawable/ic_round_account_circle_24">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_user_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:hint="@string/hint_password"
+            app:endIconMode="password_toggle"
+            app:errorEnabled="true"
+            app:placeholderText="@string/placeholder_text_password"
+            app:startIconDrawable="@drawable/ic_round_vpn_key_24">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:hint="@string/hint_confirm_password"
+            app:endIconMode="password_toggle"
+            app:errorEnabled="true"
+            app:placeholderText="@string/placeholder_text_confirm_password"
+            app:startIconDrawable="@drawable/ic_round_vpn_key_24">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_confirm_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginEnd="5dp"
+            android:text="@string/btn_text_register" />
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

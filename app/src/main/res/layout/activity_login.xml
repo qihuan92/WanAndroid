@@ -15,7 +15,10 @@
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        app:tabIndicator="@drawable/shape_tab_indicator"
+        app:tabIndicatorFullWidth="false"
+        app:tabTextAppearance="@style/TextAppearance.MaterialComponents.Subtitle2.TabText" />
 
     <View
         android:layout_width="match_parent"
