@@ -1,12 +1,12 @@
 package com.qihuan.wanandroid.biz.home.adapter
 
-import android.content.Context
-import android.text.Html
-import android.view.ViewGroup
+import android.text.method.LinkMovementMethod
+import android.widget.Toast
+import androidx.core.text.buildSpannedString
+import androidx.core.text.parseAsHtml
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.chip.Chip
 import com.qihuan.wanandroid.R
 import com.qihuan.wanandroid.bean.Article
 import com.qihuan.wanandroid.bean.ArticleTag
@@ -25,8 +25,8 @@ class ArticleItemViewHolder(
                 ivPic.isGone = true
             }
 
-            tvTitle.text = Html.fromHtml(item.title, Html.FROM_HTML_MODE_LEGACY)
-            tvDescription.showText(Html.fromHtml(item.desc, Html.FROM_HTML_MODE_LEGACY))
+            tvTitle.text = item.title.parseAsHtml()
+            tvDescription.showText(item.desc.parseAsHtml())
             tvAuthor.showText(item.author)
             tvShareUser.showText(item.shareUser)
             tvTime.showText(item.niceDate)
@@ -54,31 +54,21 @@ class ArticleItemViewHolder(
     }
 
     private fun bindTags(tags: List<ArticleTag>) {
-        binding.apply {
-            cgTags.removeAllViews()
+        val tagsText = buildSpannedString {
             for (tag in tags) {
-                cgTags.addView(tagView(cgTags.context, tag))
+                click(
+                    onClick = {
+                        // todo 标签点击事件
+                        Toast.makeText(itemView.context, tag.name, Toast.LENGTH_SHORT).show()
+                    },
+                    isUnderlineText = false
+                ) {
+                    append("#${tag.name}#")
+                }
+                append(" ")
             }
         }
-    }
-
-    private fun tagView(context: Context, tag: ArticleTag): Chip {
-        val chip = Chip(context).apply {
-            layoutParams = ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT, 20f.dp
-            )
-            setEnsureMinTouchTargetSize(false)
-            ensureAccessibleTouchTarget(0)
-            setPadding(paddingLeft, 0, paddingRight, 0)
-            chipStartPadding = 0f
-            chipEndPadding = 0f
-            isCheckable = false
-            text = tag.name
-            textSize = 12f
-        }
-        chip.setOnClickListener {
-            // todo 跳转分类列表
-        }
-        return chip
+        binding.tvTags.movementMethod = LinkMovementMethod.getInstance()
+        binding.tvTags.text = tagsText
     }
 }
