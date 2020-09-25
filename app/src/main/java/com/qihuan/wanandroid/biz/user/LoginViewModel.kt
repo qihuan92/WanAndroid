@@ -5,6 +5,7 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.qihuan.wanandroid.R
+import com.qihuan.wanandroid.bean.User
 import com.qihuan.wanandroid.common.SingleLiveEvent
 import com.qihuan.wanandroid.common.net.ApiResult
 import com.qihuan.wanandroid.utils.Strings
@@ -22,7 +23,7 @@ class LoginViewModel @ViewModelInject constructor(
     val password by lazy { ObservableField<String>() }
     val userNameError by lazy { ObservableField<String>() }
     val passwordError by lazy { ObservableField<String>() }
-    val loginResult by lazy { SingleLiveEvent<ApiResult<Any>>() }
+    val loginResult by lazy { SingleLiveEvent<ApiResult<User>>() }
 
     fun login() {
         userNameError.set(null)
