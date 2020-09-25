@@ -9,7 +9,7 @@ data class User(
     val id: Int,
     val admin: Boolean,
     val chapterTops: List<String>,
-    val collectIds: List<Int>,
+    val collectIds: List<Long>,
     val email: String,
     val icon: String,
     val nickname: String,
