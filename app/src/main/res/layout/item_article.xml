@@ -175,12 +175,12 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="刚刚" />
 
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/cg_tags"
+        <TextView
+            android:id="@+id/tv_tags"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            app:chipSpacingVertical="5dp"
+            android:textStyle="bold"
             app:layout_constraintLeft_toLeftOf="@id/line_left"
             app:layout_constraintRight_toLeftOf="@id/btn_collect"
             app:layout_constraintTop_toBottomOf="@id/tv_share_user" />
