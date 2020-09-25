@@ -28,6 +28,7 @@ class ArticleItemViewHolder(
             tvTitle.text = Html.fromHtml(item.title, Html.FROM_HTML_MODE_LEGACY)
             tvDescription.showText(Html.fromHtml(item.desc, Html.FROM_HTML_MODE_LEGACY))
             tvAuthor.showText(item.author)
+            tvShareUser.showText(item.shareUser)
             tvTime.showText(item.niceDate)
             groupTop.isVisible = item.isTop
             tvCategory.showText("${item.superChapterName}·${item.chapterName}")

@@ -140,6 +140,24 @@
             tools:text="作者作者作者作者作者作者作者作者" />
 
         <TextView
+            android:id="@+id/tv_share_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:drawablePadding="2dp"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxEms="20"
+            android:maxLines="1"
+            android:textAppearance="?textAppearanceOverline"
+            android:textColor="?android:attr/textColorHint"
+            app:drawableStartCompat="@drawable/ic_round_person_pin_15"
+            app:drawableTint="?android:attr/textColorHint"
+            app:layout_constraintLeft_toLeftOf="@id/line_left"
+            app:layout_constraintTop_toBottomOf="@id/tv_author"
+            tools:text="作者作者作者作者作者作者作者作者" />
+
+        <TextView
             android:id="@+id/tv_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -165,7 +183,7 @@
             app:chipSpacingVertical="5dp"
             app:layout_constraintLeft_toLeftOf="@id/line_left"
             app:layout_constraintRight_toLeftOf="@id/btn_collect"
-            app:layout_constraintTop_toBottomOf="@id/tv_author" />
+            app:layout_constraintTop_toBottomOf="@id/tv_share_user" />
 
         <ImageView
             android:id="@+id/btn_collect"
