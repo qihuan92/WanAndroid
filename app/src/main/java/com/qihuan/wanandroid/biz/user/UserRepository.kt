@@ -1,6 +1,7 @@
 package com.qihuan.wanandroid.biz.user
 
 import com.qihuan.wanandroid.bean.User
+import com.qihuan.wanandroid.common.net.ApiException
 import com.qihuan.wanandroid.common.net.ApiResult
 import com.qihuan.wanandroid.common.net.WanService
 import com.qihuan.wanandroid.common.net.handleRequest
@@ -11,10 +12,20 @@ import javax.inject.Inject
  * @author qi
  * @since 2020/9/21
  */
-class UserRepository @Inject constructor(private val service: WanService) {
+class UserRepository @Inject constructor(
+    private val service: WanService,
+    private val userDao: UserDao,
+) {
 
     suspend fun login(userName: String, password: String): ApiResult<User> {
-        return handleRequest { service.login(userName, password) }
+        val result = handleRequest { service.login(userName, password) }
+        if (result is ApiResult.Success) {
+            if (result.data == null) {
+                return ApiResult.Error(ApiException("用户为空"))
+            }
+            userDao.saveLoginUser(result.data)
+        }
+        return result
     }
 
     suspend fun register(
@@ -22,16 +33,27 @@ class UserRepository @Inject constructor(private val service: WanService) {
         password: String,
         confirmPassword: String
     ): ApiResult<User> {
-        return handleRequest {
+        val result = handleRequest {
             service.register(
                 userName,
                 password,
                 confirmPassword
             )
         }
+        if (result is ApiResult.Success) {
+            if (result.data == null) {
+                return ApiResult.Error(ApiException("用户为空"))
+            }
+            userDao.saveLoginUser(result.data)
+        }
+        return result
     }
 
     suspend fun logout(): ApiResult<Any> {
-        return handleRequest { service.logOut() }
+        val result = handleRequest { service.logOut() }
+        if (result is ApiResult.Success) {
+            userDao.deleteLoginUser()
+        }
+        return result
     }
 }

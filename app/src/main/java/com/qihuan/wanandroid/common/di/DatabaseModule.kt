@@ -2,6 +2,7 @@ package com.qihuan.wanandroid.common.di
 
 import android.content.Context
 import com.qihuan.wanandroid.biz.search.HistorySearchKeyDao
+import com.qihuan.wanandroid.biz.user.UserDao
 import com.qihuan.wanandroid.common.db.AppDatabase
 import dagger.Module
 import dagger.Provides
@@ -28,5 +29,10 @@ object DatabaseModule {
     @Provides
     fun provideHistorySearchKeyDao(database: AppDatabase): HistorySearchKeyDao {
         return database.historySearchKeyDao()
+    }
+
+    @Provides
+    fun provideUserDao(database: AppDatabase): UserDao {
+        return database.userDao()
     }
 }

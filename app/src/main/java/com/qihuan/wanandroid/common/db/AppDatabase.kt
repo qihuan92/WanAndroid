@@ -6,7 +6,9 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.qihuan.wanandroid.bean.HistorySearchKey
+import com.qihuan.wanandroid.bean.User
 import com.qihuan.wanandroid.biz.search.HistorySearchKeyDao
+import com.qihuan.wanandroid.biz.user.UserDao
 
 /**
  * AppDatabase
@@ -15,7 +17,8 @@ import com.qihuan.wanandroid.biz.search.HistorySearchKeyDao
  */
 @Database(
     entities = [
-        HistorySearchKey::class
+        HistorySearchKey::class,
+        User::class,
     ],
     version = 1,
     exportSchema = false
@@ -24,6 +27,8 @@ import com.qihuan.wanandroid.biz.search.HistorySearchKeyDao
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun historySearchKeyDao(): HistorySearchKeyDao
+
+    abstract fun userDao(): UserDao
 
     companion object {
         @Volatile
