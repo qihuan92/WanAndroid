@@ -41,7 +41,6 @@ class NavigationActivity : AppCompatActivity() {
 
     private fun bindView() {
         viewModel.navigationData.observe(this) {
-            binding.rvList.scheduleLayoutAnimation()
             binding.refreshLayout.isRefreshing = false
             adapter.submitList(it)
         }

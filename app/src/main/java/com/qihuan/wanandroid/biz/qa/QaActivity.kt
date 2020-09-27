@@ -49,11 +49,5 @@ class QaActivity : AppCompatActivity() {
         adapter.addLoadStateListener {
             binding.refreshLayout.isRefreshing = it.refresh is LoadState.Loading
         }
-
-        adapter.addLoadStateListener {
-            if (it.refresh is LoadState.Loading) {
-                binding.rvList.scheduleLayoutAnimation()
-            }
-        }
     }
 }

@@ -52,11 +52,5 @@ class TreeArticleFragment : Fragment(R.layout.fragment_tree_article) {
         adapter.addLoadStateListener {
             binding.refreshLayout.isRefreshing = it.refresh is LoadState.Loading
         }
-
-        adapter.addLoadStateListener {
-            if (it.refresh is LoadState.Loading) {
-                binding.rvList.scheduleLayoutAnimation()
-            }
-        }
     }
 }
