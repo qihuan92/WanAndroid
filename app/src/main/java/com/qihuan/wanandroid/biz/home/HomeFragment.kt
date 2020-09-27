@@ -18,6 +18,7 @@ import com.qihuan.wanandroid.biz.user.LoginActivity
 import com.qihuan.wanandroid.common.adapter.DefaultLoadStateAdapter
 import com.qihuan.wanandroid.common.ktx.*
 import com.qihuan.wanandroid.databinding.FragmentHomeBinding
+import com.qihuan.wanandroid.widget.animation.SpringAddItemAnimator
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -51,6 +52,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         val layoutManager = LinearLayoutManager(context)
         binding.rvList.layoutManager = layoutManager
         binding.rvList.adapter = adapter
+        binding.rvList.itemAnimator = SpringAddItemAnimator()
         binding.rvList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
