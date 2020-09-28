@@ -24,7 +24,7 @@ class SystemTreeRepository @Inject constructor(private val service: WanService) 
     }
 
     fun getTreeArticleList(treeId: Long) = Pager(
-        config = PagingConfig(pageSize = 20, prefetchDistance = 1),
+        config = PagingConfig(pageSize = 20),
         pagingSourceFactory = { TreeArticlePagingSource(service, treeId) }
     ).flow
 }
