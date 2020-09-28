@@ -41,7 +41,7 @@ class HomeRepository @Inject constructor(private val service: WanService) {
     }
 
     fun getArticleList() = Pager(
-        config = PagingConfig(pageSize = 20, prefetchDistance = 1),
+        config = PagingConfig(pageSize = 20),
         pagingSourceFactory = { HomeArticlePagingSource(service) }
     ).flow
 

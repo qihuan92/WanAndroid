@@ -13,7 +13,7 @@ import javax.inject.Inject
 class QaRepository @Inject constructor(private val service: WanService) {
 
     fun getQaList() = Pager(
-        config = PagingConfig(pageSize = 20, prefetchDistance = 1),
+        config = PagingConfig(pageSize = 20),
         pagingSourceFactory = { QaArticlePagingSource(service) }
     ).flow
 }
