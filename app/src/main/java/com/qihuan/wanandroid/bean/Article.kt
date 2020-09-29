@@ -1,8 +1,11 @@
 package com.qihuan.wanandroid.bean
 
 import android.os.Parcelable
+import androidx.core.text.parseAsHtml
 import com.qihuan.wanandroid.common.adapter.DiffItem
 import kotlinx.android.parcel.Parcelize
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 @Parcelize
 data class Article(
@@ -36,9 +39,22 @@ data class Article(
     val shareUser: String,
     val tags: List<ArticleTag>,
     val userId: Int,
-    var isTop: Boolean = false
+    var isTop: Boolean = false,
+
+    // For UI
+    var titleHtml: CharSequence? = null,
+    var descHtml: CharSequence? = null,
+    var categoryText: String? = null
 ) : Parcelable, DiffItem {
     override fun getUniqueId(): Any {
         return id
+    }
+
+    suspend fun handleData() {
+        withContext(Dispatchers.IO) {
+            titleHtml = title.parseAsHtml()
+            descHtml = desc.parseAsHtml().ifEmpty { "..." }
+            categoryText = "${superChapterName}·${chapterName}"
+        }
     }
 }

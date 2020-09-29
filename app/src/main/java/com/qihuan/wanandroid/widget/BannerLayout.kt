@@ -228,7 +228,7 @@ class BannerLayout : ConstraintLayout, DefaultLifecycleObserver {
             if (currentItem == homeBannerAdapter.getRealItemCount()) {
                 currentItem = 0
                 currentItem += 1
-                binding.vpBanner.setCurrentItem(currentItem, false)
+                binding.vpBanner.setCurrentItem(currentItem, true)
             } else {
                 currentItem += 1
                 binding.vpBanner.setCurrentItem(currentItem, true)

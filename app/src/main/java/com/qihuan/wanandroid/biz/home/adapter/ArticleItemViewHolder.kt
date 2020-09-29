@@ -3,14 +3,14 @@ package com.qihuan.wanandroid.biz.home.adapter
 import android.text.method.LinkMovementMethod
 import android.widget.Toast
 import androidx.core.text.buildSpannedString
-import androidx.core.text.parseAsHtml
 import androidx.core.view.isGone
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.qihuan.wanandroid.R
 import com.qihuan.wanandroid.bean.Article
 import com.qihuan.wanandroid.bean.ArticleTag
-import com.qihuan.wanandroid.common.ktx.*
+import com.qihuan.wanandroid.common.ktx.click
+import com.qihuan.wanandroid.common.ktx.load
+import com.qihuan.wanandroid.common.ktx.openBrowser
 import com.qihuan.wanandroid.databinding.ItemArticleBinding
 
 class ArticleItemViewHolder(
@@ -25,13 +25,11 @@ class ArticleItemViewHolder(
                 ivPic.isGone = true
             }
 
-            tvTitle.text = item.title.parseAsHtml()
-            tvDescription.showText(item.desc.parseAsHtml())
-            tvAuthor.showText(item.author)
-            tvShareUser.showText(item.shareUser)
-            tvTime.showText(item.niceDate)
-            groupTop.isVisible = item.isTop
-            tvCategory.showText("${item.superChapterName}·${item.chapterName}")
+            tvTitle.text = item.titleHtml
+            tvDescription.text = item.descHtml
+            tvAuthor.text = item.author.ifEmpty { item.shareUser }
+            tvTime.text = item.niceDate
+            tvCategory.text = item.categoryText
             bindTags(item.tags)
             if (item.collect) {
                 btnCollect.setImageResource(R.drawable.ic_round_turned_in_24)
@@ -45,10 +43,6 @@ class ArticleItemViewHolder(
 
             itemView.setOnClickListener {
                 it.openBrowser(item.link)
-            }
-            itemView.setOnLongClickListener {
-                it.openBrowserNewTask(item.link)
-                true
             }
         }
     }

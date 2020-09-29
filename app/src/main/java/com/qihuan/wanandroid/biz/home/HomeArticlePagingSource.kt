@@ -21,7 +21,7 @@ class HomeArticlePagingSource constructor(
             is ApiResult.Success -> {
                 val data = result.data
                 LoadResult.Page(
-                    data = data?.datas.orEmpty(),
+                    data = data?.datas.orEmpty().onEach { it.handleData() },
                     prevKey = if (page == 0) null else page - 1,
                     nextKey = if (data == null || data.over) null else page + 1
                 )
