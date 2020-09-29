@@ -34,7 +34,7 @@ class HomeRepository @Inject constructor(private val service: WanService) {
         val resp = handleRequest { service.getTopArticles() }
         if (resp is ApiResult.Success) {
             return resp.data.orEmpty().onEach {
-                it.isTop = true
+                it.handleData()
             }
         }
         return mutableListOf()
