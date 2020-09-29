@@ -34,7 +34,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private val headAdapter by lazy { HomeHeadAdapter() }
     private val pageAdapter by lazy { ArticlePageAdapter() }
     private val adapter by lazy {
-        ConcatAdapter().apply {
+        ConcatAdapter(
+            ConcatAdapter.Config.Builder()
+                .setIsolateViewTypes(false)
+                .build()
+        ).apply {
             addAdapter(headAdapter)
             addAdapter(pageAdapter.withLoadStateFooter(DefaultLoadStateAdapter(pageAdapter)))
         }
