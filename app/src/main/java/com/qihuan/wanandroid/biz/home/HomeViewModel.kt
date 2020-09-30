@@ -22,7 +22,7 @@ import kotlinx.coroutines.withContext
 class HomeViewModel @ViewModelInject constructor(
     private val repository: HomeRepository
 ) : ViewModel() {
-    val listLiveData = MutableLiveData<MutableList<DiffItem>>(mutableListOf())
+    val listLiveData = MutableLiveData<MutableList<DiffItem>>()
     val pageLiveData by lazy { MutableLiveData<PagingData<Article>>() }
     private var page: Int = 0
 
