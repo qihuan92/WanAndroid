@@ -23,6 +23,12 @@ fun ImageView.load(url: String, @DrawableRes placeholder: Int = android.R.color.
     }
 }
 
+fun ImageView.load(@DrawableRes resId: Int) {
+    load(resId) {
+        crossfade(resources.getInteger(android.R.integer.config_mediumAnimTime))
+    }
+}
+
 /**
  * 根据bitmap提取颜色
  *
