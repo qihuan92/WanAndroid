@@ -4,8 +4,6 @@ import android.os.Parcelable
 import androidx.core.text.parseAsHtml
 import com.qihuan.wanandroid.common.adapter.DiffItem
 import kotlinx.android.parcel.Parcelize
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 @Parcelize
 data class Article(
@@ -50,11 +48,9 @@ data class Article(
         return id
     }
 
-    suspend fun handleData() {
-        withContext(Dispatchers.IO) {
-            titleHtml = title.parseAsHtml()
-            descHtml = desc.parseAsHtml().ifEmpty { "..." }
-            categoryText = "${superChapterName}·${chapterName}"
-        }
+    fun handleData() {
+        titleHtml = title.parseAsHtml()
+        descHtml = desc.parseAsHtml().ifEmpty { "..." }
+        categoryText = "${superChapterName}·${chapterName}"
     }
 }
