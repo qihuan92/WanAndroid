@@ -19,6 +19,11 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="ShapeRound">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">8dp</item>
+    </style>
+
     <style name="ShapeCircle">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>
