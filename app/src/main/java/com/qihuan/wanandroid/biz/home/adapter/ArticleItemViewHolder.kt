@@ -17,33 +17,31 @@ class ArticleItemViewHolder(
     private val binding: ItemArticleBinding
 ) : RecyclerView.ViewHolder(binding.root) {
     fun bind(item: Article) {
-        binding.apply {
-            if (item.envelopePic.isNotBlank()) {
-                ivPic.isGone = false
-                ivPic.load(url = item.envelopePic)
-            } else {
-                ivPic.isGone = true
-            }
+        if (item.envelopePic.isEmpty()) {
+            binding.ivPic.isGone = false
+            binding.ivPic.load(item.envelopePic)
+        } else {
+            binding.ivPic.isGone = true
+        }
 
-            tvTitle.text = item.titleHtml
-            tvDescription.text = item.descHtml
-            tvAuthor.text = item.author.ifEmpty { item.shareUser }
-            tvTime.text = item.niceDate
-            tvCategory.text = item.categoryText
-            bindTags(item.tags)
-            if (item.collect) {
-                btnCollect.setImageResource(R.drawable.ic_round_turned_in_24)
-            } else {
-                btnCollect.setImageResource(R.drawable.ic_round_turned_in_not_24)
-            }
+        binding.tvTitle.text = item.titleHtml
+        binding.tvDescription.text = item.descHtml
+        binding.tvAuthor.text = item.author.ifEmpty { item.shareUser }
+        binding.tvTime.text = item.niceDate
+        binding.tvCategory.text = item.categoryText
+        bindTags(item.tags)
+        if (item.collect) {
+            binding.btnCollect.load(R.drawable.ic_round_turned_in_24)
+        } else {
+            binding.btnCollect.load(R.drawable.ic_round_turned_in_not_24)
+        }
 
-            btnCollect.setOnClickListener {
-                // todo 收藏
-            }
+        binding.btnCollect.setOnClickListener {
+            // todo 收藏
+        }
 
-            itemView.setOnClickListener {
-                it.openBrowser(item.link)
-            }
+        itemView.setOnClickListener {
+            it.openBrowser(item.link)
         }
     }
 
