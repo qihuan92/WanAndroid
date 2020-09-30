@@ -17,7 +17,7 @@ class ArticleItemViewHolder(
     private val binding: ItemArticleBinding
 ) : RecyclerView.ViewHolder(binding.root) {
     fun bind(item: Article) {
-        if (item.envelopePic.isEmpty()) {
+        if (item.envelopePic.isNotEmpty()) {
             binding.ivPic.isGone = false
             binding.ivPic.load(item.envelopePic)
         } else {

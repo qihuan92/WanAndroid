@@ -1,19 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.imageview.ShapeableImageView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginHorizontal="15dp"
     android:layout_marginVertical="10dp"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="0dp"
-    app:cardPreventCornerOverlap="false"
+    android:contentDescription="@string/iv_desc_banner"
+    android:foreground="?android:selectableItemBackground"
+    android:scaleType="centerCrop"
+    app:shapeAppearanceOverlay="@style/ShapeRound"
     app:strokeColor="@color/colorDivider"
-    app:strokeWidth="1dp">
-
-    <ImageView
-        android:id="@+id/iv_banner"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:contentDescription="@string/iv_desc_banner" />
-</com.google.android.material.card.MaterialCardView>
+    app:strokeWidth="1dp" />
