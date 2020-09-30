@@ -9,8 +9,10 @@ import androidx.paging.cachedIn
 import com.qihuan.wanandroid.bean.Article
 import com.qihuan.wanandroid.bean.TitleType
 import com.qihuan.wanandroid.common.adapter.DiffItem
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  * HomeViewModel
@@ -31,26 +33,27 @@ class HomeViewModel @ViewModelInject constructor(
     fun refresh() {
         page = 0
         viewModelScope.launch {
-            val list = mutableListOf<DiffItem>()
-
             val bannerList = repository.getBanner()
-            list.add(bannerList)
-
             val homeModuleList = repository.getHomeModuleList()
-            if (homeModuleList.list.isNotEmpty()) {
-                list.add(TitleType.MODULE.create())
-                list.add(homeModuleList)
-            }
-
             val topArticleList = repository.getTopArticleList()
-            if (topArticleList.isNotEmpty()) {
-                list.add(TitleType.TOP.create())
-                list.addAll(topArticleList)
+
+            withContext(Dispatchers.IO) {
+                val list = mutableListOf<DiffItem>()
+                list.add(bannerList)
+
+                if (homeModuleList.list.isNotEmpty()) {
+                    list.add(TitleType.MODULE.create())
+                    list.add(homeModuleList)
+                }
+
+                if (topArticleList.isNotEmpty()) {
+                    list.add(TitleType.TOP.create())
+                    list.addAll(topArticleList)
+                }
+
+                list.add(TitleType.TIMELINE.create())
+                listLiveData.postValue(list)
             }
-
-            list.add(TitleType.TIMELINE.create())
-
-            listLiveData.value = list
 
             repository.getArticleList()
                 .cachedIn(viewModelScope)
