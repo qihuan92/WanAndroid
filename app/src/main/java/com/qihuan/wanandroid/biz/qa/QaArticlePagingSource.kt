@@ -5,6 +5,7 @@ import com.qihuan.wanandroid.bean.Article
 import com.qihuan.wanandroid.common.net.ApiResult
 import com.qihuan.wanandroid.common.net.WanService
 import com.qihuan.wanandroid.common.net.handleRequest
+import com.qihuan.wanandroid.common.net.uiData
 
 /**
  * QaArticlePagingSource
@@ -21,7 +22,7 @@ class QaArticlePagingSource constructor(
             is ApiResult.Success -> {
                 val data = result.data
                 LoadResult.Page(
-                    data = data?.datas.orEmpty(),
+                    data = data?.datas.uiData(),
                     prevKey = if (page == 0) null else page - 1,
                     nextKey = if (data == null || data.over) null else page + 1
                 )

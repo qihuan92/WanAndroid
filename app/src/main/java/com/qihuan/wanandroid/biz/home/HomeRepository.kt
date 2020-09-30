@@ -10,6 +10,7 @@ import com.qihuan.wanandroid.bean.ModuleList
 import com.qihuan.wanandroid.common.net.ApiResult
 import com.qihuan.wanandroid.common.net.WanService
 import com.qihuan.wanandroid.common.net.handleRequest
+import com.qihuan.wanandroid.common.net.uiData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -33,9 +34,7 @@ class HomeRepository @Inject constructor(private val service: WanService) {
     suspend fun getTopArticleList(): List<Article> {
         val resp = handleRequest { service.getTopArticles() }
         if (resp is ApiResult.Success) {
-            return resp.data.orEmpty().onEach {
-                it.handleData()
-            }
+            return resp.data.uiData()
         }
         return mutableListOf()
     }
