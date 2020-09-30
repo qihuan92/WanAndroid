@@ -20,7 +20,7 @@ class BannerCellViewHolder(
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(item: BannerBean) {
-        binding.ivBanner.load(item.imagePath)
+        binding.root.load(item.imagePath)
         binding.root.setOnClickListener { it.openBrowser(item.url) }
     }
 }
