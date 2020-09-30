@@ -1,14 +1,10 @@
 package com.qihuan.wanandroid.biz.home.adapter
 
 import android.text.method.LinkMovementMethod
-import android.widget.Toast
-import androidx.core.text.buildSpannedString
 import androidx.core.view.isGone
 import androidx.recyclerview.widget.RecyclerView
 import com.qihuan.wanandroid.R
 import com.qihuan.wanandroid.bean.Article
-import com.qihuan.wanandroid.bean.ArticleTag
-import com.qihuan.wanandroid.common.ktx.click
 import com.qihuan.wanandroid.common.ktx.load
 import com.qihuan.wanandroid.common.ktx.openBrowser
 import com.qihuan.wanandroid.databinding.ItemArticleBinding
@@ -29,7 +25,8 @@ class ArticleItemViewHolder(
         binding.tvAuthor.text = item.author.ifEmpty { item.shareUser }
         binding.tvTime.text = item.niceDate
         binding.tvCategory.text = item.categoryText
-        bindTags(item.tags)
+        binding.tvTags.movementMethod = LinkMovementMethod.getInstance()
+        binding.tvTags.text = item.tagsText
         if (item.collect) {
             binding.btnCollect.load(R.drawable.ic_round_turned_in_24)
         } else {
@@ -43,24 +40,5 @@ class ArticleItemViewHolder(
         itemView.setOnClickListener {
             it.openBrowser(item.link)
         }
-    }
-
-    private fun bindTags(tags: List<ArticleTag>) {
-        val tagsText = buildSpannedString {
-            for (tag in tags) {
-                click(
-                    onClick = {
-                        // todo 标签点击事件
-                        Toast.makeText(itemView.context, tag.name, Toast.LENGTH_SHORT).show()
-                    },
-                    isUnderlineText = false
-                ) {
-                    append("#${tag.name}#")
-                }
-                append(" ")
-            }
-        }
-        binding.tvTags.movementMethod = LinkMovementMethod.getInstance()
-        binding.tvTags.text = tagsText
     }
 }

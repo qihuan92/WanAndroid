@@ -1,8 +1,10 @@
 package com.qihuan.wanandroid.bean
 
 import android.os.Parcelable
+import androidx.core.text.buildSpannedString
 import androidx.core.text.parseAsHtml
 import com.qihuan.wanandroid.common.adapter.DiffItem
+import com.qihuan.wanandroid.common.ktx.click
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
@@ -42,7 +44,8 @@ data class Article(
     // For UI
     var titleHtml: CharSequence? = null,
     var descHtml: CharSequence? = null,
-    var categoryText: String? = null
+    var categoryText: String? = null,
+    var tagsText: CharSequence? = null,
 ) : Parcelable, DiffItem {
     override fun getUniqueId(): Any {
         return id
@@ -52,5 +55,18 @@ data class Article(
         titleHtml = title.parseAsHtml()
         descHtml = desc.parseAsHtml().ifEmpty { "..." }
         categoryText = "${superChapterName}·${chapterName}"
+        tagsText = buildSpannedString {
+            for (tag in tags) {
+                click(
+                    onClick = {
+                        // todo 标签点击事件
+                    },
+                    isUnderlineText = false
+                ) {
+                    append("#${tag.name}#")
+                }
+                append(" ")
+            }
+        }
     }
 }
