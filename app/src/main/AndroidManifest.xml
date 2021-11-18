@@ -15,6 +15,7 @@
 
         <activity
             android:name=".biz.main.MainActivity"
+            android:exported="true"
             android:launchMode="singleTop"
             android:theme="@style/AppTheme.TranslucentBars"
             android:windowSoftInputMode="adjustResize">
@@ -30,6 +31,7 @@
 
         <activity
             android:name=".biz.tree.SystemTreeActivity"
+            android:exported="true"
             android:theme="@style/AppTheme.TranslucentBars">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -47,10 +49,12 @@
         <activity
             android:name=".biz.tree.TreeArticleActivity"
             android:configChanges="orientation|screenSize"
+            android:exported="true"
             android:theme="@style/AppTheme.TranslucentBars" />
 
         <activity
             android:name=".biz.navigation.NavigationActivity"
+            android:exported="true"
             android:theme="@style/AppTheme.TranslucentBars">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -67,6 +71,7 @@
 
         <activity
             android:name=".biz.qa.QaActivity"
+            android:exported="true"
             android:theme="@style/AppTheme.TranslucentBars">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -83,6 +88,7 @@
 
         <activity
             android:name=".biz.user.LoginActivity"
+            android:exported="true"
             android:theme="@style/AppTheme.TranslucentBars" />
     </application>
 

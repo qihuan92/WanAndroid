@@ -1,6 +1,5 @@
 package com.qihuan.wanandroid.biz.home
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,17 +8,20 @@ import androidx.paging.cachedIn
 import com.qihuan.wanandroid.bean.Article
 import com.qihuan.wanandroid.bean.TitleType
 import com.qihuan.wanandroid.common.adapter.DiffItem
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
 /**
  * HomeViewModel
  * @author qi
  * @since 2020/6/29
  */
-class HomeViewModel @ViewModelInject constructor(
+@HiltViewModel
+class HomeViewModel @Inject constructor(
     private val repository: HomeRepository
 ) : ViewModel() {
     val listLiveData = MutableLiveData<MutableList<DiffItem>>()

@@ -1,6 +1,7 @@
 package com.qihuan.wanandroid.biz.search
 
 import androidx.paging.PagingSource
+import androidx.paging.PagingState
 import com.qihuan.wanandroid.bean.Article
 import com.qihuan.wanandroid.common.net.ApiResult
 import com.qihuan.wanandroid.common.net.WanService
@@ -32,5 +33,9 @@ class SearchArticlePagingSource constructor(
                 LoadResult.Error(result.error)
             }
         }
+    }
+
+    override fun getRefreshKey(state: PagingState<Int, Article>): Int? {
+        return state.anchorPosition
     }
 }

@@ -10,9 +10,8 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
-import com.google.android.material.progressindicator.ProgressIndicator
+import com.google.android.material.progressindicator.LinearProgressIndicator
 import com.qihuan.wanandroid.databinding.BannerLayoutBinding
-import dagger.hilt.android.internal.managers.ViewComponentManager
 
 
 /**
@@ -58,8 +57,6 @@ class BannerLayout : ConstraintLayout, DefaultLifecycleObserver {
         val context = context
         if (context is LifecycleOwner) {
             context.lifecycle.addObserver(this)
-        } else if (context is ViewComponentManager.FragmentContextWrapper) {
-            context.fragment.lifecycle.addObserver(this)
         }
     }
 
@@ -186,7 +183,7 @@ class BannerLayout : ConstraintLayout, DefaultLifecycleObserver {
         private val infinite: Boolean,
         private val viewPager: ViewPager2,
         private val adapter: BannerAdapterWrapper<out RecyclerView.ViewHolder>,
-        private val indicatorLayout: ProgressIndicator? = null
+        private val indicatorLayout: LinearProgressIndicator? = null
     ) : ViewPager2.OnPageChangeCallback() {
         private var tempPosition: Int = 0
         override fun onPageSelected(position: Int) {

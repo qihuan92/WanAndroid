@@ -1,20 +1,22 @@
 package com.qihuan.wanandroid.biz.search
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.qihuan.wanandroid.bean.HistorySearchKey
 import com.qihuan.wanandroid.bean.SearchKey
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 /**
  * SearchRecommendViewModel
  * @author qi
  * @since 2020/8/6
  */
-class SearchRecommendViewModel @ViewModelInject constructor(
+@HiltViewModel
+class SearchRecommendViewModel @Inject constructor(
     private val repository: SearchRepository
 ) : ViewModel() {
 

@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-parcelize'
 apply plugin: 'dagger.hilt.android.plugin'
 apply plugin: "androidx.navigation.safeargs.kotlin"
 
@@ -20,13 +20,13 @@ android {
             keyPassword '123456'
         }
     }
-    compileSdkVersion 30
-    buildToolsVersion "30.0.3"
+    compileSdkVersion 31
+    buildToolsVersion "31.0.0"
 
     defaultConfig {
         applicationId "com.qihuan.wanandroid"
         minSdkVersion 24
-        targetSdkVersion 30
+        targetSdkVersion 31
         versionCode 1
         versionName "1.0"
 
@@ -95,7 +95,7 @@ dependencies {
     implementation "androidx.room:room-ktx:$room_version"
     testImplementation "androidx.room:room-testing:$room_version"
 
-    def paging_version = "3.1.0-beta1"
+    def paging_version = "3.0.1"
     implementation "androidx.paging:paging-runtime-ktx:$paging_version"
     testImplementation "androidx.paging:paging-common-ktx:$paging_version"
 
@@ -110,6 +110,4 @@ dependencies {
     kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
     implementation 'androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03'
     kapt 'androidx.hilt:hilt-compiler:1.0.0-beta01'
-
-    implementation 'com.jeremyliao:live-event-bus-x:1.7.2'
 }

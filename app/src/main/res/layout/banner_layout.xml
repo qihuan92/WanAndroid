@@ -14,15 +14,12 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.progressindicator.ProgressIndicator
+    <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/indicator_banner"
-        style="@style/Widget.MaterialComponents.ProgressIndicator.Linear.Determinate"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
-        app:growMode="bidirectional"
         app:indicatorColor="?attr/colorPrimary"
-        app:indicatorCornerRadius="2dp"
         app:layout_constraintBottom_toBottomOf="@id/vp_banner"
         app:layout_constraintLeft_toLeftOf="@id/vp_banner"
         app:layout_constraintRight_toRightOf="@id/vp_banner"

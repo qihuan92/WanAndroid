@@ -28,7 +28,7 @@ object BindingAdapters {
     }
 
     @JvmStatic
-    @BindingAdapter("app:errorText")
+    @BindingAdapter("errorText")
     fun setErrorText(view: TextInputLayout, errorMessage: String?) {
         view.error = errorMessage
     }

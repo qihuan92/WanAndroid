@@ -1,20 +1,22 @@
 package com.qihuan.wanandroid.biz.search
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.qihuan.wanandroid.bean.Article
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 /**
  * SearchResultViewModel
  * @author qi
  * @since 2020/8/6
  */
-class SearchResultViewModel @ViewModelInject constructor(
+@HiltViewModel
+class SearchResultViewModel @Inject constructor(
     private val repository: SearchRepository
 ) : ViewModel() {
 

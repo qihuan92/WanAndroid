@@ -7,8 +7,8 @@ import com.qihuan.wanandroid.common.db.AppDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ApplicationComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 /**
@@ -16,7 +16,7 @@ import javax.inject.Singleton
  * @author qi
  * @since 2020/8/11
  */
-@InstallIn(ApplicationComponent::class)
+@InstallIn(SingletonComponent::class)
 @Module
 object DatabaseModule {
 

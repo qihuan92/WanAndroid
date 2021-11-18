@@ -2,15 +2,12 @@ package com.qihuan.wanandroid.common.net
 
 import com.google.gson.JsonIOException
 import com.google.gson.JsonSyntaxException
-import com.jeremyliao.liveeventbus.LiveEventBus
-import com.jeremyliao.liveeventbus.core.Observable
 import com.qihuan.wanandroid.bean.WanResponse
 import retrofit2.HttpException
 import java.net.ConnectException
 import java.net.UnknownHostException
 import java.util.concurrent.TimeoutException
 import javax.net.ssl.SSLHandshakeException
-import kotlin.reflect.KClass
 
 /**
  * ExceptionHandler
@@ -56,9 +53,5 @@ class ApiException(override val message: String) : Exception() {
 }
 
 fun <T : Any> postEvent(event: T) {
-    LiveEventBus.get(event.javaClass.simpleName, event.javaClass).post(event)
-}
 
-fun <T : Any> handleEvent(clazz: KClass<T>): Observable<T> {
-    return LiveEventBus.get(clazz.java.simpleName, clazz.java)
 }

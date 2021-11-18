@@ -1,7 +1,6 @@
 package com.qihuan.wanandroid.biz.user
 
 import androidx.databinding.ObservableField
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.qihuan.wanandroid.R
@@ -9,14 +8,17 @@ import com.qihuan.wanandroid.bean.User
 import com.qihuan.wanandroid.common.SingleLiveEvent
 import com.qihuan.wanandroid.common.net.ApiResult
 import com.qihuan.wanandroid.utils.Strings
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 /**
  * LoginViewModel
  * @author qi
  * @since 2020/9/24
  */
-class LoginViewModel @ViewModelInject constructor(
+@HiltViewModel
+class LoginViewModel @Inject constructor(
     private val repository: UserRepository
 ) : ViewModel() {
     val userName by lazy { ObservableField<String>() }

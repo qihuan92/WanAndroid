@@ -7,15 +7,12 @@ import android.graphics.drawable.Icon
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.navigation.findNavController
 import com.qihuan.wanandroid.R
 import com.qihuan.wanandroid.common.ktx.viewBinding
-import com.qihuan.wanandroid.common.net.ApiResult
-import com.qihuan.wanandroid.common.net.handleEvent
 import com.qihuan.wanandroid.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -93,8 +90,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun bindEvent() {
         // todo 全局异常处理
-        handleEvent(ApiResult.Error::class).observe(this, {
-            Toast.makeText(this, it.error.message, Toast.LENGTH_SHORT).show()
-        })
+//        handleEvent(ApiResult.Error::class).observe(this, {
+//            Toast.makeText(this, it.error.message, Toast.LENGTH_SHORT).show()
+//        })
     }
 }

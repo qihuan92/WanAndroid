@@ -1,21 +1,23 @@
 package com.qihuan.wanandroid.biz.qa
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.qihuan.wanandroid.bean.Article
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 /**
  * QaViewModel
  * @author qi
  * @since 2020/9/17
  */
-class QaViewModel @ViewModelInject constructor(
+@HiltViewModel
+class QaViewModel @Inject constructor(
     private val repository: QaRepository
 ) : ViewModel() {
 

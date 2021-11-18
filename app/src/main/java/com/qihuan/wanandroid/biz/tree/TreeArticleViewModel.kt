@@ -1,21 +1,23 @@
 package com.qihuan.wanandroid.biz.tree
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.qihuan.wanandroid.bean.Article
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 /**
  * TreeArticleViewModel
  * @author qi
  * @since 2020/9/16
  */
-class TreeArticleViewModel @ViewModelInject constructor(
+@HiltViewModel
+class TreeArticleViewModel @Inject constructor(
     private val repository: SystemTreeRepository
 ) : ViewModel() {
 
